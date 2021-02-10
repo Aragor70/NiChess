@@ -14,6 +14,7 @@ const Game = () => {
     }, [])
 
 
+
     console.log(fields)
     return (
         <Fragment>
