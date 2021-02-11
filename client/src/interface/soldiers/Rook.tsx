@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Rook = () => {
+const Rook = ({ position, player }: any) => {
 
 
 
@@ -11,6 +11,7 @@ const Rook = () => {
     return (   
         <Fragment>
 
+            Rook
             
         </Fragment>
     );

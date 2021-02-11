@@ -1,7 +1,11 @@
 .field-content
 {
     width: 12.5%;
-    height: auto;
+    height: 100px;
     float: left;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }

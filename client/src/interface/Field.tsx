@@ -1,9 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import Bishop from './soldiers/Bishop';
+import Jumper from './soldiers/Jumper';
+import King from './soldiers/King';
+import Pawn from './soldiers/Pawn';
+import Queen from './soldiers/Queen';
+import Rook from './soldiers/Rook';
 
 
 
 
-const Field = ({ index }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) => {
 
 
     const [content, setContent] = useState({
@@ -18,13 +24,10 @@ const Field = ({ index }: any) => {
         type: ''
     })
 
-    const [row, setRow] = useState<number | null>(null)
 
     useEffect(() => {
         let y = Math.floor((index * 8) / 64)
         
-        setRow(y)
-
         setContent({
             ...content,
             position: { y, x: index },
@@ -108,7 +111,6 @@ const Field = ({ index }: any) => {
 
 
         return () => {
-            setRow(null)
             setContent({
                 position: {
                     y: 0,
@@ -121,20 +123,69 @@ const Field = ({ index }: any) => {
                 type: ''
             })
         }
-    }, [setRow, setContent, setFigure])
+    }, [setContent, setFigure])
     
     
+    
+    const handleClick = (position: any) => {
+
+        
+        if (selectedData.figure.type) {
+
+            console.log(selectedData.figure)
+            
+            setMoved(true)
+
+            setFigure(selectedData.figure)
+        }
+
+        if (figure.type) {
+            
+            setSelectedData({...selectedData, position: {
+                y: position.y,
+                x: position.x
+            }, figure})
+            
+            setMoved(false)
+        }
+
+        if (figure.type && selectedData.position.x === content.position.x) {
+        
+            setSelectedData({
+                ...selectedData,
+                position: {
+                    y: null,
+                    x: null
+                }, figure: {
+                    player: 0,
+                    type: ''
+                }
+            })
+            
+            setMoved(false)
+        }
+
+    }
+
+
+    
+
+
 
     const { position, color } = content
 
-
     return (
         <Fragment>
-            <div className="field-content" style={ { backgroundColor: color }}>
+            <div className="field-content" onClick={e=> handleClick(position) } style={ position.x == selectedData.position.x ? { backgroundColor: 'green' } : { backgroundColor: color }}>
                 
-                {position.y} / {position.x}
+                <span>{position.y} / {position.x}</span>
 
-                {figure.type}
+                { figure.type === 'pawn' && <Pawn position={position} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { figure.type === 'rook' && <Rook position={position} player={figure.player} /> }
+                { figure.type === 'jumper' && <Jumper position={position} player={figure.player} /> }
+                { figure.type === 'bishop' && <Bishop position={position} player={figure.player} /> }
+                { figure.type === 'queen' && <Queen position={position} player={figure.player} /> }
+                { figure.type === 'king' && <King position={position} player={figure.player} /> }
 
             </div>
         </Fragment>

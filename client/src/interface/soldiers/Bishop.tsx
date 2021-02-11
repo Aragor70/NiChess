@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Bishop = () => {
+const Bishop = ({ position, player }: any) => {
 
 
 
@@ -11,6 +11,7 @@ const Bishop = () => {
     return (   
         <Fragment>
 
+            Bishop
             
         </Fragment>
     );

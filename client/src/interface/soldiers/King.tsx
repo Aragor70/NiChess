@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const King = () => {
+const King = ({ position, player }: any) => {
 
 
 
@@ -11,6 +11,7 @@ const King = () => {
     return (   
         <Fragment>
 
+            King
             
         </Fragment>
     );

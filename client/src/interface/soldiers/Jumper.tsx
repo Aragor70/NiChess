@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Jumper = () => {
+const Jumper = ({ position, player }: any) => {
 
 
 
@@ -11,6 +11,7 @@ const Jumper = () => {
     return (   
         <Fragment>
 
+            Jumper
             
         </Fragment>
     );
