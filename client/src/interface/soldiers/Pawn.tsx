@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 
 
 
-const Pawn = ({ position: { y, x }, player, selectedData, setSelectedData, moved, figure, setFigure, setMoved }: any) => {
+const Pawn = ({ position: { y, x }, selectedData, setSelectedData, moved, figure, setFigure, setMoved }: any) => {
 
     useEffect(() => {
         

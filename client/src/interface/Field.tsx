@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { checkMovement } from '../store/actions/soldiers';
 import Bishop from './soldiers/Bishop';
 import Jumper from './soldiers/Jumper';
 import King from './soldiers/King';
@@ -9,7 +10,7 @@ import Rook from './soldiers/Rook';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }: any) => {
 
 
     const [content, setContent] = useState({
@@ -31,82 +32,13 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) =
         setContent({
             ...content,
             position: { y, x: index },
-            color: y % 2 === 0 ? index % 2 === 0 ? '#fff' : 'lightgrey' : index % 2 !== 0 ? '#fff' : 'lightgrey',
+            color: y % 2 === 0 ? index % 2 === 0 ? '#fff' : 'lightgrey' : index % 2 !== 0 ? '#fff' : 'lightgrey'
             
         })
 
-        if (index >= 8 && index <= 15) setFigure({
-            player: 2,
-            type: 'pawn'
-        })
-        if (index === 0) setFigure({
-            player: 2,
-            type: 'rook'
-        })
-        if (index === 1) setFigure({
-            player: 2,
-            type: 'jumper'
-        })
-        if (index === 2) setFigure({
-            player: 2,
-            type: 'bishop'
-        })
-        if (index === 3) setFigure({
-            player: 2,
-            type: 'queen'
-        })
-        if (index === 4) setFigure({
-            player: 2,
-            type: 'king'
-        })
-        if (index === 5) setFigure({
-            player: 2,
-            type: 'bishop'
-        })
-        if (index === 6) setFigure({
-            player: 2,
-            type: 'jumper'
-        })
-        if (index === 7) setFigure({
-            player: 2,
-            type: 'rook'
-        })
-
-        if (index >= 48 && index <= 55) setFigure({
-            player: 1,
-            type: 'pawn'
-        })
-        if (index === 56) setFigure({
-            player: 1,
-            type: 'rook'
-        })
-        if (index === 57) setFigure({
-            player: 1,
-            type: 'jumper'
-        })
-        if (index === 58) setFigure({
-            player: 1,
-            type: 'bishop'
-        })
-        if (index === 59) setFigure({
-            player: 1,
-            type: 'queen'
-        })
-        if (index === 60) setFigure({
-            player: 1,
-            type: 'king'
-        })
-        if (index === 61) setFigure({
-            player: 1,
-            type: 'bishop'
-        })
-        if (index === 62) setFigure({
-            player: 1,
-            type: 'jumper'
-        })
-        if (index === 63) setFigure({
-            player: 1,
-            type: 'rook'
+        setFigure({
+            player: field.player,
+            type: field.type
         })
 
 
@@ -131,6 +63,16 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) =
 
         
         if (selectedData.figure.type) {
+                        // previous / next
+            if (!checkMovement(selectedData, position)) {
+                return console.log('errorr')
+            }
+
+
+
+            console.log('ignored error')
+
+
 
             console.log(selectedData.figure)
             
@@ -168,9 +110,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) =
     }
 
 
-    
-
-
 
     const { position, color } = content
 
@@ -180,12 +119,12 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved }: any) =
                 
                 <span>{position.y} / {position.x}</span>
 
-                { figure.type === 'pawn' && <Pawn position={position} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'rook' && <Rook position={position} player={figure.player} /> }
-                { figure.type === 'jumper' && <Jumper position={position} player={figure.player} /> }
-                { figure.type === 'bishop' && <Bishop position={position} player={figure.player} /> }
-                { figure.type === 'queen' && <Queen position={position} player={figure.player} /> }
-                { figure.type === 'king' && <King position={position} player={figure.player} /> }
+                { figure.type === 'Pawn' && <Pawn position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { figure.type === 'Rook' && <Rook position={position} player={figure.player} /> }
+                { figure.type === 'Jumper' && <Jumper position={position} player={figure.player} /> }
+                { figure.type === 'Bishop' && <Bishop position={position} player={figure.player} /> }
+                { figure.type === 'Queen' && <Queen position={position} player={figure.player} /> }
+                { figure.type === 'King' && <King position={position} player={figure.player} /> }
 
             </div>
         </Fragment>
