@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Bishop = ({ position, player }: any) => {
+const Bishop = ({  }: any) => {
 
 
 

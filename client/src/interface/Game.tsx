@@ -1,26 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { getInitialPosition } from '../store/actions/soldiers';
+import { connect } from 'react-redux';
+import { initBoard } from '../store/actions/board/board';
 import Field from './Field';
 
 
 
-const Game = () => {
+const Game = ({ board, initBoard }: any) => {
 
-    const [fields, setFields] = useState<any[]>([])
 
     useEffect(() => {
-        setFields(getInitialPosition())
-    }, [])
+        initBoard()
 
-    const [selectedData, setSelectedData] = useState<any>({
-        rules: null,
-        position: {
-        y: null,
-        x: null
-    }, figure: {
-        player: 0,
-        type: ''
-    }})
+        return () => {
+            initBoard()
+        }
+    }, [initBoard])
+
+    const [selectedData, setSelectedData] = useState<any>(null)
     const [moved, setMoved] = useState(false)
 
     
@@ -29,7 +25,7 @@ const Game = () => {
             
             <div className="fields">
                 {
-                    fields.map((field: any, index: number) => <Field key={index} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} fields={fields} />)
+                    board.fields && board.fields.map((field: any, index: number) => <Field key={index} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} />)
                 }
                 
             </div>
@@ -37,4 +33,7 @@ const Game = () => {
         </Fragment>
     );
 }
-export default Game;
+const mapStateToProps = (state: any) => ({
+    board: state.board
+})
+export default connect(mapStateToProps, { initBoard })(Game);

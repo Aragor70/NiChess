@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Queen = ({ position, player }: any) => {
+const Queen = ({  }: any) => {
 
 
 

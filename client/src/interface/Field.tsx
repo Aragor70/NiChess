@@ -10,54 +10,10 @@ import Rook from './soldiers/Rook';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, fields }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }: any) => {
 
-
-    const [content, setContent] = useState({
-        position: {
-            y: 0,
-            x: 0
-        },
-        color: ''
-    })
-    const [figure, setFigure] = useState({
-        player: 0,
-        type: ''
-    })
-
-
-    useEffect(() => {
-        let y = Math.floor((index * 8) / 64)
-        
-        setContent({
-            ...content,
-            position: { y, x: index },
-            color: y % 2 === 0 ? index % 2 === 0 ? '#fff' : 'lightgrey' : index % 2 !== 0 ? '#fff' : 'lightgrey'
-            
-        })
-
-        setFigure({
-            player: field.player,
-            type: field.type
-        })
-
-
-        return () => {
-            setContent({
-                position: {
-                    y: 0,
-                    x: 0
-                },
-                color: ''
-            })
-            setFigure({
-                player: 0,
-                type: ''
-            })
-        }
-    }, [setContent, setFigure])
-    
-    
+    // commented code
+    /* 
     
     const handleClick = (position: any) => {
 
@@ -66,8 +22,9 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, f
 
                         // previous / next
             if (!checkMovement(selectedData, position)) {
-                return console.log('errorr')
+                return console.log('Wrong movement')
             }
+            
             
             
             if (fields[position.x]) {
@@ -75,17 +32,18 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, f
                     return console.log('friendly fire')
                 }
                 if (fields[position.x].player == 2 && position.x !== selectedData.position.x) {
-                    return console.log('enemy fire')
+                    console.log('enemy fire')
+                    setFigure(selectedData.figure)
                 }
             }
             const a = fields[selectedData.position.x]
             fields[selectedData.position.x] = 0
             fields[position.x] = a
 
-
+            
             console.log('ignored error')
 
-
+            console.log(selectedData.figure)
 
             console.log(selectedData.figure)
             
@@ -124,10 +82,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, f
 
     
 
-
-
-    const { position, color } = content
-
     useEffect(() => {
         
         if (moved && selectedData.position.x === position.x) {
@@ -147,20 +101,40 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, f
                 }
             })
         }
-    }, [moved])
+    }, [moved]) */
+
+
+    const handleClick = (field: any) => {
+
+
+
+        if (field.player === 1) {
+            
+            if (selectedData !== null) {
+                return setSelectedData(null)
+            }
+
+            setSelectedData(field)
+            
+            setMoved(false)
+        }
+    }
+    console.log(selectedData)
+    
+    const { position, color, player, type } = field
 
     return (
         <Fragment>
-            <div className="field-content" onClick={e=> handleClick(position) } style={ position.x == selectedData.position.x ? { backgroundColor: 'green' } : { backgroundColor: color }}>
+            <div className="field-content" onClick={e => handleClick(field) } style={ selectedData && position.x == selectedData.position.x ? { backgroundColor: 'green' } : { backgroundColor: color }}>
                 
                 <span>{position.y} / {position.x}</span>
 
-                { figure.type === 'Pawn' && <Pawn position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Rook' && <Rook position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Jumper' && <Jumper position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Bishop' && <Bishop position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Queen' && <Queen position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'King' && <King position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { type === 'Pawn' && <Pawn position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
+                { type === 'Rook' && <Rook position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
+                { type === 'Jumper' && <Jumper position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
+                { type === 'Bishop' && <Bishop position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
+                { type === 'Queen' && <Queen position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
+                { type === 'King' && <King position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
 
             </div>
         </Fragment>

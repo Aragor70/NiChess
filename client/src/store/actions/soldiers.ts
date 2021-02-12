@@ -156,7 +156,7 @@ export const checkMovement = (selected: any, next: any) => {
             if (diff !== 17 && diff !== 10 && diff !== 15 && diff !== 6) {
                 throw new Error()
             }
-
+            
             
         }
 
