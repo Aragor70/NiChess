@@ -161,6 +161,19 @@ export const checkMovement = (selected: any, next: any) => {
                 
             }
 
+            if ( type === 'King' ) {
+
+                const diff = Math.abs(position.x - next.x)
+
+                
+                
+                if (diff !== 1 && diff !== 8 && diff !== 7 && diff !== 9) {
+                    throw new Error()
+                }
+
+                
+            }
+
 
         }
         if (player === 2) {
