@@ -111,13 +111,54 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
         if (field.player === 1) {
             
             if (selectedData !== null) {
-                return setSelectedData(null)
+                
+                if (selectedData.position.x === field.position.x) {
+                    return setSelectedData(null)
+                }
+
+
+                if (field.player === 1) {
+                    setSelectedData(null)
+                    return console.log('friendly', 'unselect')
+                }
+                
+                // check movement
+                
+                
+            } else {
+
+                setSelectedData(field)
+            
+            }
+        }
+
+        if (field.player == 2) {
+
+            if (selectedData !== null) {
+                
+                if (selectedData.position.x === field.position.x) {
+                    return setSelectedData(null)
+                }
+
+                
+
+                
+                if (field.player !== 1) {
+                    setSelectedData(null)
+                    return console.log('enemy', 'move and replace')
+                }
+
+                // check movement
+                
+                 
             }
 
-            setSelectedData(field)
-            
-            setMoved(false)
+            console.log('You cannot select this')
+
         }
+
+
+        
     }
     console.log(selectedData)
     
