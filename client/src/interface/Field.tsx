@@ -109,9 +109,32 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
 
     }
 
+    
+
 
 
     const { position, color } = content
+
+    useEffect(() => {
+        
+        if (moved && selectedData.position.x === position.x) {
+            
+            console.log('moved')
+
+            setFigure({...figure, player: 0, type: ''})
+            setMoved(false)
+
+            setSelectedData({
+                position: {
+                    y: null,
+                    x: null
+                }, figure: {
+                    player: 0,
+                    type: ''
+                }
+            })
+        }
+    }, [moved])
 
     return (
         <Fragment>
@@ -120,7 +143,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
                 <span>{position.y} / {position.x}</span>
 
                 { figure.type === 'Pawn' && <Pawn position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Rook' && <Rook position={position} player={figure.player} /> }
+                { figure.type === 'Rook' && <Rook position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
                 { figure.type === 'Jumper' && <Jumper position={position} player={figure.player} /> }
                 { figure.type === 'Bishop' && <Bishop position={position} player={figure.player} /> }
                 { figure.type === 'Queen' && <Queen position={position} player={figure.player} /> }

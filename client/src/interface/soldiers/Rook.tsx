@@ -1,14 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 
 
 
-const Rook = ({ position, player }: any) => {
+const Rook = ({ position: { y, x }, selectedData, setSelectedData, moved, figure, setFigure, setMoved }: any) => {
 
 
 
-
-    return (   
+    return (
         <Fragment>
 
             Rook

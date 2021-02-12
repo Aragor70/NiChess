@@ -115,10 +115,22 @@ export const checkMovement = (selected: any, next: any) => {
 
                 const diff = Math.abs(position.x - next.x)
 
-                if (position.y !== next.y) {
+                if (position.x !== next.x) {
                     if (diff % 8 !== 0) {
                         throw new Error()
                     }
+                }
+
+                
+            }
+
+            if ( type === 'Jumper' ) {
+
+                const diff = Math.abs(position.x - next.x)
+
+                
+                if (diff !== 17 && diff !== 10 && diff !== 15 && diff !== 6) {
+                    throw new Error()
                 }
 
                 
