@@ -96,13 +96,18 @@ export const checkMovement = (selected: any, next: any) => {
     try {
         const { position, figure: { type, player } } = selected
         
+        if (position.x === next.x) {
+            return true
+        }
+
         if (player === 1) {
 
             if ( type === 'Pawn' ) {
 
                 const diff = position.x - next.x
 
-                if (position.y === 6 && diff === 16) {
+
+                if (position.y === 6 && diff === 16 || diff === 0) {
                     return true
                 }
 
@@ -111,76 +116,86 @@ export const checkMovement = (selected: any, next: any) => {
                 }
                 
             }
-            if ( type === 'Rook' ) {
-
-                const diff = Math.abs(position.x - next.x)
-
-                if (position.x !== next.x) {
-                    if (diff % 8 !== 0) {
-                        throw new Error()
-                    }
-                }
-
-                
-            }
-
-            if ( type === 'Jumper' ) {
-
-                const diff = Math.abs(position.x - next.x)
-
-                
-                if (diff !== 17 && diff !== 10 && diff !== 15 && diff !== 6) {
-                    throw new Error()
-                }
-
-                
-            }
-
-            if ( type === 'Bishop' ) {
-
-                const diff = Math.abs(position.x - next.x)
-
-                
-                if (diff % 9 !== 0 && diff % 7 !== 0) {
-                    throw new Error()
-                }
-
-                
-            }
-
-            if ( type === 'Queen' ) {
-
-                const diff = Math.abs(position.x - next.x)
-
-                
-                
-                if (diff % 9 !== 0 && diff % 7 !== 0 && position.y !== next.y && diff % 8 !== 0) {
-                    throw new Error()
-                }
-
-                
-            }
-
-            if ( type === 'King' ) {
-
-                const diff = Math.abs(position.x - next.x)
-
-                
-                
-                if (diff !== 1 && diff !== 8 && diff !== 7 && diff !== 9) {
-                    throw new Error()
-                }
-
-                
-            }
-
-
         }
         if (player === 2) {
 
+            if ( type === 'Pawn' ) {
+
+                const diff = position.x - next.x
+
+                if (position.y === 1 && diff === -16) {
+                    return true
+                }
+
+                if ( diff !== -8) {
+                    throw new Error()
+                }
+                
+            }
+        }
 
 
+        if ( type === 'Rook' ) {
 
+            const diff = Math.abs(position.x - next.x)
+
+            if (position.x !== next.x) {
+                if (diff % 8 !== 0) {
+                    throw new Error()
+                }
+            }
+
+            
+        }
+
+        if ( type === 'Jumper' ) {
+
+            const diff = Math.abs(position.x - next.x)
+
+            
+            if (diff !== 17 && diff !== 10 && diff !== 15 && diff !== 6) {
+                throw new Error()
+            }
+
+            
+        }
+
+        if ( type === 'Bishop' ) {
+
+            const diff = Math.abs(position.x - next.x)
+
+            
+            if (diff % 9 !== 0 && diff % 7 !== 0) {
+                throw new Error()
+            }
+
+            
+        }
+
+        if ( type === 'Queen' ) {
+
+            const diff = Math.abs(position.x - next.x)
+
+            
+            
+            if (diff % 9 !== 0 && diff % 7 !== 0 && position.y !== next.y && diff % 8 !== 0) {
+                throw new Error()
+            }
+
+            
+        }
+
+        if ( type === 'King' ) {
+
+            const diff = Math.abs(position.x - next.x)
+
+            
+            
+            if (diff !== 1 && diff !== 8 && diff !== 7 && diff !== 9) {
+                throw new Error()
+            }
+
+            
         }
 
         return true

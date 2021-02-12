@@ -10,7 +10,7 @@ import Rook from './soldiers/Rook';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, fields }: any) => {
 
 
     const [content, setContent] = useState({
@@ -63,11 +63,24 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
 
         
         if (selectedData.figure.type) {
+
                         // previous / next
             if (!checkMovement(selectedData, position)) {
                 return console.log('errorr')
             }
-
+            
+            
+            if (fields[position.x]) {
+                if (fields[position.x].player == 1 && position.x !== selectedData.position.x) {
+                    return console.log('friendly fire')
+                }
+                if (fields[position.x].player == 2 && position.x !== selectedData.position.x) {
+                    return console.log('enemy fire')
+                }
+            }
+            const a = fields[selectedData.position.x]
+            fields[selectedData.position.x] = 0
+            fields[position.x] = a
 
 
             console.log('ignored error')
@@ -144,10 +157,10 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
 
                 { figure.type === 'Pawn' && <Pawn position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
                 { figure.type === 'Rook' && <Rook position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
-                { figure.type === 'Jumper' && <Jumper position={position} player={figure.player} /> }
-                { figure.type === 'Bishop' && <Bishop position={position} player={figure.player} /> }
-                { figure.type === 'Queen' && <Queen position={position} player={figure.player} /> }
-                { figure.type === 'King' && <King position={position} player={figure.player} /> }
+                { figure.type === 'Jumper' && <Jumper position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { figure.type === 'Bishop' && <Bishop position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { figure.type === 'Queen' && <Queen position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
+                { figure.type === 'King' && <King position={position} setContent={setContent} player={figure.player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} figure={figure} setFigure={setFigure} setMoved={setMoved} /> }
 
             </div>
         </Fragment>

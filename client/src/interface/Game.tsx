@@ -29,7 +29,7 @@ const Game = () => {
             
             <div className="fields">
                 {
-                    fields.map((field: any, index: number) => <Field key={index} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} />)
+                    fields.map((field: any, index: number) => <Field key={index} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} fields={fields} />)
                 }
                 
             </div>
