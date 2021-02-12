@@ -148,6 +148,19 @@ export const checkMovement = (selected: any, next: any) => {
                 
             }
 
+            if ( type === 'Queen' ) {
+
+                const diff = Math.abs(position.x - next.x)
+
+                
+                
+                if (diff % 9 !== 0 && diff % 7 !== 0 && position.y !== next.y && diff % 8 !== 0) {
+                    throw new Error()
+                }
+
+                
+            }
+
 
         }
         if (player === 2) {
