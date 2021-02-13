@@ -5,6 +5,7 @@ const asyncHandler = require('../../middlewares/async');
 const User = require('../../models/User');
 const gravatar = require('gravatar');
 const sign_in = require('../../utils/sign_in');
+const ErrorResponse = require('../../utils/ErrorResponse');
 
 
 
