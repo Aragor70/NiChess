@@ -12,13 +12,24 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
                 const diff = selected.position.x - next.position.x
 
 
-                if (selected.position.y === 6 && diff === 16 || diff === 0) {
+                if (selected.position.y === 6 && diff === 16) {
+
+
+                    if (fields[selected.position.x - 8].player) {
+                        console.log('collision')
+                        return false
+                    }
+
+
                     return true
                 }
 
                 if ( diff !== 8) {
                     throw new Error()
                 }
+
+
+                
                 
             }
         }
@@ -30,12 +41,20 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
                 const diff = selected.position.x - next.position.x
 
                 if (selected.position.y === 1 && diff === -16) {
+
+                    if (fields[selected.position.x + 8].player) {
+                        console.log('collision')
+                        return false
+                    }
+
+
                     return true
                 }
 
                 if ( diff !== -8) {
                     throw new Error()
                 }
+                
                 
             }
         }
@@ -216,7 +235,7 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
 
                 } else {
                     if (diff % 9 === 0 && i % 9 == 0) {
-                        console.log(i)
+                        
                         if (fields[next.position.x - i].player && i > 0) {
                             console.log('collision')
                             return false
