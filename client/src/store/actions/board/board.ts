@@ -3,7 +3,7 @@ import { Init_Board } from './types';
 
 
 
-export const initBoard = () => (dispatch :Dispatch<any>) =>{
+export const initBoard = () => (dispatch: Dispatch<any>) =>{
 
     let fields = new Array(64).fill(0)
 

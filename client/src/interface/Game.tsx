@@ -8,6 +8,8 @@ import Field from './Field';
 const Game = ({ board, initBoard }: any) => {
 
 
+    const [selectedData, setSelectedData] = useState<any>(null)
+
     useEffect(() => {
         initBoard()
 
@@ -16,10 +18,10 @@ const Game = ({ board, initBoard }: any) => {
         }
     }, [initBoard])
 
-    const [selectedData, setSelectedData] = useState<any>(null)
+    
     const [moved, setMoved] = useState(false)
 
-    
+    console.log(board.fields)
     return (
         <Fragment>
             

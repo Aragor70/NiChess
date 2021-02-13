@@ -1,4 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { isCorrectMove, setMove } from '../store/actions/board/piece';
 import { checkMovement } from '../store/actions/soldiers';
 import Bishop from './soldiers/Bishop';
 import Jumper from './soldiers/Jumper';
@@ -10,7 +12,7 @@ import Rook from './soldiers/Rook';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove }: any) => {
 
     // commented code
     /* 
@@ -106,7 +108,19 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
 
     const handleClick = (field: any) => {
 
+        
 
+        if (selectedData !== null && !field.player) {
+            
+            // check movement
+            if (!isCorrectMove(selectedData, field, board.fields)) {
+                setSelectedData(null)
+                return console.log('This move is not correct.')
+            }
+
+            setMove(selectedData, field)
+            return setSelectedData(null)
+        }
 
         if (field.player === 1) {
             
@@ -116,20 +130,35 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
                     return setSelectedData(null)
                 }
 
+                // check movement
+                if (!isCorrectMove(selectedData, field, board.fields)) {
+                    setSelectedData(null)
+                    return console.log('This move is not correct.')
+                }
+
+                if (selectedData.player === 2) {
+                    setSelectedData(null)
+                    return setMove(selectedData, field)
+                }
+
 
                 if (field.player === 1) {
                     setSelectedData(null)
                     return console.log('friendly', 'unselect')
                 }
                 
-                // check movement
                 
+
+                // set move
+                setMove(selectedData, field)
                 
             } else {
 
                 setSelectedData(field)
             
             }
+
+            
         }
 
         if (field.player == 2) {
@@ -139,9 +168,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
                 if (selectedData.position.x === field.position.x) {
                     return setSelectedData(null)
                 }
-
-                
-
                 
                 if (field.player !== 1) {
                     setSelectedData(null)
@@ -149,7 +175,10 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
                 }
 
                 // check movement
-                
+                if (!isCorrectMove(selectedData, field, board.fields)) {
+                    setSelectedData(null)
+                    return console.log('This move is not correct.')
+                }
                  
             }
 
@@ -157,10 +186,9 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
 
         }
 
-
         
     }
-    console.log(selectedData)
+    //console.log(selectedData)
     
     const { position, color, player, type } = field
 
@@ -181,4 +209,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field }:
         </Fragment>
     );
 }
-export default Field;
+const mapStateToProps = (state: any) => ({
+    board: state.board
+})
+export default connect(mapStateToProps, { setMove })(Field);
