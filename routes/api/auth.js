@@ -30,4 +30,6 @@ router.post('/', asyncHandler( async(req, res, next) => {
     return sign_in(user, 200, res)
 
 
-}))
+}));
+
+module.exports = router;

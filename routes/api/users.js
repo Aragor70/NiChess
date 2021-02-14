@@ -6,7 +6,7 @@ const User = require('../../models/User');
 const gravatar = require('gravatar');
 const sign_in = require('../../utils/sign_in');
 const ErrorResponse = require('../../utils/ErrorResponse');
-
+const bcrypt = require('bcryptjs');
 
 
 //route POST   api/users
@@ -30,7 +30,7 @@ router.post('/', asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('This account already exists', 422))
     }
 
-    const gravatar = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
+    const avatar = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
 
     const nameUpperCase = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -38,7 +38,7 @@ router.post('/', asyncHandler( async(req, res, next) => {
         name: nameUpperCase,
         email,
         password,
-        avatar: gravatar
+        avatar
     });
 
 
@@ -50,4 +50,6 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
     return sign_in(user, 200, res)
 
-}))
+}));
+
+module.exports = router;

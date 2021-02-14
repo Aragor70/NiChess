@@ -1,6 +1,6 @@
-module.exports = (user, statusCode, res) => {
+module.exports = async(user, statusCode, res) => {
 
-    const token = user.getSignToken()
+    const token = user.getSignedToken()
 
 
     if (!token) {

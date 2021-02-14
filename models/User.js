@@ -25,10 +25,8 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.methods.getSignedToken(function() {
-    return jwt.sign({ _id: this._id}, process.env.JWT_Secret, { expiresIn: process.env.JWT_EXPIRE })
-})
-
-
+UserSchema.methods.getSignedToken = function() {
+    return jwt.sign({ id: this._id }, process.env.JWT_Secret, { expiresIn: process.env.JWT_EXPIRE })
+}
 
 module.exports = User = mongoose.model('User', UserSchema);
