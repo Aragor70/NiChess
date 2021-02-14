@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { login } from '../../store/actions/user/auth';
 
 
 
 
-const Login = () => {
+const Login = ({ login, history }: any) => {
 
     const [formData, setFormData] = useState({
         email: '',
@@ -20,13 +23,13 @@ const Login = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-
+        login(formData)
 
     }
 
     return (
         <Fragment>
-            <form className="auth-form">
+            <form className="auth-form" onSubmit={e=> handleSubmit(e)}>
                 <h1>Log in</h1>
 
                 <label htmlFor="email" className="input-label">
@@ -41,10 +44,13 @@ const Login = () => {
                     <button type="submit" className="submit-button right-button">log in</button>
 
                 </div>
-                <button type="button">Create account</button>
-                <button type="button">Join as a guest</button>
+                <button type="button" onClick={e=> history.push('/signup')}>Create account</button>
+                <button type="button" onClick={e=> history.push('/')}>Join as a guest</button>
             </form>
         </Fragment>
     );
 }
-export default Login;
+const mapStateToProps = (state: any) => ({
+    auth: state.auth
+})
+export default connect(mapStateToProps, { login })(withRouter(Login));

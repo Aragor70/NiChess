@@ -36,6 +36,7 @@ const Game = ({ board, initBoard }: any) => {
     );
 }
 const mapStateToProps = (state: any) => ({
-    board: state.board
+    board: state.board,
+    auth: state.auth
 })
 export default connect(mapStateToProps, { initBoard })(Game);
