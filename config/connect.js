@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 module.exports = async() => {
 
     try {
-        
+
         const connect = await mongoose.connect(process.env.db_URI, {
             useNewUrlParser: true,
             useCreateIndex: true,
@@ -22,6 +22,5 @@ module.exports = async() => {
         process.exit(1)
 
     }
-
-
+    
 }

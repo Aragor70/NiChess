@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    
+}
+.auth-form
+{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 30px;
+    color: teal;
+    text-align: left;
+}
+.auth-form > h1
+{
+    width: 100%;
+    height: 35px;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.input-label > input
+{
+    border: none;
+    width: 100%;
+    min-height: 35px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+}
+.auth-form > .input-label
+{
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.auth-bottom
+{
+    width: 100%;
+    min-height: 7.5vh;
+    position: relative;
+    
+}
+.submit-button
+{
+    width: 75px;
+    height: 35px;
+
+}
+.right-button
+{
+    position: absolute;
+    top: 15px;
+    right: 0;
+}

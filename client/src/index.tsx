@@ -7,14 +7,21 @@ import './style/style.css'
 import './style/header.css'
 import './style/game.css'
 import './style/field.css'
+import './style/auth.css'
+
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
 
 ReactDOM.render(
   
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
