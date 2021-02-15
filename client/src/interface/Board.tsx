@@ -5,7 +5,7 @@ import Field from './Field';
 
 
 
-const Game = ({ board, initBoard }: any) => {
+const Board = ({ board, initBoard }: any) => {
 
 
     const [selectedData, setSelectedData] = useState<any>(null)
@@ -39,4 +39,4 @@ const mapStateToProps = (state: any) => ({
     board: state.board,
     auth: state.auth
 })
-export default connect(mapStateToProps, { initBoard })(Game);
+export default connect(mapStateToProps, { initBoard })(Board);

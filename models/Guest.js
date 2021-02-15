@@ -18,7 +18,6 @@ const GuestSchema = new mongoose.Schema({
     }
 });
 
-
 GuestSchema.methods.getSignedToken = function() {
     return jwt.sign({ id: this._id }, process.env.JWT_Secret, { expiresIn: process.env.JWT_EXPIRE })
 }

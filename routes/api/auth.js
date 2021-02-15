@@ -18,12 +18,11 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
         user = await User.findById(req.user.id).select('-password')
     } else {
         user = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
-        console.log(user, 'guest')
     }
     
     res.json(user)
     
-}))
+}));
 
 //route POST   api/auth
 //description  login user
@@ -49,29 +48,5 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
 }));
 
-//route POST   api/auth
-//description  login user
-//access       public
-router.post('/', asyncHandler( async(req, res, next) => {
-
-
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return next(new ErrorResponse('Invalid credentials', 422));
-    }
-
-    const user = await User.findOne({ email });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-        return next( new ErrorResponse('Invalid credentials', 422));
-    }
-
-    return sign_in(user, 200, res)
-
-
-}));
 
 module.exports = router;

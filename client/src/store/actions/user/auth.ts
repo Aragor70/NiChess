@@ -76,7 +76,8 @@ export const guestAuth = (history: any) => async(dispatch: Dispatch<any>) => {
 export const logout = (history: any) => async(dispatch: Dispatch<any>) => {
     try {
         
-        dispatch({ type: Log_Out})
+        await dispatch({ type: Log_Out })
+
         history.push('/')
 
     } catch (err) {

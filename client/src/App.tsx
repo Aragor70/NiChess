@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Login from './interface/auth/Login';
 import Signup from './interface/auth/Signup';
-import Game from './interface/Game';
+import Board from './interface/Board';
+import Game from './interface/Board';
+import Index from './interface/Index';
+import Table from './interface/Table';
 import { loadUser, guestAuth, logout } from './store/actions/user/auth';
 import setAuthToken from './utils/setAuthToken';
 
@@ -40,11 +43,11 @@ const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
           auth.isAuthenticated ? <Fragment>
             <Switch>
               <Route exact path="/">
-                <button onClick={e=> history.push('/game')}>Join to the game</button>
+                <Index />
               </Route>
 
-              <Route exact path="/game">
-                <Game />
+              <Route exact path="/table">
+                <Table />
               </Route>
 
             </Switch>
