@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { login } from '../../store/actions/user/auth';
+import { guestAuth, login } from '../../store/actions/user/auth';
 
 
 
 
-const Login = ({ login, history }: any) => {
+const Login = ({ login, history, guestAuth }: any) => {
 
     const [formData, setFormData] = useState({
         email: '',
@@ -23,7 +23,7 @@ const Login = ({ login, history }: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        login(formData)
+        login(formData, history)
 
     }
 
@@ -45,7 +45,7 @@ const Login = ({ login, history }: any) => {
 
                 </div>
                 <button type="button" onClick={e=> history.push('/signup')}>Create account</button>
-                <button type="button" onClick={e=> history.push('/')}>Join as a guest</button>
+                <button type="button" onClick={e=> guestAuth(history)}>Join as a guest</button>
             </form>
         </Fragment>
     );
@@ -53,4 +53,4 @@ const Login = ({ login, history }: any) => {
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 })
-export default connect(mapStateToProps, { login })(withRouter(Login));
+export default connect(mapStateToProps, { login, guestAuth })(withRouter(Login));

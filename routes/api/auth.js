@@ -6,13 +6,21 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const sign_in = require('../../utils/sign_in');
 const auth = require('../../middlewares/auth');
+const Guest = require('../../models/Guest');
 
 //route GET    api/auth
 //description  user route
 //access       private
-router.get('/', auth, asyncHandler( async(req, res) => {
-    const user = await User.findById(req.user.id).select('-password')
+router.get('/', auth, asyncHandler( async(req, res, next) => {
+    let user; 
 
+    if (req.user) {
+        user = await User.findById(req.user.id).select('-password')
+    } else {
+        user = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
+        console.log(user, 'guest')
+    }
+    
     res.json(user)
     
 }))

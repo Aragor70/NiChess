@@ -1,7 +1,7 @@
 module.exports = async(user, statusCode, res) => {
 
     const token = user.getSignedToken()
-
+    console.log(token)
 
     if (!token) {
         return ErrorResponse('Authorization error.', 422)

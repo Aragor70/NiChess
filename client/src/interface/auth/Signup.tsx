@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { signup } from '../../store/actions/user/auth';
+import { guestAuth, signup } from '../../store/actions/user/auth';
 
 
 
 
-const Signup = ({ signup, history }: any) => {
+const Signup = ({ signup, history, guestAuth }: any) => {
 
     const [formData, setFormData] = useState({
         name: '',
@@ -25,7 +25,7 @@ const Signup = ({ signup, history }: any) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        signup(formData)
+        signup(formData, history)
 
     }
 
@@ -55,7 +55,7 @@ const Signup = ({ signup, history }: any) => {
                 </div>
 
                 <button type="button" onClick={e=> history.push('/login')}>Log in</button>
-                <button type="button" onClick={e=> history.push('/')}>Join as a guest</button>
+                <button type="button" onClick={e=> guestAuth(history)}>Join as a guest</button>
             </form>
         </Fragment>
     );
@@ -63,4 +63,4 @@ const Signup = ({ signup, history }: any) => {
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 })
-export default connect(mapStateToProps, { signup })(withRouter(Signup));
+export default connect(mapStateToProps, { signup, guestAuth })(withRouter(Signup));
