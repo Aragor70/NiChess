@@ -9,7 +9,7 @@ const boardReducer = (state: any = initialState, action: any) => {
     const { type, payload } = action
 
     switch (type) {
-        case Init_Board: 
+        case Init_Board:
         return { ...state, fields: payload }
 
         case Set_Move:

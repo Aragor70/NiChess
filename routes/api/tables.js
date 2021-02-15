@@ -19,8 +19,6 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
         user = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
     }
 
-    console.log(user)
-
     const table = new Table({
         users: [user],
         name: user.name
@@ -82,7 +80,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     
 
     if (table.users.length === 0) {
-        
+
         await table.remove()
     }
 
