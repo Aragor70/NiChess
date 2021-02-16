@@ -46,7 +46,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
                 <Index />
               </Route>
 
-              <Route exact path="/table">
+              <Route exact path="/tables/:name">
                 <Table />
               </Route>
 

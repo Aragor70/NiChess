@@ -1,4 +1,4 @@
-import { Create_Table, Delete_Table, Join_To_Table, Leave_From_Table } from "../actions/table/types";
+import { Create_Table, Delete_Table, Get_Tables, Join_To_Table, Leave_From_Table, Get_Table } from "../actions/table/types";
 
 
 
@@ -12,6 +12,12 @@ const tableReducer = (state: any = initialState, action: any) => {
 
     switch (type) {
         
+        case Get_Tables:
+            return {...state, tables: payload, table: null }
+
+        case Get_Table:
+            return {...state, table: payload }
+
         case Create_Table:
             return { ...state, tables: [...state.tables, payload], table: payload }
 

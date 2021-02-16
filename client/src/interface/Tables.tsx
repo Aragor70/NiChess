@@ -1,11 +1,23 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { getTables } from '../store/actions/table/table';
 import Table from './Table';
 
 
 
 
-const Tables = () => {
+const Tables = ({ table, getTables, history }: any) => {
 
+    useEffect(() => {
+        getTables()
+
+        return () => {
+            getTables()
+        }
+    }, [getTables])
+
+    console.log(table)
 
     return (
         <Fragment>
@@ -13,12 +25,9 @@ const Tables = () => {
 
             <p>Tables</p>
 
-            <Table />
-            <hr />
-            <Table />
-            <hr />
-            <Table />
-
+            {
+                table.tables.map((element: any) => <p onClick={e=> history.push(`/tables/${element.name}`)}>{element.name}</p>)
+            }
 
             
 
@@ -27,4 +36,7 @@ const Tables = () => {
         </Fragment>
     );
 }
-export default Tables;
+const mapStateToProps = (state: any) => ({
+    table: state.table
+})
+export default connect(mapStateToProps, { getTables })(withRouter(Tables));

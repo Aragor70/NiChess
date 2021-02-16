@@ -1,20 +1,28 @@
 # NiChess
 
 
-Free to play multi-player Chess game
+Free to play a multi-player Chess game
 
-The website with user management, tables and game engine.
+The website with user management, tables, and a game engine.
 
 
 ## Functionality specification
 
-- A user can create account or join as a guest;
-- A user can play with any other user in selected game;
+- A user can create an account or join as a guest;
+- A user can play with any other user in a selected game;
 
-- Table contains messenger, statistics and game engine;
-- A user have access to send invite to the table;
-- The table can be deleted when the last user leave from the table, or the table owner delete it;
+- The table contains messenger, statistics, and game engine;
+- A user has an access to invite a potential player to the table within the URL;
+- The table can be deleted when the last user leaves the table, or the table owner delete it;
 
+
+## Technical Specification
+
+- A README file with setup instructions.
+- Clean code (of course).
+
+- A git repository with clean commit history.
+- Good REST practices.
 
 ## Usage
 Rename "config/config.env.env" to "config/config.env" and update environment settings to your own.
