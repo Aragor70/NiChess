@@ -25,13 +25,8 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     if (req.user) {
         user = await User.findById(req.user.id).select('-password')
 
-
-
-
     } else {
         guest = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
-
-
 
     }
 
@@ -49,8 +44,6 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 
     }
     
-    
-
     const table = new Table({
         users: user ? [user] : [],
         guests: guest ? [guest] : [],

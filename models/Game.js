@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const GameSchema = new mongoose.Schema({
-    users: [{
+    players: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }, {
@@ -10,16 +10,39 @@ const GameSchema = new mongoose.Schema({
         ref: 'Guest'
     }],
     number: {
-        type: number,
+        type: Number,
         default: 0
     },
     scoreA: {
-        type: number,
+        type: Number,
         default: 0
     },
     scoreB: {
-        type: number,
+        type: Number,
         default: 0
+    },
+    board: [{
+        position: {
+            y: {
+                type: Number
+            },
+            x: {
+                type: Number
+            }
+        },
+        player: {
+            type: Number
+        },
+        type: {
+            type: String
+        },
+        color: {
+            type: String
+        }
+    }],
+    started: {
+        type: Boolean,
+        default: false
     },
     date: {
         type: Date,
