@@ -1,9 +1,6 @@
-import axios from "axios";
-import { Dispatch } from "react";
-import { Set_Move } from './types';
+const isCorrectMove = (selected, next, fields, user) => {
 
-
-export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
+    const uid = user._id
     try {
         
         if (selected.player == 1) {
@@ -17,6 +14,7 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
 
 
                     if (fields[selected.position.x - 8].player) {
+
                         console.log('collision')
                         return false
                     }
@@ -301,6 +299,16 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
             
         }
 
+        if (fields[next.position.x].player) {
+
+            if (fields[next.position.x].player !== uid) {
+                return true
+            } else {
+                console.log('collision')
+                return false
+            }
+        }
+
         return true;
 
     } catch (err) {
@@ -309,21 +317,4 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
     }
 
 }
-
-export const setMove = (selected: any, next: any, id: string) => async(dispatch: Dispatch<any>) => {
-    const config = {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-    try {
-
-        const res = await axios.put(`/api/games/${id}`, { selected, next }, config)
-        
-        dispatch({ type: Set_Move, payload: { selected, next } })
-
-
-    } catch (err) {
-        return false
-    }
-}
+module.exports = isCorrectMove;

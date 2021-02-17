@@ -140,7 +140,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 router.get('/', asyncHandler( async(req, res, next) => {
 
     const tables = await Table.find().sort({ date: -1 });
-    console.log(tables)
+    
     res.json(tables)
 
 }));
@@ -150,9 +150,9 @@ router.get('/', asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/:name', asyncHandler( async(req, res, next) => {
 
-    let table = await Table.findOne({ name: req.params.name }).populate({ path: 'users = user', model: 'User' }).populate({ path: 'guests = guest', model: 'Guest' })
+    let table = await Table.findOne({ name: req.params.name }).populate({ path: 'users = user', model: 'User' }).populate({ path: 'guests = guest', model: 'Guest' }).populate({ path: 'games = game', model: 'Game' })
     
-    
+    console.log(table)
     if (!table) {
         return next(new ErrorResponse('Table does not exist', 404))
     }

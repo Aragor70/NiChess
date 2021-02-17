@@ -1,11 +1,12 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Init_Board } from './types';
+import { Get_Game, Init_Board } from './types';
 
 
 
-export const initBoard = () => (dispatch: Dispatch<any>) =>{
+export const initBoard = (opponentid: string , tableid: string) => async(dispatch: Dispatch<any>) =>{
 
-    let fields = new Array(64).fill(0)
+    /* let fields = new Array(64).fill(0)
 
 
     for (let i = 8; i <= 15; i++) {
@@ -99,8 +100,32 @@ export const initBoard = () => (dispatch: Dispatch<any>) =>{
             x: i
         }, color: y % 2 === 0 ? i % 2 === 0 ? '#fff' : 'lightgrey' : i % 2 !== 0 ? '#fff' : 'lightgrey'}
 
+    } */
+    // opponentid, tableid
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
     }
 
-    return dispatch({ type: Init_Board, payload: fields })
+    const res = await axios.post('/api/games', { opponentid, tableid }, config )
+    console.log(res.data.board)
+    return dispatch({ type: Init_Board, payload: res.data.board })
+
+}
+
+export const getGame = (gameid: string) => async(dispatch: Dispatch<any>) => {
+
+    try {
+        const res = await axios.get(`/api/games/${gameid}`)
+        
+
+        dispatch({ type: Get_Game, payload: res.data })
+
+    } catch (err) {
+        console.log(err)
+    }
+
 
 }

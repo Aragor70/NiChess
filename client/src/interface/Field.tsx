@@ -12,7 +12,7 @@ import Rook from './soldiers/Rook';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth }: any) => {
 
     // commented code
     /* 
@@ -110,19 +110,19 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
         
 
-        if (selectedData !== null && !field.player) {
+        if (selectedData !== null && field.player !== auth.user._id) {
             
             // check movement
-            if (!isCorrectMove(selectedData, field, board.fields)) {
+            /* if (!isCorrectMove(selectedData, field, board.fields)) {
                 setSelectedData(null)
                 return console.log('This move is not correct.')
-            }
+            } */
 
             setMove(selectedData, field)
             return setSelectedData(null)
         }
 
-        if (field.player === 1) {
+        if (field.player === auth.user._id) {
             
             if (selectedData !== null) {
                 
@@ -131,18 +131,18 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 }
 
                 // check movement
-                if (!isCorrectMove(selectedData, field, board.fields)) {
+                /* if (!isCorrectMove(selectedData, field, board.fields)) {
                     setSelectedData(null)
                     return console.log('This move is not correct.')
-                }
+                } */
 
-                if (selectedData.player === 2) {
+                if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
                     return setMove(selectedData, field)
                 }
 
 
-                if (field.player === 1) {
+                if (field.player === auth.user._id) {
                     setSelectedData(null)
                     return console.log('friendly', 'unselect')
                 }
@@ -161,27 +161,22 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
             
         }
 
-        if (field.player == 2) {
+        if (field.player !== auth.user._id) {
 
             if (selectedData !== null) {
                 
-                if (selectedData.position.x === field.position.x) {
-                    return setSelectedData(null)
-                }
                 
-                if (field.player !== 1) {
-                    setSelectedData(null)
-                    return console.log('enemy', 'move and replace')
-                }
+                setSelectedData(null)
+                
 
                 // check movement
-                if (!isCorrectMove(selectedData, field, board.fields)) {
+                /* if (!isCorrectMove(selectedData, field, board.fields)) {
                     setSelectedData(null)
                     return console.log('This move is not correct.')
-                }
+                } */
                  
             }
-
+            
             console.log('You cannot select this')
 
         }
@@ -210,6 +205,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
     );
 }
 const mapStateToProps = (state: any) => ({
-    board: state.board
+    board: state.board,
+    auth: state.auth
 })
 export default connect(mapStateToProps, { setMove })(Field);

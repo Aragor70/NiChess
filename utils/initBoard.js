@@ -1,6 +1,10 @@
 
 
-const initBoard = () =>{
+const initBoard = (user, opponent) =>{
+
+    const uid = user._id;
+    const oid = opponent._id
+
 
     let fields = new Array(64).fill(0)
 
@@ -8,82 +12,82 @@ const initBoard = () =>{
     for (let i = 8; i <= 15; i++) {
         
         fields[i] = {
-            player: 2,
+            player: oid,
             type: 'Pawn'
         }
     }
 
     fields[0] = {
-        player: 2,
+        player: oid,
         type: 'Rook'
     }
     fields[7] = {
-        player: 2,
+        player: oid,
         type: 'Rook'
     }
     fields[1] = {
-        player: 2,
+        player: oid,
         type: 'Jumper'
     }
     fields[6] = {
-        player: 2,
+        player: oid,
         type: 'Jumper'
     }
     fields[2] = {
-        player: 2,
+        player: oid,
         type: 'Bishop'
     }
     fields[5] = {
-        player: 2,
+        player: oid,
         type: 'Bishop'
     }
     fields[3] = {
-        player: 2,
+        player: oid,
         type: 'Queen'
     }
     fields[4] = {
-        player: 2,
+        player: oid,
         type: 'King'
     }
 
 
     for (let i = 48; i <= 55; i++) {
         fields[i] = {
-            player: 1,
+            player: uid,
             type: 'Pawn'
         }
     }
 
     fields[56] = {
-        player: 1,
+        player: uid,
         type: 'Rook'
     }
     fields[63] = {
-        player: 1,
+        player: uid,
         type: 'Rook'
     }
     fields[57] = {
-        player: 1,
+        player: uid,
         type: 'Jumper'
     }
     fields[62] = {
-        player: 1,
+        player: uid,
         type: 'Jumper'
     }
     fields[58] = {
-        player: 1,
+        player: uid,
         type: 'Bishop'
     }
     fields[61] = {
-        player: 1,
+        player: uid,
         type: 'Bishop'
     }
     fields[59] = {
-        player: 1,
+        player: uid,
         type: 'Queen'
     }
     fields[60] = {
-        player: 1,
+        player: uid,
         type: 'King'
     }
 

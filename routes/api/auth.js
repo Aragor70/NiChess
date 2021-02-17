@@ -19,7 +19,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     } else {
         user = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
     }
-    
+    console.log(user)
     res.json(user)
     
 }));

@@ -1,8 +1,10 @@
-import { Init_Board, Set_Move } from "../actions/board/types"
+import { Get_Game, Init_Board, Set_Move } from "../actions/board/types"
 
 
 const initialState = {
-    fields: []
+    fields: [],
+    game: null,
+    loading: true
 }
 
 const boardReducer = (state: any = initialState, action: any) => {
@@ -10,10 +12,13 @@ const boardReducer = (state: any = initialState, action: any) => {
 
     switch (type) {
         case Init_Board:
-        return { ...state, fields: payload }
+        return { ...state, fields: payload, loading: false }
+
+        case Get_Game: 
+        return { ...state, game: payload, loading: false }
 
         case Set_Move:
-        return { ...state, fields: state.fields.map((field: any) => field.position.x === payload.next.position.x ? {...field, player: payload.selected.player, type: payload.selected.type} : field ).map((field: any) => field.position.x === payload.selected.position.x ? {...field, player: null, type: null} : field ) }
+        return { ...state, fields: state.fields.map((field: any) => field.position.x === payload.next.position.x ? {...field, player: payload.selected.player, type: payload.selected.type} : field ).map((field: any) => field.position.x === payload.selected.position.x ? {...field, player: null, type: null} : field ), loading: false }
 
         default:
             return state;

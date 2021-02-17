@@ -31,16 +31,23 @@ const GameSchema = new mongoose.Schema({
             }
         },
         player: {
-            type: Number
+            type: String,
+            default: null
         },
         type: {
-            type: String
+            type: String,
+            default: null
         },
         color: {
-            type: String
+            type: String,
+            default: '#fff'
         }
     }],
     started: {
+        type: Boolean,
+        default: false
+    },
+    finished: {
         type: Boolean,
         default: false
     },
