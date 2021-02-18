@@ -23,10 +23,10 @@ const Table = ({ match, table, getTable, history, initBoard }: any) => {
             <p>users</p>
 
             {
-                table.table && table.table.users.map((user: any) => table.table.guests.map((guest: any) => <p><span onClick={e=> initBoard(user._id, table.table._id)}>{user.name}</span> <span onClick={e=> initBoard(guest._id, table.table._id)}>{guest.name}</span></p>) )
+                table.table && table.table.users.map((user: any) => table.table.guests.map((guest: any) => <p><span onClick={e=> initBoard(user._id, table.table._id)}>user: {user.name}</span> <span onClick={e=> initBoard(guest._id, table.table._id)}>guest: {guest.name}</span></p>) )
             }
             {
-                table.table && table.table.games.length > 0 ? table.table.games.map((element: any) => <p onClick={e=> history.push(`/tables/${match.params.name}/games/${element._id}`)}>{element._id}</p>) : "Select the player to create the game"
+                table.table && table.table.games.length > 0 ? table.table.games.map((element: any) => <p onClick={e=> history.push(`/tables/${match.params.name}/games/${element._id}`)}>game number: {element._id}</p>) : "Select the player to create the game"
             }
             
             <Switch>

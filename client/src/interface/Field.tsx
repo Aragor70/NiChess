@@ -118,7 +118,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 return console.log('This move is not correct.')
             } */
 
-            setMove(selectedData, field)
+            setMove(selectedData, field, board.game._id)
             return setSelectedData(null)
         }
 
@@ -138,7 +138,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    return setMove(selectedData, field)
+                    return setMove(selectedData, field, board.game._id)
                 }
 
 
@@ -150,7 +150,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 
 
                 // set move
-                setMove(selectedData, field)
+                setMove(selectedData, field, board.game._id)
                 
             } else {
 
@@ -183,9 +183,12 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
         
     }
+    
     //console.log(selectedData)
     
     const { position, color, player, type } = field
+
+    
 
     return (
         <Fragment>

@@ -83,7 +83,7 @@ const isCorrectMove = (selected, next, fields, user) => {
 
                     if (selected.position.y === next.position.y) {
 
-                        if (fields[next.position.x + i].player) {
+                        if (fields[next.position.x + i].player === uid) {
                             console.log('collision')
                             return false
                         }
@@ -104,7 +104,7 @@ const isCorrectMove = (selected, next, fields, user) => {
 
                     if (selected.position.y === next.position.y) {
 
-                        if (fields[next.position.x - i].player) {
+                        if (fields[next.position.x - i].player === uid) {
                             console.log('collision')
                             return false
                         }
@@ -266,7 +266,7 @@ const isCorrectMove = (selected, next, fields, user) => {
 
                     if (selected.position.x > next.position.x) {
                         
-                        if (fields[next.position.x + i ].player ) {
+                        if (fields[next.position.x + i ].player === uid ) {
                             console.log('collision')
                             return false
                         }
@@ -275,7 +275,7 @@ const isCorrectMove = (selected, next, fields, user) => {
 
                     else if (selected.position.x < next.position.x) {
 
-                        if (fields[next.position.x - i ].player ) {
+                        if (fields[next.position.x - i ].player === uid ) {
                             console.log('collision')
                             return false
                         }

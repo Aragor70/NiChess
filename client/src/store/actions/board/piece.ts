@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Dispatch } from "react";
-import { Set_Move } from './types';
+import { getGame } from "./board";
+import { Get_Game, Set_Move } from './types';
 
 
 export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
@@ -321,7 +322,7 @@ export const setMove = (selected: any, next: any, id: string) => async(dispatch:
         const res = await axios.put(`/api/games/${id}`, { selected, next }, config)
         
         dispatch({ type: Set_Move, payload: { selected, next } })
-
+        dispatch(getGame(id))
 
     } catch (err) {
         return false

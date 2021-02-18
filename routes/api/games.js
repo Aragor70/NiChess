@@ -57,12 +57,12 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('Opponent not found', 422));
     }
 
-    const table = await Table.findById(tableid)
+    const table = await Table.findById(tableid).populate({ path: 'games = game', model: 'Game' })
 
     const allFinished = table.games.filter( i => i.finished === false )
-
-    if (allFinished.length > 0) {
-
+    
+    if (allFinished[0]) {
+        console.log(`${allFinished.length} games are not finished`)
         return next(new ErrorResponse('Please wait for other game', 422));
     }
 
@@ -115,15 +115,18 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
         // check the movement
         const isCorrect = await isCorrectMove(req.body.selected, req.body.next, game.board, user)
-
+        //console.log(isCorrect)
         if (!isCorrect) {
-            return next(new ErrorResponse('Move not correct', 422)); 
+            return next(new ErrorResponse('Move not correct', 422));
         }
+        //console.log(req.body.selected)
 
-        // change board fields
-        game.board = await game.board.map(field => field.position.x === req.body.next.position.x ? {...field, player: req.body.selected.player, type: req.body.selected.type} : field ).map(field => field.position.x === req.body.selected.position.x ? {...field, player: null, type: null} : field )
+        game.board[req.body.next.position.x] = await { position: { y: game.board[req.body.next.position.x].position.y, x: game.board[req.body.next.position.x].position.x }, color: game.board[req.body.next.position.x].color, player: req.body.selected.player, type: req.body.selected.type }
+        
+        game.board[req.body.selected.position.x] = await { position: { y: game.board[req.body.selected.position.x].position.y, x: game.board[req.body.selected.position.x].position.x }, color: game.board[req.body.selected.position.x].color, player: null, type: null }
+        
 
-
+        console.log(game.board)
     }
 
     await game.save()
