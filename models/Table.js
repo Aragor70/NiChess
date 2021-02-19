@@ -12,8 +12,7 @@ const TableSchema = new mongoose.Schema({
     }],
     name: {
         type: String,
-        default: "Table",
-        unique: true
+        default: "Table"
     },
     games: [{
         type: mongoose.Schema.Types.ObjectId,

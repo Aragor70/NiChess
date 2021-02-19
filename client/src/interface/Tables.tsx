@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getTables } from '../store/actions/table/table';
+import { getTables, joinToTable } from '../store/actions/table/table';
 import Table from './Table';
 
 
 
 
-const Tables = ({ table, getTables, history }: any) => {
+const Tables = ({ table, getTables, history, joinToTable }: any) => {
 
     useEffect(() => {
         getTables()
@@ -26,7 +26,7 @@ const Tables = ({ table, getTables, history }: any) => {
             <p>Tables</p>
 
             {
-                table.tables.map((element: any) => <p onClick={e=> history.push(`/tables/${element._id}`)}>{element.name}</p>)
+                table.tables.map((element: any) => <p key={element._id} onClick={e=> joinToTable(element._id, history)}>{element.name}</p>)
             }
 
             
@@ -39,4 +39,4 @@ const Tables = ({ table, getTables, history }: any) => {
 const mapStateToProps = (state: any) => ({
     table: state.table
 })
-export default connect(mapStateToProps, { getTables })(withRouter(Tables));
+export default connect(mapStateToProps, { getTables, joinToTable })(withRouter(Tables));

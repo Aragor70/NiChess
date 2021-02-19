@@ -76,8 +76,6 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
         board
     })
     await game.save();
-
-    console.log(game)
     
     table.games = [ ...table.games, game]
 
@@ -115,9 +113,9 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     }
 
     if (req.body.selected && req.body.next) {
-
+        const player = game.players.indexOf(req.user.id) + 1
         // check the movement
-        const isCorrect = await isCorrectMove(req.body.selected, req.body.next, game.board, user)
+        const isCorrect = await isCorrectMove(req.body.selected, req.body.next, game.board, user, player)
         
         if (!isCorrect) {
             return next(new ErrorResponse('Move not correct', 422));
@@ -126,7 +124,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         game.board[req.body.next.position.x] = await { position: { y: game.board[req.body.next.position.x].position.y, x: game.board[req.body.next.position.x].position.x }, color: game.board[req.body.next.position.x].color, player: req.body.selected.player, type: req.body.selected.type }
         
         game.board[req.body.selected.position.x] = await { position: { y: game.board[req.body.selected.position.x].position.y, x: game.board[req.body.selected.position.x].position.x }, color: game.board[req.body.selected.position.x].color, player: null, type: null }
-        
+
+        if (req.body.next.type === 'King') {
+            game.scoreA += 1
+            game.finished = true
+        }
+
 
     }
 

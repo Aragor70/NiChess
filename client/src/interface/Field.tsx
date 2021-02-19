@@ -14,97 +14,6 @@ import Rook from './soldiers/Rook';
 
 const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth }: any) => {
 
-    // commented code
-    /* 
-    
-    const handleClick = (position: any) => {
-
-        
-        if (selectedData.figure.type) {
-
-                        // previous / next
-            if (!checkMovement(selectedData, position)) {
-                return console.log('Wrong movement')
-            }
-            
-            
-            
-            if (fields[position.x]) {
-                if (fields[position.x].player == 1 && position.x !== selectedData.position.x) {
-                    return console.log('friendly fire')
-                }
-                if (fields[position.x].player == 2 && position.x !== selectedData.position.x) {
-                    console.log('enemy fire')
-                    setFigure(selectedData.figure)
-                }
-            }
-            const a = fields[selectedData.position.x]
-            fields[selectedData.position.x] = 0
-            fields[position.x] = a
-
-            
-            console.log('ignored error')
-
-            console.log(selectedData.figure)
-
-            console.log(selectedData.figure)
-            
-            setMoved(true)
-
-            setFigure(selectedData.figure)
-        }
-
-        if (figure.type) {
-            
-            setSelectedData({...selectedData, position: {
-                y: position.y,
-                x: position.x
-            }, figure})
-            
-            setMoved(false)
-        }
-
-        if (figure.type && selectedData.position.x === content.position.x) {
-        
-            setSelectedData({
-                ...selectedData,
-                position: {
-                    y: null,
-                    x: null
-                }, figure: {
-                    player: 0,
-                    type: ''
-                }
-            })
-            
-            setMoved(false)
-        }
-
-    }
-
-    
-
-    useEffect(() => {
-        
-        if (moved && selectedData.position.x === position.x) {
-            
-            console.log('moved')
-
-            setFigure({...figure, player: 0, type: ''})
-            setMoved(false)
-
-            setSelectedData({
-                position: {
-                    y: null,
-                    x: null
-                }, figure: {
-                    player: 0,
-                    type: ''
-                }
-            })
-        }
-    }, [moved]) */
-
 
     const handleClick = (field: any) => {
 
@@ -112,11 +21,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
-            // check movement
-            /* if (!isCorrectMove(selectedData, field, board.fields)) {
-                setSelectedData(null)
-                return console.log('This move is not correct.')
-            } */
 
             setMove(selectedData, field, board.game._id)
             return setSelectedData(null)
@@ -130,11 +34,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                     return setSelectedData(null)
                 }
 
-                // check movement
-                /* if (!isCorrectMove(selectedData, field, board.fields)) {
-                    setSelectedData(null)
-                    return console.log('This move is not correct.')
-                } */
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
@@ -168,13 +67,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 
                 setSelectedData(null)
                 
-
-                // check movement
-                /* if (!isCorrectMove(selectedData, field, board.fields)) {
-                    setSelectedData(null)
-                    return console.log('This move is not correct.')
-                } */
-                 
             }
             
             console.log('You cannot select this')
@@ -183,8 +75,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
         
     }
-    
-    //console.log(selectedData)
     
     const { position, color, player, type } = field
 

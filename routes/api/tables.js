@@ -50,7 +50,6 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
         guests: guest ? [guest] : [],
         name: nameUpperCase || user.name
     })
-    console.log(table)
 
     await table.save()
     
@@ -68,20 +67,38 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     let user;
     let guest;
 
+    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User'}).populate({ path: 'guests = guest', model: 'Guest'}).populate({ path: 'games = game', model: 'Game'})
+    
+    if (!table) {
+        return next(new ErrorResponse('Table not found', 404))
+    }
+    console.log(table)
+
     if (req.user) {
         user = await User.findById(req.user.id).select('-password')
+
+        const isMatch = table.users.filter(element => element._id === req.user.id)
+        if (isMatch[0]) {
+            
+            return res.json(table)
+        }
+
     } else {
         guest = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
+
+        const isMatch = table.guests.filter(element => element._id === guest._id)
+        if (isMatch[0]) {
+            return res.json(table)
+        }
+
     }
     if (!user && !guest) {
         return next(new ErrorResponse('User not found', 404))
     }
 
-    const table = await Table.findById(req.params.id)
+    console.log(user, guest)
+
     
-    if (!table) {
-        return next(new ErrorResponse('Table not found', 404))
-    }
     
 
     if (user) {

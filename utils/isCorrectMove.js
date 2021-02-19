@@ -1,9 +1,9 @@
-const isCorrectMove = (selected, next, fields, user) => {
+const isCorrectMove = (selected, next, fields, user, player) => {
 
     const uid = user._id
     try {
         
-        if (selected.player == 1) {
+        if (player == 1) {
 
             if ( selected.type === 'Pawn' ) {
 
@@ -27,13 +27,18 @@ const isCorrectMove = (selected, next, fields, user) => {
                     throw new Error()
                 }
 
+                if (fields[selected.position.x - 8].player) {
+
+                    console.log('collision')
+                    return false
+                }
 
                 
                 
             }
         }
 
-        if (selected.player === 2) {
+        if (player === 2) {
 
             if ( selected.type === 'Pawn' ) {
 
@@ -52,6 +57,11 @@ const isCorrectMove = (selected, next, fields, user) => {
 
                 if ( diff !== -8) {
                     throw new Error()
+                }
+
+                if (fields[selected.position.x + 8].player) {
+                    console.log('collision')
+                    return false
                 }
                 
                 

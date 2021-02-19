@@ -26,15 +26,15 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
             <p>users</p>
 
             {
-                table.table && table.table.users.map((user: any) => <p><span onClick={e=> initBoard(user._id, table.table)}>user: {user.name}</span> </p>)
+                table.table && table.table.users.map((user: any) => <p key={user._id} ><span onClick={e=> initBoard(user._id, table.table)}>user: {user.name}</span> </p>)
             }
             {
-                table.table && table.table.guests.map((guest: any) => <p><span onClick={e=> initBoard(guest._id, table.table)}>guest: {guest.name}</span> </p>)
+                table.table && table.table.guests.map((guest: any) => <p key={guest._id}><span onClick={e=> initBoard(guest._id, table.table)}>guest: {guest.name}</span> </p>)
             
             }
 
             {
-                table.table && table.table.games.length > 0 ? table.table.games.map((element: any) => <p onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}>game number: {element._id}</p>) : "Select the player to create the game"
+                table.table && table.table.games.length > 0 ? table.table.games.map((element: any) => <p key={element._id} onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}>game number: {element._id}</p>) : "Select the player to create the game"
             }
             
             <Switch>

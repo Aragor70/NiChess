@@ -46,12 +46,14 @@ export const createTable = (history: any) => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const joinToTable = (id: string) => async(dispatch: Dispatch<any>) => {
+export const joinToTable = (id: string, history: any) => async(dispatch: Dispatch<any>) => {
 
     try {
         const res = await axios.post(`/api/tables/${id}`);
 
         dispatch({ type: Join_To_Table, payload: res.data })
+        dispatch(history.push(`/tables/${id}`))
+
     } catch (err) {
         dispatch({ type: Table_Error })
     }
