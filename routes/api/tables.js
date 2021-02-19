@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('../../middlewares/async');
 const auth = require('../../middlewares/auth');
+const Guest = require('../../models/Guest');
 const Table = require('../../models/Table');
 const User = require('../../models/User');
 const ErrorResponse = require('../../utils/ErrorResponse');
@@ -49,6 +50,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
         guests: guest ? [guest] : [],
         name: nameUpperCase || user.name
     })
+    console.log(table)
 
     await table.save()
     
@@ -119,12 +121,16 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         } else {
             table.guests = await table.guests.filter(element => element._id.toString() !== guest._id.toString());
         }
+
     }
     
 
-    if (table.users.length === 0) {
+    if (table.users.length === 0 && table.guests.length === 0) {
 
         await table.remove()
+
+        return res.json(table)
+
     }
 
     await table.save()
@@ -146,13 +152,13 @@ router.get('/', asyncHandler( async(req, res, next) => {
 }));
 
 //route GET    api/tables/:id
-//description  get table by name
+//description  get table by id
 //access       private
-router.get('/:name', asyncHandler( async(req, res, next) => {
+router.get('/:id', asyncHandler( async(req, res, next) => {
 
-    let table = await Table.findOne({ name: req.params.name }).populate({ path: 'users = user', model: 'User' }).populate({ path: 'guests = guest', model: 'Guest' }).populate({ path: 'games = game', model: 'Game' })
+    let table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' }).populate({ path: 'guests = guest', model: 'Guest' }).populate({ path: 'games = game', model: 'Game' })
     
-    console.log(table)
+    
     if (!table) {
         return next(new ErrorResponse('Table does not exist', 404))
     }
@@ -165,10 +171,30 @@ router.get('/:name', asyncHandler( async(req, res, next) => {
 //route DELETE api/tables/:id
 //description  delete table
 //access       private
-router.delete('/:id', asyncHandler( async(req, res, next) => {
+router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
 
 
-    const table = await Table.findById(req.params.id)
+    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' }).populate({ path: 'guests = guest', path: 'Guest' })
+
+    if (req.user) {
+        const isMatch = await table.users.filter(element => element._id.toString() === req.user.id);
+        if (!isMatch[0]) {
+            return next(new ErrorResponse('User not authorised', 401))
+        }
+
+    } else {
+
+        const guest = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
+
+        if (!guest) {
+            return next(new ErrorResponse('User not authorised', 401))
+        }
+
+        const isMatch = await table.guests.filter(element => element._id.toString() === guest._id.toString());
+        if (!isMatch[0]) {
+            return next(new ErrorResponse('User not authorised', 401))
+        }
+    }
     
     await table.remove()
 

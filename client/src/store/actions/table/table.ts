@@ -15,10 +15,10 @@ export const getTables = () => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const getTable = (name: string) => async(dispatch: Dispatch<any>) => {
+export const getTable = (id: string) => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.get(`/api/tables/${name}`)
+        const res = await axios.get(`/api/tables/${id}`)
 
         dispatch({ type: Get_Table, payload: res.data })
     } catch (err) {
@@ -27,12 +27,19 @@ export const getTable = (name: string) => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const createTable = () => async(dispatch: Dispatch<any>) => {
-
+export const createTable = (history: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
     try {
-        const res = await axios.post('/api/tables')
+        const res = await axios.post('/api/tables', { }, config)
 
         dispatch({ type: Create_Table, payload: res.data })
+
+        dispatch(history.push(`/tables/${res.data._id}`))
+
     } catch (err) {
         dispatch({ type: Table_Error })
     }
@@ -51,7 +58,7 @@ export const joinToTable = (id: string) => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const leaveFromTable = (id: string) => async(dispatch: Dispatch<any>) => {
+export const leaveFromTable = (id: string, history: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -61,18 +68,22 @@ export const leaveFromTable = (id: string) => async(dispatch: Dispatch<any>) => 
         const res = await axios.put(`/api/tables/${id}`, { leave: true }, config);
 
         dispatch({ type: Leave_From_Table, payload: res.data })
+        dispatch(getTables())
+        dispatch(history.push('/'))
+
     } catch (err) {
         dispatch({ type: Table_Error })
     }
     
 }
 
-export const deleteTable = (id: string) => async(dispatch: Dispatch<any>) => {
+export const deleteTable = (id: string, history: any) => async(dispatch: Dispatch<any>) => {
 
     try {
         const res = await axios.delete(`/api/tables/${id}`);
 
         dispatch({ type: Delete_Table, payload: { id, table: res.data } })
+        dispatch(history.push('/'))
     
     } catch (err) {
         dispatch({ type: Table_Error })

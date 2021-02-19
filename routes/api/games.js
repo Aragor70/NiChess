@@ -39,7 +39,9 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     if (!opponentid || !tableid) {
         return next(new ErrorResponse('Table does not exist', 422));
     }
-    
+    if (opponentid === req.user.id) {
+        return next(new ErrorResponse('You cannot fight with yourself', 422));
+    }
 
     let user;
 
@@ -75,6 +77,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     })
     await game.save();
 
+    console.log(game)
     
     table.games = [ ...table.games, game]
 
@@ -115,18 +118,16 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
         // check the movement
         const isCorrect = await isCorrectMove(req.body.selected, req.body.next, game.board, user)
-        //console.log(isCorrect)
+        
         if (!isCorrect) {
             return next(new ErrorResponse('Move not correct', 422));
         }
-        //console.log(req.body.selected)
 
         game.board[req.body.next.position.x] = await { position: { y: game.board[req.body.next.position.x].position.y, x: game.board[req.body.next.position.x].position.x }, color: game.board[req.body.next.position.x].color, player: req.body.selected.player, type: req.body.selected.type }
         
         game.board[req.body.selected.position.x] = await { position: { y: game.board[req.body.selected.position.x].position.y, x: game.board[req.body.selected.position.x].position.x }, color: game.board[req.body.selected.position.x].color, player: null, type: null }
         
 
-        console.log(game.board)
     }
 
     await game.save()

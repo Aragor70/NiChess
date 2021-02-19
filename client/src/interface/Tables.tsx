@@ -26,7 +26,7 @@ const Tables = ({ table, getTables, history }: any) => {
             <p>Tables</p>
 
             {
-                table.tables.map((element: any) => <p onClick={e=> history.push(`/tables/${element.name}`)}>{element.name}</p>)
+                table.tables.map((element: any) => <p onClick={e=> history.push(`/tables/${element._id}`)}>{element.name}</p>)
             }
 
             

@@ -22,7 +22,7 @@ const Board = ({ board, initBoard, table, match, getGame }: any) => {
     
     const [moved, setMoved] = useState(false)
 
-    console.log(board.fields)
+    //console.log(board.fields)
     return (
         <Fragment>
             
