@@ -321,9 +321,9 @@ export const setMove = (selected: any, next: any, id: string) => async(dispatch:
 
         const res = await axios.put(`/api/games/${id}`, { selected, next }, config)
         
-        dispatch({ type: Set_Move, payload: { selected, next } })
+        dispatch({ type: Set_Move, payload: res.data })
         dispatch(getGame(id))
-
+        return true
     } catch (err) {
         return false
     }

@@ -5,7 +5,7 @@ import { Get_Game, Init_Board } from './types';
 
 
 
-export const initBoard = (opponentid: string, table: any) => async(dispatch: Dispatch<any>) =>{
+export const initBoard = (players: any[], table: any) => async(dispatch: Dispatch<any>) =>{
 
     const { _id } = table
     const config = {
@@ -13,11 +13,16 @@ export const initBoard = (opponentid: string, table: any) => async(dispatch: Dis
             "Content-Type": "application/json"
         }
     }
-
-    const res = await axios.post('/api/games', { opponentid, tableid: _id }, config )
+    try {
+        const res = await axios.post('/api/games', { players, tableid: _id }, config )
     
-    dispatch({ type: Init_Board, payload: res.data.board })
-    dispatch(getTable(_id))
+        dispatch({ type: Init_Board, payload: res.data.board })
+        dispatch(getTable(_id))
+    } catch (err) {
+        console.log(err)
+    }
+
+    
 
 }
 

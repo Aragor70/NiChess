@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Dispatch } from "redux";
-import { Create_Table, Join_To_Table, Leave_From_Table, Delete_Table, Table_Error, Get_Tables, Get_Table } from "./types";
+import { Create_Table, Join_To_Table, Leave_From_Table, Delete_Table, Table_Error, Get_Tables, Get_Table, Set_Player } from "./types";
 
 
 export const getTables = () => async(dispatch: Dispatch<any>) => {
@@ -27,14 +27,14 @@ export const getTable = (id: string) => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const createTable = (history: any) => async(dispatch: Dispatch<any>) => {
+export const createTable = (formData: any, history: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
     try {
-        const res = await axios.post('/api/tables', { }, config)
+        const res = await axios.post('/api/tables', formData, config)
 
         dispatch({ type: Create_Table, payload: res.data })
 
@@ -53,6 +53,23 @@ export const joinToTable = (id: string, history: any) => async(dispatch: Dispatc
 
         dispatch({ type: Join_To_Table, payload: res.data })
         dispatch(history.push(`/tables/${id}`))
+
+    } catch (err) {
+        dispatch({ type: Table_Error })
+    }
+    
+}
+
+export const setPlayer = (id: string, player: number) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    try {
+        const res = await axios.put(`/api/tables/${id}`, { player }, config);
+
+        dispatch({ type: Set_Player, payload: res.data })
 
     } catch (err) {
         dispatch({ type: Table_Error })

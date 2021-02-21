@@ -7,17 +7,23 @@ const UserSchema = new mongoose.Schema({
         type: String,
         minLength: 2,
         maxLength: 22,
-        unique: true
+        default: 'anonymous'
     },
     email: {
         type: String,
-        unique: true,
-        required: true
+        unique: true
     },
     avatar: {
         type: String
     },
     password: {
+        type: String
+    },
+    role: {
+        type: String,
+        default: 'User'
+    },
+    ip: {
         type: String
     },
     date: {

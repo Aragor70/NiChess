@@ -8,7 +8,7 @@ const isCorrectMove = (selected, next, fields, user, player) => {
             if ( selected.type === 'Pawn' ) {
 
                 const diff = selected.position.x - next.position.x
-
+                console.log(diff)
 
                 if (selected.position.y === 6 && diff === 16) {
 
@@ -22,6 +22,17 @@ const isCorrectMove = (selected, next, fields, user, player) => {
 
                     return true
                 }
+
+
+                if (diff === 9 && fields[selected.position.x - 9].player !== uid) {
+
+                    return true
+                }
+                if (diff === 7 && fields[selected.position.x - 7].player !== uid) {
+
+                    return true
+                }
+                
 
                 if ( diff !== 8) {
                     throw new Error()
@@ -51,6 +62,15 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                         return false
                     }
 
+
+                    return true
+                }
+
+                if (diff === -9 && fields[selected.position.x + 9].player !== uid) {
+
+                    return true
+                }
+                if (diff === -7 && fields[selected.position.x + 7].player !== uid) {
 
                     return true
                 }

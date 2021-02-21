@@ -7,7 +7,8 @@ const initialState = {
         name: "",
         email: "",
         password: "",
-        avatar: ""
+        avatar: "",
+        ip: ""
     },
     isAuthenticated: false,
     token: localStorage.getItem('token'),

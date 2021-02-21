@@ -6,14 +6,14 @@ const TableSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    guests: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Guest'
-    }],
     name: {
         type: String,
         default: "Table"
     },
+    players: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     games: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Game'

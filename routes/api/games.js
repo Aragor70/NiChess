@@ -2,7 +2,6 @@ const express = require('express');
 const asyncHandler = require('../../middlewares/async');
 const auth = require('../../middlewares/auth');
 const Game = require('../../models/Game');
-const Guest = require('../../models/Guest');
 const Table = require('../../models/Table');
 const User = require('../../models/User');
 const ErrorResponse = require('../../utils/ErrorResponse');
@@ -34,26 +33,25 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.post('/', auth, asyncHandler( async(req, res, next) => {
 
-    const { opponentid, tableid } = req.body;
+    const { players, tableid } = req.body;
 
-    if (!opponentid || !tableid) {
+    if (!players || !tableid) {
         return next(new ErrorResponse('Table does not exist', 422));
     }
-    if (opponentid === req.user.id) {
-        return next(new ErrorResponse('You cannot fight with yourself', 422));
-    }
+    
 
     let user;
 
     if (req.user) {
         user = await User.findById(req.user.id)
-    } else {
-        user = await Guest.findOne({ ip: req.headers['x-forwarded-for']})
     }
-    let opponent = await User.findById(opponentid)
-    if (!opponent) {
-        opponent = await Guest.findById(opponentid)
+    if (players[0] === players[1]) {
+        return next(new ErrorResponse('You cannot fight with yourself', 422));
     }
+    let opponentid = players.filter(element => element.toString() !== user._id)
+
+    let opponent = await User.findById(opponentid[0])
+
 
     if (!opponent) {
         return next(new ErrorResponse('Opponent not found', 422));
@@ -69,10 +67,10 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     }
 
 
-    const board = await initBoard(user, opponent)
+    const board = await initBoard(players[0], players[1])
 
     const game = new Game({
-        players: [user, opponent],
+        players: players,
         board
     })
     await game.save();
@@ -95,9 +93,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     let user;
     if (req.user) {
         user = await User.findById(req.user.id)
-    } else {
-        user = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
-    }
+    } 
 
     if (!user) {
         return next(new ErrorResponse('User not authorized', 401)); 
@@ -113,23 +109,41 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     }
 
     if (req.body.selected && req.body.next) {
-        const player = game.players.indexOf(req.user.id) + 1
-        // check the movement
-        const isCorrect = await isCorrectMove(req.body.selected, req.body.next, game.board, user, player)
+
+        players = req.body.players // [ white, black ]
         
+        const selectedField = game.board[req.body.selected.position.x]
+        const nextField = game.board[req.body.next.position.x]
+        
+        
+        if (JSON.stringify(selectedField) !== JSON.stringify(req.body.selected) || JSON.stringify(nextField) !== JSON.stringify(req.body.next)) {
+            
+            return next(new ErrorResponse('Please refresh the page', 422)); 
+        }
+
+        if (game.finished) {
+            return next(new ErrorResponse('The game is finished', 422)); 
+        }
+
+        const player = game.players.indexOf(user._id) + 1
+        
+        const isCorrect = await isCorrectMove(selectedField, nextField, game.board, user, player)
         if (!isCorrect) {
             return next(new ErrorResponse('Move not correct', 422));
         }
 
-        game.board[req.body.next.position.x] = await { position: { y: game.board[req.body.next.position.x].position.y, x: game.board[req.body.next.position.x].position.x }, color: game.board[req.body.next.position.x].color, player: req.body.selected.player, type: req.body.selected.type }
+        game.board[req.body.next.position.x] = await { position: { y: nextField.position.y, x: nextField.position.x }, color: nextField.color, player: selectedField.player, type: selectedField.type }
         
-        game.board[req.body.selected.position.x] = await { position: { y: game.board[req.body.selected.position.x].position.y, x: game.board[req.body.selected.position.x].position.x }, color: game.board[req.body.selected.position.x].color, player: null, type: null }
+        game.board[req.body.selected.position.x] = await { position: { y: selectedField.position.y, x: selectedField.position.x }, color: selectedField.color, player: null, type: null }
 
-        if (req.body.next.type === 'King') {
+        /* if (req.body.next.type === 'King') {
             game.scoreA += 1
             game.finished = true
-        }
+        } */
 
+        await game.save()
+
+        return res.json({ selected: selectedField, next: nextField })
 
     }
 

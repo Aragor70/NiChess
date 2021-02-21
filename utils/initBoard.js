@@ -2,8 +2,8 @@
 
 const initBoard = (user, opponent) =>{
 
-    const uid = user._id;
-    const oid = opponent._id
+    const uid = user;
+    const oid = opponent
 
 
     let fields = new Array(64).fill(0)

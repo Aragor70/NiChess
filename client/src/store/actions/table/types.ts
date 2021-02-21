@@ -5,3 +5,4 @@ export const Delete_Table = "Delete_Table";
 export const Table_Error = "Table_Error";
 export const Get_Tables = "Get_Tables";
 export const Get_Table = "Get_Table";
+export const Set_Player = "Set_Player";

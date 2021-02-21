@@ -5,9 +5,6 @@ const GameSchema = new mongoose.Schema({
     players: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }, {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Guest'
     }],
     number: {
         type: Number,

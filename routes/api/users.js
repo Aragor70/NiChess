@@ -7,7 +7,6 @@ const gravatar = require('gravatar');
 const sign_in = require('../../utils/sign_in');
 const ErrorResponse = require('../../utils/ErrorResponse');
 const bcrypt = require('bcryptjs');
-const Guest = require('../../models/Guest');
 
 
 //route POST   api/users
@@ -58,10 +57,10 @@ router.post('/', asyncHandler( async(req, res, next) => {
 //access       public
 router.post('/guests', asyncHandler( async(req, res, next) => {
 
-    let guest = await Guest.findOne({ ip: req.headers['x-forwarded-for'] })
+    let guest = await User.findOne({ ip: req.headers['x-forwarded-for'] })
     
     if (!guest) {
-        guest = new Guest({
+        guest = new User({
             ip: req.headers['x-forwarded-for']
         })
 
