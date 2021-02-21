@@ -18,7 +18,7 @@ const Board = ({ board, initBoard, table, match, getGame }: any) => {
             getGame(match.params.gameid)
         }
     }, [getGame])
-
+    
     
     const [moved, setMoved] = useState(false)
 
@@ -26,6 +26,8 @@ const Board = ({ board, initBoard, table, match, getGame }: any) => {
         <Fragment>
             
             <div className="fields">
+                <button>draw</button>
+                <button>surrender</button>
                 {
                     board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} />)
                 }

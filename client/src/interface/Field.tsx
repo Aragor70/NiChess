@@ -9,6 +9,8 @@ import Pawn from './soldiers/Pawn';
 import Queen from './soldiers/Queen';
 import Rook from './soldiers/Rook';
 
+import { isPotentialMove } from '../utils/isPotentialMove'
+
 
 
 
@@ -78,7 +80,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
     
     const { position, color, player, type } = field
 
-    
 
     return (
         <Fragment>
@@ -93,6 +94,9 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 { type === 'Queen' && <Queen position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
                 { type === 'King' && <King position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
 
+                {
+                    selectedData && isPotentialMove(selectedData, field, auth.user._id, board.game.players) ? "x" : null
+                }
             </div>
         </Fragment>
     );

@@ -71,7 +71,8 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 
     const game = new Game({
         players: players,
-        board
+        board,
+        score: [0, 0]
     })
     await game.save();
     
@@ -90,10 +91,8 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
     const { started } = req.body;
 
-    let user;
-    if (req.user) {
-        user = await User.findById(req.user.id)
-    } 
+    
+    const user = await User.findById(req.user.id)
 
     if (!user) {
         return next(new ErrorResponse('User not authorized', 401)); 
@@ -107,11 +106,21 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (started) {
         game.started = true
     }
+    if (req.body.surrender) {
+        const player = game.players.indexOf(user._id) + 1
+        player === 1 ? game.score[0] += 1 : game.score[1] += 1
+        
+        game.finished = true
+    }
+    if (req.body.draw) {
+        game.score[0] += 0.5;
+        game.score[1] += 0.5;
+        
+        game.finished = true
+    }
 
     if (req.body.selected && req.body.next) {
 
-        players = req.body.players // [ white, black ]
-        
         const selectedField = game.board[req.body.selected.position.x]
         const nextField = game.board[req.body.next.position.x]
         
@@ -136,10 +145,10 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         
         game.board[req.body.selected.position.x] = await { position: { y: selectedField.position.y, x: selectedField.position.x }, color: selectedField.color, player: null, type: null }
 
-        /* if (req.body.next.type === 'King') {
-            game.scoreA += 1
+        if (req.body.next.type === 'King') {
+            game.score[player - 1] += 1
             game.finished = true
-        } */
+        }
 
         await game.save()
 

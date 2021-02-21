@@ -19,7 +19,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
     }
     
     return () => {
-      loadUser()
+      setAuthToken(localStorage.token)
     }
   }, [loadUser, localStorage.token])
 

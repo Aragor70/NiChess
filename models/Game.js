@@ -10,14 +10,10 @@ const GameSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    scoreA: {
+    score: [{
         type: Number,
         default: 0
-    },
-    scoreB: {
-        type: Number,
-        default: 0
-    },
+    }],
     board: [{
         position: {
             y: {

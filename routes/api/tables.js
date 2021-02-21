@@ -15,26 +15,24 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     
     const { name } = req.body;
 
-    let user;
 
-    if (!req.user && !name) {
-        return next(new ErrorResponse('Please enter room name', 422))
-    }
-
-    if (req.user) {
-        user = await User.findById(req.user.id).select('-password')
-
-    }
+    const user = await User.findById(req.user.id).select('-password')
 
     if (!user) {
         return next(new ErrorResponse('User not authorized', 401))
     }
+
+    if (user.role === "Guest" && !name) {
+        return next(new ErrorResponse('Please enter name', 422))
+    }
+
+    
     let nameUpperCase;
     if (name) {
         nameUpperCase = name.charAt(0).toUpperCase() + name.slice(1);
 
         const isMatch = await User.findOne({ name: nameUpperCase })
-        if (isMatch) {
+        if (isMatch && isMatch._id !== user._id) {
             return next(new ErrorResponse('User not authorized', 401))
         }
 
@@ -58,7 +56,6 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 
-    let user;
 
     const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User'}).populate({ path: 'games = game', model: 'Game'})
     
@@ -66,21 +63,17 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('Table not found', 404))
     }
 
-    if (req.user) {
-        user = await User.findById(req.user.id).select('-password')
+    const user = await User.findById(req.user.id).select('-password')
 
-        const isMatch = table.users.filter(element => element._id.toString() === req.user.id)
-        if (isMatch[0]) {
-            
-            return res.json(table)
-        }
-
+    const isMatch = await table.users.filter(element => element ? element._id.toString() === req.user.id : false)
+    if (isMatch[0]) {
+        
+        return res.json(table)
     }
+
     if (!user) {
         return next(new ErrorResponse('User not found', 404))
     }
-
-    
 
     if (user) {
         table.users = [ ...table.users, user ]
@@ -94,33 +87,52 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 }));
 
 //route PUT    api/tables/:id
-//description  leave from the table
+//description  edit the table
 //access       private
 router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
     const { leave, player } = req.body;
 
     const user = await User.findById(req.user.id).select('-password')
+    if (!user) {
+        return next(new ErrorResponse('User not authorised', 401))
+    }
 
-    const table = await Table.findById(req.params.id);
+    const table = await Table.findById(req.params.id)
     
     
     if ( player ) {
         
-        table.players = await table.players.filter(element => element.toString() !== user._id)
-        table.players[player - 1] = req.user.id
+        const isStarted = await table.games.filter(element => element.started)
+        if (isStarted[0]) {
+            return next(new ErrorResponse('The game has already started', 422))
+        }
 
+        table.players = await table.players.filter(element => element ? element.toString() !== user._id.toString() : false)
+        
+        if (table.players[player - 1] = user._id) {
+            table.markModified('players');
+            await table.save()
+        
+            return res.json(table.players)
+        } else {
+            table.players[player - 1] = user._id
+            table.markModified('players');
+        }
+
+        
         await table.save()
-
+        
         return res.json(table.players)
         
     }
 
     if ( leave ) {
         table.users = await table.users.filter(element => element._id.toString() !== user._id.toString());
-        table.players = await table.players.filter(element => element._id.toString() !== user._id.toString());
         
 
+        table.players = await table.players.filter(element => element ? element.toString() !== user._id.toString() : false);
+        
     }
     
 
@@ -176,7 +188,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' })
 
     
-    const isMatch = await table.users.filter(element => element._id.toString() === req.user.id);
+    const isMatch = await table.users.filter(element => element ? element._id.toString() === req.user.id : false);
     if (!isMatch[0]) {
         return next(new ErrorResponse('User not authorised', 401))
     }

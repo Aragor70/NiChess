@@ -34,16 +34,16 @@ const tableReducer = (state: any = initialState, action: any) => {
             return { ...state, tables: [...state.tables, payload], table: payload, loading: false }
 
         case Leave_From_Table:
-            return { ...state, table: null, loading: false }
+            return { ...state, table: initialState.table, loading: false }
 
         case Join_To_Table:
             return { ...state, table: payload, loading: false }
 
         case Delete_Table:
-            return { ...state, tables: state.tables.filter((element: any) => element._id !== payload.id), table: null, loading: false }
+            return { ...state, tables: state.tables.filter((element: any) => element._id !== payload.id), table: initialState.table, loading: false }
 
         case Table_Error: 
-            return { ...state, table: null, loading: false }
+            return { ...state, table: initialState.table, loading: false }
 
         default:
             return state;

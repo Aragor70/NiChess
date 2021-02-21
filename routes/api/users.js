@@ -61,7 +61,8 @@ router.post('/guests', asyncHandler( async(req, res, next) => {
     
     if (!guest) {
         guest = new User({
-            ip: req.headers['x-forwarded-for']
+            ip: req.headers['x-forwarded-for'],
+            role: 'Guest'
         })
 
         await guest.save()
