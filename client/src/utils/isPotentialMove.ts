@@ -1,4 +1,4 @@
-export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[] ) => {
+export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[] ) => {
 
     const { position, type, player } = selectedData;
     
@@ -10,12 +10,19 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         
         if ( type === 'Pawn' ) {
 
-            
-            if (position.y === 6) {
+            const diff = position.x - field.position.x
 
-                
+            if (position.y === 6 && diff === 16) {
+
+                if (fields[position.x - 8].player) {
+
+                        console.log('collision')
+                        return false
+                    }
+
                 if (field.position.x - position.x === -8 || field.position.x - position.x === -16) {
 
+                    
                     console.log('x')
                     return true
                 }
@@ -35,12 +42,19 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
         if ( type === 'Pawn' ) {
 
+            const diff = position.x - field.position.x
 
-            if (position.y === 1) {
+            if (position.y === 1 && diff === -16) {
 
+                if (fields[position.x + 8].player) {
+
+                        console.log('collision')
+                        return false
+                    }
 
                 if (field.position.x - position.x === 8 || field.position.x - position.x === 16) {
 
+                    
                     console.log('x')
                     return true
                 }
@@ -60,14 +74,53 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
     if ( type === 'Rook' ) {
 
         const diff = Math.abs(field.position.x - position.x)
+        for (let i = 0; i < diff; i++) {
+            if (i % 8 == 0 ) {
+
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                    
+                }
+
+                if (position.x < field.position.x) {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                    
+                }
+
+                
+                
+            }
+            if (position.y === field.position.y) {
+                
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        return false
+                    }
+
+                } else {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+                        
+            }
+        }
+
         
-        if (diff % 8 == 0) {
+        if (diff % 8 === 0 ) {
             return true
         }
         if (field.position.y === position.y) {
             return true
         }
-
         
             
     }
@@ -91,7 +144,40 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
         const diff = Math.abs(field.position.x - position.x)
 
-        
+        for (let i = 0; i < diff; i++) {
+
+            if (diff % 9 === 0 && i % 9 == 0) {
+
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+                if (position.x < field.position.x) {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+            }
+            if (diff % 7 === 0 && i % 7 == 0) {
+
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+                if (position.x < field.position.x) {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+            }
+
+        }
         if (diff % 9 == 0 || diff % 7 == 0) {
             return true
         }
@@ -104,7 +190,64 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
         const diff = Math.abs(field.position.x - position.x)
         
-        
+        for (let i = 0; i < diff; i++) {
+            if (position.x > field.position.x) {
+                if (diff % 9 === 0 && i % 9 == 0) {
+
+                    if (fields[field.position.x + i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+                if (diff % 7 === 0 && i % 7 === 0) {
+
+                    if (fields[field.position.x + i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+                if (diff % 8 === 0 && i % 8 === 0) {
+
+                    if (fields[field.position.x + i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+
+
+            }
+
+
+            if (position.x < field.position.x) {
+                if (diff % 9 === 0 && i % 9 == 0) {
+                    
+                    if (fields[field.position.x - i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+                if (diff % 7 === 0 && i % 7 === 0) {
+
+                    if (fields[field.position.x - i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+                if (diff % 8 === 0 && i % 8 === 0) {
+
+                    if (fields[field.position.x - i].player && i > 0) {
+                        console.log('collision')
+                        return false
+                    }
+
+                }
+            }
+        }
         
         if (diff % 9 == 0 || diff % 7 == 0 || field.position.y == position.y || diff % 8 == 0) {
             return true

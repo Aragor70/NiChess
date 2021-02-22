@@ -95,7 +95,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 { type === 'King' && <King position={position} player={player} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} /> }
 
                 {
-                    selectedData && isPotentialMove(selectedData, field, auth.user._id, board.game.players) ? "x" : null
+                    selectedData && isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board) ? "x" : null
                 }
             </div>
         </Fragment>
