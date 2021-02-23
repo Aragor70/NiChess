@@ -31,9 +31,21 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
             if (field.position.x - position.x === -8) {
 
+                
                 console.log('x')
                 return true
             }
+            if (diff === 9 && fields[position.x - 9].player) {
+                if (fields[position.x - 9].player !== uid) {
+                    return true
+                }
+            }
+            if (diff === 7 && fields[position.x - 7].player) {
+                if (fields[position.x - 7].player !== uid) {
+                    return true
+                }
+            }
+            
             return false
         }
     }
@@ -60,7 +72,16 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                 }
 
             }
-
+            if (diff === -9 && fields[position.x + 9].player) {
+                if (fields[position.x + 9].player !== uid) {
+                    return true
+                }
+            }
+            if (diff === -7 && fields[position.x + 7].player) {
+                if (fields[position.x + 7].player !== uid) {
+                    return true
+                }
+            }
             if (field.position.x - position.x === 8) {
 
                 console.log('x')

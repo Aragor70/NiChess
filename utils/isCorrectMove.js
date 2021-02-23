@@ -24,13 +24,15 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                 }
 
 
-                if (diff === 9 && fields[selected.position.x - 9].player !== uid) {
-
-                    return true
+                if (diff === 9 && fields[selected.position.x - 9].player) {
+                    if (fields[selected.position.x - 9].player !== uid) {
+                        return true
+                    }
                 }
-                if (diff === 7 && fields[selected.position.x - 7].player !== uid) {
-
-                    return true
+                if (diff === 7 && fields[selected.position.x - 7].player) {
+                    if (fields[selected.position.x - 7].player !== uid) {
+                        return true
+                    }
                 }
                 
 
@@ -66,13 +68,15 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                     return true
                 }
 
-                if (diff === -9 && fields[selected.position.x + 9].player !== uid) {
-
-                    return true
+                if (diff === -9 && fields[selected.position.x + 9].player) {
+                    if (fields[selected.position.x + 9].player !== uid) {
+                        return true
+                    }
                 }
                 if (diff === -7 && fields[selected.position.x + 7].player !== uid) {
-
-                    return true
+                    if (fields[selected.position.x + 7].player !== uid) {
+                        return true
+                    }
                 }
 
                 if ( diff !== -8) {
