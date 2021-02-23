@@ -14,7 +14,7 @@ import { isPotentialMove } from '../utils/isPotentialMove'
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket }: any) => {
 
 
     const handleClick = (field: any) => {
@@ -24,7 +24,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
         if (selectedData !== null && field.player !== auth.user._id) {
             
 
-            setMove(selectedData, field, board.game._id)
+            setMove(selectedData, field, board.game._id, socket)
             return setSelectedData(null)
         }
 
@@ -39,7 +39,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    return setMove(selectedData, field, board.game._id)
+                    return setMove(selectedData, field, board.game._id, socket)
                 }
 
 
@@ -51,7 +51,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 
 
                 // set move
-                setMove(selectedData, field, board.game._id)
+                setMove(selectedData, field, board.game._id, socket)
                 
             } else {
 

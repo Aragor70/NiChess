@@ -18,14 +18,27 @@ let clients = [];
 
 io.on('connection', (socket) => {
 
-    socket.on('join', () => {
+    socket.on('join', ({ uid, tableId }) => {
 
         socket.join()
-            console.log('joined')
+        
+        clients = [...clients, { uid, socketId: socket.id, table: tableId }]
+        
+        console.log('joined', uid)
+
+
+        socket.on('movement', (welcome) => {
+            if (welcome) {
+                socket.broadcast.emit('movement', ('hi'))
+
+            }
+        })
 
         socket.on('disconnect', () => {
             console.log('logged out')
-            
+            console.log(clients)
+            clients = clients.filter(user => user.socketId !== socket.id)
+            console.log(clients)
         });
     })
 

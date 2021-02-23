@@ -19,9 +19,10 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
 
         connection = setInterval(() => console.log('I am running'), 10000)
 
-        socket.emit('join', {}, () => {
+        socket.emit('join', { uid: auth.user._id, tableId: match.params.id }, () => {
             console.log('Socket client logged in')
         })
+
 
         return () => {
             getTable(match.params.id)
@@ -36,6 +37,8 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
         }
     }, [getTable, match.params.id])
 
+
+    
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -72,7 +75,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                 </Route>
                 <Route exact path={`/tables/:id/games/:gameid`} >
                     {
-                        table.table && <Board table={table} />
+                        table.table && <Board table={table} socket={socket} />
                     }
                     
                 </Route>

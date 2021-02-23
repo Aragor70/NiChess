@@ -311,7 +311,7 @@ export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
 
 }
 
-export const setMove = (selected: any, next: any, id: string) => async(dispatch: Dispatch<any>) => {
+export const setMove = (selected: any, next: any, id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -323,6 +323,9 @@ export const setMove = (selected: any, next: any, id: string) => async(dispatch:
         
         dispatch({ type: Set_Move, payload: res.data })
         dispatch(getGame(id))
+
+        socket.emit('movement', ('hi'))
+
         return true
     } catch (err) {
         return false

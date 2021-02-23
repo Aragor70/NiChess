@@ -6,7 +6,7 @@ import Field from './Field';
 
 
 
-const Board = ({ board, initBoard, table, match, getGame }: any) => {
+const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
 
 
     const [selectedData, setSelectedData] = useState<any>(null)
@@ -19,6 +19,17 @@ const Board = ({ board, initBoard, table, match, getGame }: any) => {
         }
     }, [getGame])
     
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('movement', (msg: any) => {
+
+                getGame(match.params.gameid)
+                console.log('reload now')
+            })
+            
+        }
+    }, [socket])
     
     const [moved, setMoved] = useState(false)
 
@@ -29,7 +40,7 @@ const Board = ({ board, initBoard, table, match, getGame }: any) => {
                 <button>draw</button>
                 <button>surrender</button>
                 {
-                    board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} />)
+                    board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} socket={socket} />)
                 }
                 
             </div>
