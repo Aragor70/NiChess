@@ -4,18 +4,35 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { initBoard } from '../store/actions/board/board';
 import { setPlayer, deleteTable, getTable, leaveFromTable } from '../store/actions/table/table';
 import Board from './Board';
+import io from 'socket.io-client';
 
 
-
+let socket: any;
 const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveFromTable, auth, setPlayer }: any) => {
+
+    let connection: any
 
     useEffect(() => {
         getTable(match.params.id)
+
+        socket = io("http://localhost:3000")
+
+        connection = setInterval(() => console.log('I am running'), 10000)
+
+        socket.emit('join', {}, () => {
+            console.log('Socket client logged in')
+        })
+
         return () => {
             getTable(match.params.id)
             
             leaveFromTable(match.params.id, history)
             
+            socket.disconnect()
+            socket.off()
+            clearInterval(connection)
+
+            console.log('disconnected now')
         }
     }, [getTable, match.params.id])
 
