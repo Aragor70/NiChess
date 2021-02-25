@@ -1,8 +1,8 @@
-export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[] ) => {
+export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[], setOpponentField: any ) => {
 
     const { position, type, player } = selectedData;
     
-    if (field.player) {
+    if (field.player == uid) {
         return false
     }
 
@@ -31,6 +31,9 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
             if (field.position.x - position.x === -8) {
 
+                if (field.player) {
+                    return false
+                }
                 
                 console.log('x')
                 return true
@@ -61,6 +64,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                 if (fields[position.x + 8].player) {
 
                         console.log('collision')
+                        
                         return false
                     }
 
@@ -84,6 +88,9 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             }
             if (field.position.x - position.x === 8) {
 
+                if (field.player) {
+                        return false
+                    }
                 console.log('x')
                 return true
             }
@@ -164,16 +171,36 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
     if ( type === 'Bishop' ) {
 
         const diff = Math.abs(field.position.x - position.x)
-
+        
         for (let i = 0; i < diff; i++) {
 
-            if (diff % 9 === 0 && i % 9 == 0) {
-
+            if (diff % 9 === 0 && i % 9 === 0) {
+                
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        console.log('hi')
+                        return false
+                    }
+                }
+                if (position.x < field.position.x) {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        console.log('hi')
+                        return false
+                    }
+                }
+                
+                
+            }
+            if (diff % 7 === 0 && i % 7 === 0) {
+                
                 if (position.x > field.position.x) {
                     if (fields[field.position.x + i].player) {
                         console.log('collision')
                         return false
                     }
+
                 }
                 if (position.x < field.position.x) {
                     if (fields[field.position.x - i].player) {
@@ -181,31 +208,26 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                         return false
                     }
                 }
+                
+                    
             }
-            if (diff % 7 === 0 && i % 7 == 0) {
 
-                if (position.x > field.position.x) {
-                    if (fields[field.position.x + i].player) {
-                        console.log('collision')
-                        return false
-                    }
-                }
-                if (position.x < field.position.x) {
-                    if (fields[field.position.x - i].player) {
-                        console.log('collision')
-                        return false
-                    }
-                }
+            if (field.color !== selectedData.color) {
+                return false
+            }
+
+            if ((diff % 9 === 0 || diff % 7 === 0)) {
+
+                
+                return true
             }
 
         }
-        if (diff % 9 == 0 || diff % 7 == 0) {
-            return true
-        }
-
+        
+        
+        
         
     }
-
 
     if ( type === 'Queen' ) {
 
@@ -215,23 +237,30 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             if (position.x > field.position.x) {
                 if (diff % 9 === 0 && i % 9 == 0) {
 
-                    if (fields[field.position.x + i].player && i > 0) {
+                    if (fields[field.position.x + i].player) {
                         console.log('collision')
+                        return false
+                    }
+                    if (field.color !== selectedData.color) {
                         return false
                     }
 
                 }
                 if (diff % 7 === 0 && i % 7 === 0) {
 
-                    if (fields[field.position.x + i].player && i > 0) {
+                    if (fields[field.position.x + i].player) {
                         console.log('collision')
+                        return false
+                    }
+                    
+                    if (field.color !== selectedData.color && field.position.y !== position.y) {
                         return false
                     }
 
                 }
                 if (diff % 8 === 0 && i % 8 === 0) {
 
-                    if (fields[field.position.x + i].player && i > 0) {
+                    if (fields[field.position.x + i].player) {
                         console.log('collision')
                         return false
                     }
@@ -245,32 +274,57 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             if (position.x < field.position.x) {
                 if (diff % 9 === 0 && i % 9 == 0) {
                     
-                    if (fields[field.position.x - i].player && i > 0) {
+                    if (fields[field.position.x - i].player) {
                         console.log('collision')
+                        return false
+                    }
+                    if (field.color !== selectedData.color) {
                         return false
                     }
 
                 }
                 if (diff % 7 === 0 && i % 7 === 0) {
 
-                    if (fields[field.position.x - i].player && i > 0) {
+                    if (fields[field.position.x - i].player) {
                         console.log('collision')
+                        return false
+                    }
+                    
+                    if (field.color !== selectedData.color && field.position.y !== position.y) {
                         return false
                     }
 
                 }
                 if (diff % 8 === 0 && i % 8 === 0) {
 
-                    if (fields[field.position.x - i].player && i > 0) {
+                    if (fields[field.position.x - i].player) {
                         console.log('collision')
                         return false
                     }
 
                 }
             }
+
+            if (field.position.y == position.y) {
+
+                if (position.x > field.position.x) {
+                    if (fields[field.position.x + i].player) {
+                        console.log('collision')
+                        return false
+                    }
+
+                } else {
+                    if (fields[field.position.x - i].player) {
+                        console.log('collision')
+                        return false
+                    }
+                }
+
+            }
         }
         
         if (diff % 9 == 0 || diff % 7 == 0 || field.position.y == position.y || diff % 8 == 0) {
+
             return true
         }
 
