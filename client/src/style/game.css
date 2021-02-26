@@ -1,3 +1,10 @@
+.fields
+{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
 .game-options
 {
     width: 100%;
@@ -13,4 +20,25 @@
     padding-right: 15px;
     width: 95px;
     margin: 7.5px;
+}
+
+.play-next
+{
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(125,125,125, 0.7);
+    z-index: 2;
+    min-height: 64px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 28px;
+}
+.play-next > span
+{
+    padding: 7.5px;
+    cursor: pointer;
 }

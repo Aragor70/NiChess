@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 
-
+import pawn1 from "../../style/icons/pieces/pawn1.png"
+import pawn2 from "../../style/icons/pieces/pawn2.png"
 
 
 const Pawn = ({ game, field }: any) => {
@@ -11,7 +12,7 @@ const Pawn = ({ game, field }: any) => {
         <Fragment>
             
             {
-                field.player === game.players[0] ? <i className="fas fa-chess-pawn" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-pawn" style={{ color: 'darkblue' }}></i>
+                field.player === game.players[0] ? <img src={pawn1} /> : <img src={pawn2} />
             }
             
             

@@ -17,7 +17,7 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
         return () => {
             getGame(match.params.gameid)
         }
-    }, [getGame])
+    }, [getGame, match.params.gameid])
     
     
 
@@ -40,13 +40,20 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
     
     return (
         <Fragment>
-            <div className="game-options">
-                <button>draw</button>
-                <button>surrender</button>
-            </div>
+            
+            {
+                board.game && !board.game.finished && <Fragment>
+                    <div className="game-options">
+                        <button>draw</button>
+                        <button>surrender</button>
+                    </div>
+                </Fragment>
+            }
                 
             <div className="fields">
-                
+                {
+                    board.game && board.game.finished && <div className="play-next"><span onClick={e=> initBoard(board.game.players, table.table)}>play next</span></div>
+                }
                 {
                     board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} socket={socket} dangerous={dangerous} setDangerous={setDangerous} />)
                 }

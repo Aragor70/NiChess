@@ -1,18 +1,22 @@
 import React, { Fragment } from 'react';
 
 
+import bishop1 from "../../style/icons/pieces/bishop1.png"
+import bishop2 from "../../style/icons/pieces/bishop2.png"
+
+
 
 
 const Bishop = ({ game, field }: any) => {
 
-
+    
 
 
     return (   
         <Fragment>
 
             {
-                field.player === game.players[0] ? <i className="fas fa-chess-bishop" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-bishop" style={{ color: 'darkblue' }}></i>
+                field.player === game.players[0] ? <img src={bishop1} /> : <img src={bishop2} />
             }
             
         </Fragment>

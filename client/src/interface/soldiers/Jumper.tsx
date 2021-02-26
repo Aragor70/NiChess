@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 
 
-
+import jumper1 from "../../style/icons/pieces/jumper1.png"
+import jumper2 from "../../style/icons/pieces/jumper2.png"
 
 const Jumper = ({ game, field }: any) => {
 
@@ -12,7 +13,7 @@ const Jumper = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <i className="fas fa-chess-knight" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-knight" style={{ color: 'darkblue' }}></i>
+                field.player === game.players[0] ? <img src={jumper1} /> : <img src={jumper2} />
             }
             
         </Fragment>

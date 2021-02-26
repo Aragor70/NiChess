@@ -37,6 +37,7 @@ a, button
     
     font-weight: 400;
     overflow: hidden;
+    border-radius: 7.5px;
 }
 a:hover, button:hover
 {
@@ -98,7 +99,7 @@ hr
 
 .output
 {
-    height: calc(100vh - 12vh - 1px);
+    height: calc(100vh - 12vh - 24px);
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2;

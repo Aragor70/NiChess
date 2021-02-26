@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 
 
+import queen1 from "../../style/icons/pieces/queen1.png"
+import queen2 from "../../style/icons/pieces/queen2.png"
 
 const Queen = ({ game, field }: any) => {
 
@@ -12,7 +14,7 @@ const Queen = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <i className="fas fa-chess-queen" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-queen" style={{ color: 'darkblue' }}></i>
+                field.player === game.players[0] ? <img src={queen1} /> : <img src={queen2} />
             }
             
         </Fragment>
