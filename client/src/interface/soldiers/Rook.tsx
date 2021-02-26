@@ -3,14 +3,16 @@ import React, { Fragment, useEffect } from 'react';
 
 
 
-const Rook = ({  }: any) => {
+const Rook = ({ game, field }: any) => {
 
 
 
     return (
         <Fragment>
 
-            Rook
+            {
+                field.player === game.players[0] ? <i className="fas fa-chess-rook" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-rook" style={{ color: 'darkblue' }}></i>
+            }
             
         </Fragment>
     );

@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const Jumper = ({  }: any) => {
+const Jumper = ({ game, field }: any) => {
 
 
 
@@ -11,7 +11,9 @@ const Jumper = ({  }: any) => {
     return (   
         <Fragment>
 
-            Jumper
+            {
+                field.player === game.players[0] ? <i className="fas fa-chess-knight" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-knight" style={{ color: 'darkblue' }}></i>
+            }
             
         </Fragment>
     );

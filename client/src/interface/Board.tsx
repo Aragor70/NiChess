@@ -19,6 +19,7 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
         }
     }, [getGame])
     
+    
 
     useEffect(() => {
         if (socket) {
@@ -32,15 +33,22 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
     }, [socket])
     
     const [moved, setMoved] = useState(false)
+    const [dangerous, setDangerous] = useState<any[]>([])
 
+    
+    console.log(dangerous)
+    
     return (
         <Fragment>
-            
-            <div className="fields">
+            <div className="game-options">
                 <button>draw</button>
                 <button>surrender</button>
+            </div>
+                
+            <div className="fields">
+                
                 {
-                    board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} socket={socket} />)
+                    board.game && board.game.board.map((field: any, index: number) => <Field key={field._id} index={index} field={field} selectedData={selectedData} setSelectedData={setSelectedData} moved={moved} setMoved={setMoved} socket={socket} dangerous={dangerous} setDangerous={setDangerous} />)
                 }
                 
             </div>

@@ -14,7 +14,7 @@ import { isPotentialMove } from '../utils/isPotentialMove'
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket, dangerous, setDangerous }: any) => {
 
 
     const handleClick = (field: any) => {
@@ -54,7 +54,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 setMove(selectedData, field, board.game._id, socket)
                 
             } else {
-
+                
                 setSelectedData(field)
             
             }
@@ -92,32 +92,47 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 
             }
             
-            if (isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board, setOpponentField)) {
+            const value = isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board, setOpponentField)
+            
+            console.log(value.enemy)
+            
+            if (field.position.x === value.enemy) {
+                
+                
+                return {
+                    backgroundColor: 'red' 
+                }
+            }
+            
+            if (value.success) {
                 return {
                     backgroundColor: 'blue' 
                 }
             }
             
+            
             return { backgroundColor: color }
             
 
         } else {
+            
             return { backgroundColor: color }
         }
     }
+    
+
 
     return (
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
                 
-                <span>{position.y} / {position.x}</span>
-
-                { type === 'Pawn' && <Pawn  /> }
-                { type === 'Rook' && <Rook  /> }
-                { type === 'Jumper' && <Jumper  /> }
-                { type === 'Bishop' && <Bishop  /> }
-                { type === 'Queen' && <Queen  /> }
-                { type === 'King' && <King  /> }
+                
+                { type === 'Pawn' && <Pawn game={board.game} field={field} /> }
+                { type === 'Rook' && <Rook game={board.game} field={field} /> }
+                { type === 'Jumper' && <Jumper game={board.game} field={field} /> }
+                { type === 'Bishop' && <Bishop game={board.game} field={field} /> }
+                { type === 'Queen' && <Queen game={board.game} field={field} /> }
+                { type === 'King' && <King game={board.game} field={field} /> }
 
             </div>
         </Fragment>

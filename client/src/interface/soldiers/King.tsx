@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 
 
-const King = ({  }: any) => {
+const King = ({ game, field }: any) => {
 
 
 
@@ -11,7 +11,9 @@ const King = ({  }: any) => {
     return (   
         <Fragment>
 
-            King
+            {
+                field.player === game.players[0] ? <i className="fas fa-chess-king" style={{ color: 'lightblue' }}></i> : <i className="fas fa-chess-king" style={{ color: 'darkblue' }}></i>
+            }
             
         </Fragment>
     );

@@ -1,0 +1,16 @@
+.game-options
+{
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+}
+.game-options > button
+{
+    padding: 7.5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 95px;
+    margin: 7.5px;
+}

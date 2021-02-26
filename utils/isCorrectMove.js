@@ -183,6 +183,9 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                     if (diff % 9 === 0 && i % 9 == 0) {
 
                         if (fields[next.position.x + i ].player ) {
+                            if (fields[next.position.x + i ].player !== uid) {
+                                return true
+                            }
                             console.log('collision')
                             return false
                         }
@@ -194,6 +197,9 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                     if (diff % 7 === 0 && i % 7 == 0) {
 
                         if (fields[next.position.x + i ].player ) {
+                            if (fields[next.position.x + i ].player !== uid) {
+                                return true
+                            }
                             console.log('collision')
                             return false
                         }
@@ -212,6 +218,9 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                     if (diff % 9 === 0 && i % 9 == 0) {
 
                         if (fields[next.position.x - i].player ) {
+                            if (fields[next.position.x - i ].player !== uid) {
+                                return true
+                            }
                             console.log('collision')
                             return false
                         }
@@ -223,6 +232,9 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                     if (diff % 7 === 0 && i % 7 == 0) {
 
                         if (fields[next.position.x - i].player ) {
+                            if (fields[next.position.x - i ].player !== uid) {
+                                return true
+                            }
                             console.log('collision')
                             return false
                         }
