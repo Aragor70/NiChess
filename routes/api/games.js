@@ -115,6 +115,8 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (req.body.draw) {
         game.score[0] += 0.5;
         game.score[1] += 0.5;
+
+        game.markModified('score');
         
         game.finished = true
     }

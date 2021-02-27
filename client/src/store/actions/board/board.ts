@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { getTable } from '../table/table';
-import { Get_Game, Init_Board } from './types';
+import { Get_Game, Init_Board, Surrender, Draw } from './types';
 
 
 
-export const initBoard = (players: any[], table: any) => async(dispatch: Dispatch<any>) =>{
+export const initBoard = (players: any, table: any) => async(dispatch: Dispatch<any>) =>{
 
     const { _id } = table
     const config = {
@@ -39,4 +39,42 @@ export const getGame = (gameid: string) => async(dispatch: Dispatch<any>) => {
     }
 
 
+}
+
+export const surrender = (gameid: string, socket: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    try {
+        const res = await axios.put(`/api/games/${gameid}`, { surrender: true }, config)
+        
+
+        dispatch({ type: Surrender, payload: res.data })
+
+        socket.emit('option', ('hi'))
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const draw = (gameid: string, socket: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    try {
+        const res = await axios.put(`/api/games/${gameid}`, { draw: true }, config)
+        
+
+        dispatch({ type: Draw, payload: res.data })
+
+        socket.emit('option', ('hi'))
+
+    } catch (err) {
+        console.log(err)
+    }
 }

@@ -40,7 +40,11 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     
     const table = new Table({
         users: user ? [user] : [],
-        name: nameUpperCase || user.name
+        name: nameUpperCase || user.name,
+        players: {
+            white: null,
+            black: null
+        }
     })
 
     await table.save()
@@ -57,7 +61,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 
 
-    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User'}).populate({ path: 'games = game', model: 'Game'})
+    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User'}).populate({ path: 'games = game', model: 'Game'}).populate({ path: 'players.white = user', model: 'User' }).populate({ path: 'players.black = user', model: 'User' })
     
     if (!table) {
         return next(new ErrorResponse('Table not found', 404))
@@ -98,7 +102,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorised', 401))
     }
 
-    const table = await Table.findById(req.params.id)
+    let table = await Table.findById(req.params.id)
     
     
     if ( player ) {
@@ -108,21 +112,29 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
             return next(new ErrorResponse('The game has already started', 422))
         }
 
-        table.players = await table.players.filter(element => element ? element.toString() !== user._id.toString() : false)
-        
-        if (table.players[player - 1] = user._id) {
-            table.markModified('players');
-            await table.save()
-        
-            return res.json(table.players)
+        if (table.players.white && table.players.white.toString() === user._id.toString()) {
+            table.players.white = undefined
+        } else if (table.players.black && table.players.black.toString() === user._id.toString()) {
+            table.players.black = undefined
         } else {
-            table.players[player - 1] = user._id
-            table.markModified('players');
-        }
+            if (player - 1 === 0) {
 
+                if(!table.players.white) {
+                    table.players.white = user._id
+                }
+            
+            } else if (player - 1 === 1) {
+                if(!table.players.black) {
+                    table.players.black = user._id
+                }
+            }
+
+        }
         
         await table.save()
         
+        table = await Table.findById(req.params.id).populate({ path: 'players.white = user', model: 'User' }).populate({ path: 'players.black = user', model: 'User' })
+        console.log(table.players)
         return res.json(table.players)
         
     }
@@ -130,9 +142,13 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if ( leave ) {
         table.users = await table.users.filter(element => element._id.toString() !== user._id.toString());
         
-
-        table.players = await table.players.filter(element => element ? element.toString() !== user._id.toString() : false);
-        
+        if (table.players) {
+            if (table.players.white === user._id) {
+                table.players.white = null
+            } else if (table.players.black === user._id) {
+                table.players.black = null
+            }
+        }
     }
     
 
@@ -156,7 +172,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/', asyncHandler( async(req, res, next) => {
 
-    const tables = await Table.find().sort({ date: -1 });
+    const tables = await Table.find().sort({ date: -1 })
     
     res.json(tables)
 
@@ -167,7 +183,7 @@ router.get('/', asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/:id', asyncHandler( async(req, res, next) => {
 
-    let table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' }).populate({ path: 'games = game', model: 'Game' })
+    let table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' }).populate({ path: 'games = game', model: 'Game' }).populate({ path: 'players.white = user', model: 'User' }).populate({ path: 'players.black = user', model: 'User' })
     
     
     if (!table) {
@@ -185,7 +201,7 @@ router.get('/:id', asyncHandler( async(req, res, next) => {
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
 
 
-    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' })
+    const table = await Table.findById(req.params.id).populate({ path: 'users = user', model: 'User' }).populate({path: 'players = user', model: 'User'})
 
     
     const isMatch = await table.users.filter(element => element ? element._id.toString() === req.user.id : false);

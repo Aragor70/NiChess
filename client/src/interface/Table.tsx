@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { initBoard } from '../store/actions/board/board';
+import { initBoard, surrender, draw } from '../store/actions/board/board';
 import { setPlayer, deleteTable, getTable, leaveFromTable } from '../store/actions/table/table';
 import Board from './Board';
 import io from 'socket.io-client';
 
 
 let socket: any;
-const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveFromTable, auth, setPlayer, board }: any) => {
+const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveFromTable, auth, setPlayer, board, draw, surrender, toggleConfig, setToggleConfig }: any) => {
 
     let connection: any
 
@@ -43,27 +43,38 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
         }
     }, [table.table.games])
     
+    useEffect(() => {
+        if (socket) {
+            socket.on('option', (msg: any) => {
+
+                getTable(match.params.id)
+                console.log('reload table')
+            })
+            
+        }
+    }, [socket])
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        if (table.table.players.length === 2) {
-            initBoard(table.table.players, table.table)
+        if (table.table.players.white && table.table.players.black) {
+            initBoard([table.table.players.white, table.table.players.black], table.table)
 
         }
 
     }
 
-    const [toggleConfig, setToggleConfig] = useState(true)
+    
 
     useEffect(() => {
         getTable(match.params.id)
         
     }, [toggleConfig])
+
+    console.log(table.table.players)
+    
     return (
         <Fragment>
-            <button onClick={e => setToggleConfig(!toggleConfig)}>toggle</button>
-            
-
             
                 {
                     toggleConfig && <Fragment>
@@ -76,13 +87,13 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                             }
 
                             {
-                                table.table && table.table.games.length > 0 ? table.table.games.map((element: any, index: number) => <p key={element._id} onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}># {index + 1}: {element.finished ? "score" : "Not finished"}</p>) : "Start the first game"
+                                table.table && table.table.games.length > 0 ? table.table.games.map((element: any, index: number) => <p key={element._id} onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}># {index + 1}: {element.finished ? <span>{`score: #1. ${element.players[0]} [ ${element.score[0]} ] / [ ${element.score[1]} ] #2. ${element.players[1]}`}</span> : "Not finished"}</p>) : "Start the first game"
                             }
                             {
                                 board.game && !board.game.finished && <Fragment>
                                     <div className="game-options">
-                                        <button>draw</button>
-                                        <button>surrender</button>
+                                        <button onClick={e=> draw(board.game._id, socket)}>draw</button>
+                                        <button onClick={e=> surrender(board.game._id, socket)}>surrender</button>
                                     </div>
                                 </Fragment>
                             }    
@@ -93,8 +104,8 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                             <Route exact path={`/tables/:id`} >
                                 
                                 <form className="players" onSubmit={e=> handleSubmit(e)}>
-                                    <button type="button" onClick={e=>setPlayer(match.params.id, 1)}>{ table.table && table.table.players[0] ? table.table.players[0] : "# 1. white"}</button>
-                                    <button type="button" onClick={e=>setPlayer(match.params.id, 2)}>{ table.table && table.table.players[1] ? table.table.players[1] : "# 2. black"}</button>
+                                    <button type="button" onClick={e=>setPlayer(match.params.id, 1)}>{ table.table && table.table.players && table.table.players.white ? table.table.players.white.name : "# 1. white"}</button>
+                                    <button type="button" onClick={e=>setPlayer(match.params.id, 2)}>{ table.table && table.table.players && table.table.players.black ? table.table.players.black.name : "# 2. black"}</button>
                                     <button type="submit" >START</button>
                                 </form>
                                 
@@ -123,4 +134,4 @@ const mapStateToProps = (state: any) => ({
     auth: state.auth,
     board: state.board
 })
-export default connect(mapStateToProps, { getTable, initBoard, deleteTable, leaveFromTable, setPlayer })(withRouter(Table));
+export default connect(mapStateToProps, { getTable, initBoard, deleteTable, leaveFromTable, setPlayer, draw, surrender })(withRouter(Table));

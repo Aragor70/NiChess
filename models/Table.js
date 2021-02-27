@@ -10,10 +10,15 @@ const TableSchema = new mongoose.Schema({
         type: String,
         default: "Table"
     },
-    players: [{
+    players: {
+        white: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }],
+    },
+        black: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }},
     games: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Game'

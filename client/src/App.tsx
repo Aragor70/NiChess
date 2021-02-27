@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Login from './interface/auth/Login';
@@ -10,7 +10,7 @@ import Table from './interface/Table';
 import { loadUser, guestAuth, logout } from './store/actions/user/auth';
 import setAuthToken from './utils/setAuthToken';
 
-const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
+const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
 
   useEffect(() => {
     if (localStorage.token) {
@@ -23,18 +23,28 @@ const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
     }
   }, [loadUser, localStorage.token])
 
-
+  const [toggleConfig, setToggleConfig] = useState(true)
 
 
   return (
     <div className="App">
       <header className="header-content">
-        <p className="page-title"><span onClick={e=> history.push('/')}>Chess</span></p>
+        <p className="page-title"><span onClick={e=> history.push('/')}>Chess</span>
+        
+        
+        
         
         {
-          auth.isAuthenticated && <button onClick={e=> logout(history)}>Logout</button>
+          auth.isAuthenticated && <Fragment>
+            <button onClick={e=> logout(history)}>Logout</button>
+
+            <Route path="/tables/:id">
+              <button onClick={e => setToggleConfig(!toggleConfig)}>toggle</button>
+            </Route>
+            
+          </Fragment> 
         }
-        
+        </p>
       </header>
 
       <main className="output">
@@ -47,7 +57,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout }: any) => {
               </Route>
 
               <Route path="/tables/:id">
-                <Table />
+                <Table toggleConfig={toggleConfig} setToggleConfig={setToggleConfig} />
               </Route>
 
               

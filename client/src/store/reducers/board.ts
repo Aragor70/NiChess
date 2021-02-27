@@ -1,4 +1,4 @@
-import { Get_Game, Init_Board, Set_Move } from "../actions/board/types"
+import { Draw, Get_Game, Init_Board, Set_Move, Surrender } from "../actions/board/types"
 
 
 const initialState = {
@@ -19,6 +19,10 @@ const boardReducer = (state: any = initialState, action: any) => {
 
         case Set_Move:
         return { ...state, fields: state.fields.map((field: any) => field.position.x === payload.next.position.x ? {...field, player: payload.selected.player, type: payload.selected.type} : field ).map((field: any) => field.position.x === payload.selected.position.x ? {...field, player: null, type: null} : field ), loading: false }
+
+        case Draw:
+        case Surrender:
+        return { ...state, game: payload, loading: false }
 
         default:
             return state;

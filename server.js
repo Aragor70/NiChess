@@ -29,7 +29,16 @@ io.on('connection', (socket) => {
 
         socket.on('movement', (welcome) => {
             if (welcome) {
-                socket.broadcast.emit('movement', ('hi'))
+                console.log('sent')
+                io.sockets.emit('movement', ('hi'))
+
+            }
+        })
+
+        socket.on('option', (welcome) => {
+            if (welcome) {
+                console.log('sent')
+                io.sockets.emit('option', ('hi'))
 
             }
         })
