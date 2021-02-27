@@ -1,6 +1,7 @@
-const isCorrectMove = (selected, next, fields, user, player) => {
+const isCorrectMove = async(selected, next, fields, user, player, history, game) => {
 
     const uid = user._id
+
     try {
 
         if (player == 1) {
@@ -8,7 +9,6 @@ const isCorrectMove = (selected, next, fields, user, player) => {
             if ( selected.type === 'Pawn' ) {
 
                 const diff = selected.position.x - next.position.x
-                console.log(diff)
 
                 if (selected.position.y === 6 && diff === 16) {
 
@@ -24,6 +24,46 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                 }
 
 
+                if (diff === 9 && !fields[selected.position.x - 9].player) {
+                    
+                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                        
+                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === 16) {
+                            
+                            try {
+                                game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                await game.save()
+                            } catch (err) {
+                                return false
+                            }
+                            
+                            return true
+
+                        }
+
+                    }
+                }
+
+                if (diff === 7 && !fields[selected.position.x - 7].player) {
+                    
+                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                        
+                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === 16) {
+                            
+                            try {
+                                game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                await game.save()
+                            } catch (err) {
+                                return false
+                            }
+                            
+                            return true
+
+                        }
+
+                    }
+                }
+                
                 if (diff === 9 && fields[selected.position.x - 9].player) {
                     if (fields[selected.position.x - 9].player !== uid) {
                         return true
@@ -34,6 +74,7 @@ const isCorrectMove = (selected, next, fields, user, player) => {
                         return true
                     }
                 }
+
                 
 
                 if ( diff !== 8) {
@@ -66,6 +107,47 @@ const isCorrectMove = (selected, next, fields, user, player) => {
 
 
                     return true
+                }
+
+
+                if (diff === 9 && !fields[selected.position.x + 9].player) {
+                    
+                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                        
+                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === -16) {
+                            
+                            try {
+                                game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                await game.save()
+                            } catch (err) {
+                                return false
+                            }
+                            
+                            return true
+
+                        }
+
+                    }
+                }
+
+                if (diff === 7 && !fields[selected.position.x + 7].player) {
+                    
+                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                        
+                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === -16) {
+                            
+                            try {
+                                game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                await game.save()
+                            } catch (err) {
+                                return false
+                            }
+                            
+                            return true
+
+                        }
+
+                    }
                 }
 
                 if (diff === -9 && fields[selected.position.x + 9].player) {

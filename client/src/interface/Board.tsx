@@ -6,16 +6,18 @@ import Field from './Field';
 
 
 
-const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
+const Board = ({ board, initBoard, table, match, getGame, socket, toggleConfig, setToggleConfig }: any) => {
 
 
     const [selectedData, setSelectedData] = useState<any>(null)
 
     useEffect(() => {
         getGame(match.params.gameid)
+        setToggleConfig(false)
 
         return () => {
             getGame(match.params.gameid)
+            setToggleConfig(true)
         }
     }, [getGame, match.params.gameid])
     
@@ -26,6 +28,7 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
             socket.on('movement', (msg: any) => {
 
                 getGame(match.params.gameid)
+                setToggleConfig(false)
                 console.log('reload now')
             })
             
@@ -41,14 +44,7 @@ const Board = ({ board, initBoard, table, match, getGame, socket }: any) => {
     return (
         <Fragment>
             
-            {
-                board.game && !board.game.finished && <Fragment>
-                    <div className="game-options">
-                        <button>draw</button>
-                        <button>surrender</button>
-                    </div>
-                </Fragment>
-            }
+            
                 
             <div className="fields">
                 {

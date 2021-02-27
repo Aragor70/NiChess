@@ -136,7 +136,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
         const player = game.players.indexOf(user._id) + 1
         
-        const isCorrect = await isCorrectMove(selectedField, nextField, game.board, user, player)
+        const isCorrect = await isCorrectMove(selectedField, nextField, game.board, user, player, game.history, game)
         if (!isCorrect) {
             return next(new ErrorResponse('Move not correct', 422));
         }
@@ -146,9 +146,10 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         game.board[req.body.selected.position.x] = await { position: { y: selectedField.position.y, x: selectedField.position.x }, color: selectedField.color, player: null, type: null }
 
         if (req.body.next.type === 'King') {
-            game.score[player - 1] += 1
+            game.score[player] += 1
             game.finished = true
         }
+        game.history = [...game.history, { prev: req.body.selected, next: req.body.next }]
 
         await game.save()
 

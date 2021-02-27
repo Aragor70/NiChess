@@ -14,6 +14,24 @@ const GameSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }],
+    history: [{
+        prev: {
+            type: Array
+        },
+        next: {
+            type: Array
+        }
+    }],
+    fallen: [{
+        player: {
+            type: String,
+            default: null
+        },
+        type: {
+            type: String,
+            default: null
+        }
+    }],
     board: [{
         position: {
             y: {
