@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { isCorrectMove, setMove } from '../store/actions/board/piece';
+import { isCorrectMove, setMove, setPromotion } from '../store/actions/board/piece';
 import { checkMovement } from '../store/actions/soldiers';
 import Bishop from './soldiers/Bishop';
 import Jumper from './soldiers/Jumper';
@@ -14,7 +14,7 @@ import { isPotentialMove } from '../utils/isPotentialMove'
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket, dangerous, setDangerous }: any) => {
+const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
 
 
     const handleClick = (field: any) => {
@@ -124,6 +124,17 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
                 
+                {
+                    position.y === 0 || position.y === 7 && type === 'Pawn' && player === auth.user._id && <Fragment>
+                        <div className="promotion">
+                            <button onClick={e=> setPromotion(position, "Queen", board.game._id, socket)}><Queen game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Bishop", board.game._id, socket)}><Bishop game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Jumper", board.game._id, socket)}><Jumper game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Rook", board.game._id, socket)}><Rook game={board.game} field={field} /></button>
+                        </div>
+                        <div className="promo-shadow"></div>
+                    </Fragment>
+                }
 
                 { type === 'Pawn' && <Pawn game={board.game} field={field} /> }
                 { type === 'Rook' && <Rook game={board.game} field={field} /> }
@@ -140,4 +151,4 @@ const mapStateToProps = (state: any) => ({
     board: state.board,
     auth: state.auth
 })
-export default connect(mapStateToProps, { setMove })(Field);
+export default connect(mapStateToProps, { setMove, setPromotion })(Field);

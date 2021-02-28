@@ -1,4 +1,4 @@
-import { Draw, Get_Game, Init_Board, Set_Move, Surrender } from "../actions/board/types"
+import { Draw, Get_Game, Init_Board, Set_Move, Set_Promotion, Surrender } from "../actions/board/types"
 
 
 const initialState = {
@@ -15,6 +15,9 @@ const boardReducer = (state: any = initialState, action: any) => {
         return { ...state, fields: payload, loading: false }
 
         case Get_Game: 
+        return { ...state, game: payload, loading: false }
+        
+        case Set_Promotion: 
         return { ...state, game: payload, loading: false }
 
         case Set_Move:

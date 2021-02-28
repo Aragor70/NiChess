@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Dispatch } from "react";
 import { getGame } from "./board";
-import { Get_Game, Set_Move } from './types';
+import { Get_Game, Set_Move, Set_Promotion } from './types';
 
 
 export const isCorrectMove = (selected: any, next: any, fields: any[]) => {
@@ -322,6 +322,27 @@ export const setMove = (selected: any, next: any, id: string, socket: any) => as
         const res = await axios.put(`/api/games/${id}`, { selected, next }, config)
         
         dispatch({ type: Set_Move, payload: res.data })
+        dispatch(getGame(id))
+
+        socket.emit('movement', ('hi'))
+
+        return true
+    } catch (err) {
+        return false
+    }
+}
+
+export const setPromotion = (position: any, promotion:string, id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    try {
+
+        const res = await axios.put(`/api/games/${id}`, { position, promotion }, config)
+        
+        dispatch({ type: Set_Promotion, payload: res.data })
         dispatch(getGame(id))
 
         socket.emit('movement', ('hi'))

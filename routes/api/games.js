@@ -120,6 +120,16 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         
         game.finished = true
     }
+    if (req.body.promotion && req.body.position) {
+
+        if (req.body.position.y !== 0 && req.body.position.y !== 7) {
+            return next(new ErrorResponse('This piece cannot be promoted', 422)); 
+        }
+
+        game.board[req.body.position.x].type = req.body.promotion
+
+        game.markModified('board');
+    }
 
     if (req.body.selected && req.body.next) {
 
