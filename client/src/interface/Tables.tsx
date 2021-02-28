@@ -26,13 +26,10 @@ const Tables = ({ table, getTables, history, joinToTable }: any) => {
             <p>Tables</p>
 
             {
-                table.tables.map((element: any) => <p key={element._id} onClick={e=> joinToTable(element._id, history)}>{element.name}</p>)
+                table.tables.map((element: any) => <p key={element._id}><span onClick={e=> joinToTable(element._id, history)}>{element.name}</span></p>)
             }
 
             
-
-
-
         </Fragment>
     );
 }

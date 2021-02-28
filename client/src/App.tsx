@@ -35,14 +35,28 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
         
         
         {
-          auth.isAuthenticated && <Fragment>
-            <button onClick={e=> logout(history)}>Logout</button>
+          auth.isAuthenticated ? <Fragment>
+            <button className="toggle-config" onClick={e=> logout(history)}><i className="fas fa-sign-out-alt fa-3x"></i></button>
 
             <Route path="/tables/:id">
-              <button onClick={e => setToggleConfig(!toggleConfig)}>toggle</button>
+              <button className="toggle-config" onClick={e => setToggleConfig(!toggleConfig)}><i className="fas fa-ellipsis-h fa-3x"></i></button>
             </Route>
+
             
-          </Fragment> 
+            
+          </Fragment> : <Fragment>
+            <Route exact path="/">
+              <div className="auth-buttons">
+
+              <button onClick={e=> guestAuth(history)}>Join as a Guest</button>
+
+              <button onClick={e=> history.push('/login')}>Log in</button>
+
+              <button onClick={e=> history.push('/signup')}>Sign up</button>
+              </div>
+
+            </Route>
+          </Fragment>
         }
         </p>
       </header>
@@ -66,15 +80,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
           </Fragment> : <Fragment>
             <Switch>
 
-              <Route exact path="/">
-                <button onClick={e=> guestAuth(history)}>Join as a Guest</button>
-
-                <button onClick={e=> history.push('/login')}>Log in</button>
-
-                <button onClick={e=> history.push('/signup')}>Sign up</button>
-
-
-              </Route>
+              
 
 
               <Route exact path="/login">

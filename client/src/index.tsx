@@ -8,6 +8,7 @@ import './style/header.css'
 import './style/game.css'
 import './style/field.css'
 import './style/auth.css'
+import './style/table.css'
 
 import { Provider } from 'react-redux';
 import store from './store/store';

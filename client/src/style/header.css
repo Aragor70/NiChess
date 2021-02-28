@@ -37,3 +37,25 @@
     padding-left: 7.5px;
     padding-right: 7.5px;
 }
+
+.auth-buttons
+{
+    min-width: 50%;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+}
+.auth-buttons button
+{
+    width: 30%;
+    height: 100%;
+}
+
+.toggle-config
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: none;
+}

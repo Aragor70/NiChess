@@ -78,17 +78,22 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
             
                 {
                     toggleConfig && <Fragment>
-                        <div className="config-content">
+                        <div className="config-table">
                                         
-                            <p>users</p>
+                            <p><b>{table.table.name}</b></p>
+                            <hr />
 
+                            <div className="user-list">
                             {
                                 table.table && table.table.users.length > 0 && table.table.users.map((user: any) => <p key={user._id} ><span >{user.name} {user._id === auth.user._id && "(You)"}</span> </p>)
                             }
-
+                            </div>
+                            <hr />
+                            <div className="game-list">
                             {
-                                table.table && table.table.games.length > 0 ? table.table.games.map((element: any, index: number) => <p key={element._id} onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}># {index + 1}: {element.finished ? <span>{`score: #1. ${element.players[0]} [ ${element.score[0]} ] / [ ${element.score[1]} ] #2. ${element.players[1]}`}</span> : "Not finished"}</p>) : "Start the first game"
+                                table.table && table.table.games.length > 0 ? table.table.games.map((element: any, index: number) => <p key={element._id} onClick={e=> history.push(`/tables/${match.params.id}/games/${element._id}`)}># {index + 1}: {element.finished ? <span>{`score: #1. ${element.players[0]} [ ${element.score[0]} ] / [ ${element.score[1]} ] #2. ${element.players[1]}`}</span> : "Not finished"}</p>) : <p>Start the first game</p>
                             }
+                            </div>
                             {
                                 board.game && !board.game.finished && <Fragment>
                                     <div className="game-options">
@@ -103,7 +108,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                         <Switch>
                             <Route exact path={`/tables/:id`} >
                                 
-                                <form className="players" onSubmit={e=> handleSubmit(e)}>
+                                <form className="players-form" onSubmit={e=> handleSubmit(e)}>
                                     <button type="button" onClick={e=>setPlayer(match.params.id, 1)}>{ table.table && table.table.players && table.table.players.white ? table.table.players.white.name : "# 1. white"}</button>
                                     <button type="button" onClick={e=>setPlayer(match.params.id, 2)}>{ table.table && table.table.players && table.table.players.black ? table.table.players.black.name : "# 2. black"}</button>
                                     <button type="submit" >START</button>

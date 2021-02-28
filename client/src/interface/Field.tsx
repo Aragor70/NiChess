@@ -124,7 +124,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
                 
-                
+
                 { type === 'Pawn' && <Pawn game={board.game} field={field} /> }
                 { type === 'Rook' && <Rook game={board.game} field={field} /> }
                 { type === 'Jumper' && <Jumper game={board.game} field={field} /> }

@@ -134,7 +134,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         await table.save()
         
         table = await Table.findById(req.params.id).populate({ path: 'players.white = user', model: 'User' }).populate({ path: 'players.black = user', model: 'User' })
-        console.log(table.players)
+        
         return res.json(table.players)
         
     }
