@@ -75,7 +75,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
     
     return (
         <Fragment>
-            
+            <div className="table-content">
                 {
                     toggleConfig && <Fragment>
                         <div className="config-table">
@@ -124,13 +124,14 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                     
             <Switch>
                 <Route exact path={`/tables/:id/games/:gameid`} >
+                    
                     {
                         table.table && <Board table={table} socket={socket} toggleConfig={toggleConfig} setToggleConfig={setToggleConfig} />
                     }
                     
                 </Route>
             </Switch>
-
+            </div>
         </Fragment>
     );
 }

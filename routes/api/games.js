@@ -16,7 +16,7 @@ const router = express.Router();
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
-    const game = await Game.findById(req.params.id)
+    const game = await Game.findById(req.params.id).populate({path: 'players = user', model: 'User'})
 
     if (!game) {
         return next(new ErrorResponse('Game does not exist', 404)); 
@@ -69,7 +69,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 
     const board = await initBoard(players[0], players[1])
 
-    const game = new Game({
+    let game = new Game({
         players: players,
         board,
         score: [0, 0]
@@ -80,6 +80,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
 
     await table.save()
 
+    game = await Game.findById(game._id).populate({path: 'players = user', model: 'User'})
     res.json(game)
 }));
 
@@ -98,10 +99,10 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized', 401)); 
     }
 
-    const game = await Game.findById(req.params.id)
+    let game = await Game.findById(req.params.id).populate({path: 'players = user', model: 'User'})
 
     if (!game) {
-        return next(new ErrorResponse('Game does not exist', 404)); 
+        return next(new ErrorResponse('Game does not exist', 404));
     }
     if (started) {
         game.started = true
@@ -170,6 +171,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     }
 
     await game.save()
+
 
     res.json(game)
     

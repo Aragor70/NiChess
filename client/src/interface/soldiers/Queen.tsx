@@ -14,7 +14,7 @@ const Queen = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <img src={queen1} /> : <img src={queen2} />
+                field.player === game.players[0]._id ? <img src={queen1} /> : <img src={queen2} />
             }
             
         </Fragment>

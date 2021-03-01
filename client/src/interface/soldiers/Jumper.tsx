@@ -13,7 +13,7 @@ const Jumper = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <img src={jumper1} /> : <img src={jumper2} />
+                field.player === game.players[0]._id ? <img src={jumper1} /> : <img src={jumper2} />
             }
             
         </Fragment>

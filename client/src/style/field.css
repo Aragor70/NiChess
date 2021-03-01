@@ -1,7 +1,7 @@
 .field-content
 {
     width: 12.5%;
-    min-height: 64px;
+    height: 12.5%;
     float: left;
     position: relative;
     display: flex;
@@ -12,5 +12,5 @@
 
 .field-content > img
 {
-    width: 80%;
+    width: 100%;
 }

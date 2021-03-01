@@ -1,7 +1,7 @@
 .fields
 {
-    width: 100%;
-    min-height: 100vh;
+    width: 70vw;
+    height: 70vw;
     position: relative;
 }
 
@@ -85,4 +85,96 @@
     right: 0;
     background-color: none;
     z-index: 2;
+}
+
+
+@media (min-width: 1024px) {
+.fields
+{
+    width: 35vw;
+    height: 35vw;
+    position: relative;
+}
+
+.game-options
+{
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+}
+.game-options > button
+{
+    padding: 7.5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 95px;
+    margin: 7.5px;
+}
+
+.play-next
+{
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(125,125,125, 0.7);
+    z-index: 2;
+    min-height: 64px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 28px;
+}
+.play-next > span
+{
+    padding: 7.5px;
+    cursor: pointer;
+}
+
+.promotion
+{
+    position: absolute;
+    width: 100%;
+    bottom: 100%;
+    left: 0;
+    z-index: 3;
+    height: 300%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 7.5px;
+
+    background-color: rgba(125, 125, 125, 0.9);
+}
+
+
+.promotion button
+{
+    background-color: none;
+    border: none;
+    width: 100%;
+    background-color: rgba(16, 87, 39, 0.7);
+    padding: 0;
+    margin: 0;
+}
+
+.promotion button img
+{
+    width: 100%;
+    height: 100%;
+}
+.promo-shadow
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: none;
+    z-index: 2;
+}
 }

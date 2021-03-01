@@ -12,7 +12,7 @@ const Pawn = ({ game, field }: any) => {
         <Fragment>
             
             {
-                field.player === game.players[0] ? <img src={pawn1} /> : <img src={pawn2} />
+                field.player === game.players[0]._id ? <img src={pawn1} /> : <img src={pawn2} />
             }
             
             

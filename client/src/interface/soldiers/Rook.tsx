@@ -13,7 +13,7 @@ const Rook = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <img src={rook1} /> : <img src={rook2} />
+                field.player === game.players[0]._id ? <img src={rook1} /> : <img src={rook2} />
             }
             
         </Fragment>

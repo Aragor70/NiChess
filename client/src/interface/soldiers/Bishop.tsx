@@ -16,7 +16,7 @@ const Bishop = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <img src={bishop1} /> : <img src={bishop2} />
+                field.player === game.players[0]._id ? <img src={bishop1} /> : <img src={bishop2} />
             }
             
         </Fragment>

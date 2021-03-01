@@ -13,7 +13,7 @@ const King = ({ game, field }: any) => {
         <Fragment>
 
             {
-                field.player === game.players[0] ? <img src={king1} /> : <img src={king2} />
+                field.player === game.players[0]._id ? <img src={king1} /> : <img src={king2} />
             }
             
         </Fragment>

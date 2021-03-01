@@ -6,7 +6,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         return { success: false }
     }
 
-    if (player == players[0]) {
+    if (player == players[0]._id) {
         
         if ( type === 'Pawn' ) {
 
@@ -53,7 +53,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         }
     }
 
-    if (player == players[1]) {
+    if (player == players[1]._id) {
 
         if ( type === 'Pawn' ) {
 
