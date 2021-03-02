@@ -26,7 +26,7 @@ export const login = ( formData: any, history: any ) => async(dispatch: Dispatch
         }
     }
     try {
-        const res = await axios.post('/api/auth', formData, config)
+        const res = await axios.post('https://nichess.herokuapp.com/api/auth', formData, config)
         
         dispatch({ type: Log_In, payload: res.data })
 
