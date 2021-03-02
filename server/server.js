@@ -11,7 +11,7 @@ const app = express();
 connect()
 
 var corsOptions = {
-    origin: ['http://localhost:3000', 'https://nichess.netlify.app/'],
+    origin: "*",
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
 };
