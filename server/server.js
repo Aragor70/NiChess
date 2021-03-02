@@ -4,10 +4,18 @@ const connect = require('./config/connect');
 const errorHandler = require('./middlewares/error');
 const socketio = require('socket.io');
 const http = require('http');
+const cors = require('cors')
 
 const app = express();
 
 connect()
+
+var corsOptions = {
+    origin: ['http://localhost:3000', 'https://nichess.netlify.app/'],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json())
 
