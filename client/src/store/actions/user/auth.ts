@@ -10,7 +10,7 @@ export const loadUser = () => async(dispatch: Dispatch<any>) => {
     }
 
     try {
-        const res = await axios.get('/api/auth');
+        const res = await axios.get('https://nichess.herokuapp.com/api/auth');
         console.log(res.data)
         return dispatch({ type: Load_User, payload: res.data })
 
@@ -46,7 +46,7 @@ export const signup = ( formData: any, history: any ) => async(dispatch: Dispatc
         }
     }
     try {
-        const res = await axios.post('/api/users', formData, config)
+        const res = await axios.post('https://nichess.herokuapp.com/api/users', formData, config)
 
         dispatch({ type: Sign_Up, payload: res.data })
 
@@ -60,7 +60,7 @@ export const signup = ( formData: any, history: any ) => async(dispatch: Dispatc
 
 export const guestAuth = (history: any) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.post('/api/users/guests')
+        const res = await axios.post('https://nichess.herokuapp.com/api/users/guests')
 
         dispatch({ type: Log_In, payload: res.data })
 

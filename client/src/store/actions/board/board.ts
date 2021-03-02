@@ -14,7 +14,7 @@ export const initBoard = (players: any, table: any) => async(dispatch: Dispatch<
         }
     }
     try {
-        const res = await axios.post('/api/games', { players, tableid: _id }, config )
+        const res = await axios.post('https://nichess.herokuapp.com/api/games', { players, tableid: _id }, config )
     
         dispatch({ type: Init_Board, payload: res.data.board })
         dispatch(getTable(_id))
@@ -29,7 +29,7 @@ export const initBoard = (players: any, table: any) => async(dispatch: Dispatch<
 export const getGame = (gameid: string) => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.get(`/api/games/${gameid}`)
+        const res = await axios.get(`https://nichess.herokuapp.com/api/games/${gameid}`)
         
 
         dispatch({ type: Get_Game, payload: res.data })
@@ -48,7 +48,7 @@ export const surrender = (gameid: string, socket: any) => async(dispatch: Dispat
         }
     }
     try {
-        const res = await axios.put(`/api/games/${gameid}`, { surrender: true }, config)
+        const res = await axios.put(`https://nichess.herokuapp.com/api/games/${gameid}`, { surrender: true }, config)
         
 
         dispatch({ type: Surrender, payload: res.data })
@@ -67,7 +67,7 @@ export const draw = (gameid: string, socket: any) => async(dispatch: Dispatch<an
         }
     }
     try {
-        const res = await axios.put(`/api/games/${gameid}`, { draw: true }, config)
+        const res = await axios.put(`https://nichess.herokuapp.com/api/games/${gameid}`, { draw: true }, config)
         
 
         dispatch({ type: Draw, payload: res.data })

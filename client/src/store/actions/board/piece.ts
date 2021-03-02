@@ -319,7 +319,7 @@ export const setMove = (selected: any, next: any, id: string, socket: any) => as
     }
     try {
 
-        const res = await axios.put(`/api/games/${id}`, { selected, next }, config)
+        const res = await axios.put(`https://nichess.herokuapp.com/api/games/${id}`, { selected, next }, config)
         
         dispatch({ type: Set_Move, payload: res.data })
         dispatch(getGame(id))
@@ -340,7 +340,7 @@ export const setPromotion = (position: any, promotion:string, id: string, socket
     }
     try {
 
-        const res = await axios.put(`/api/games/${id}`, { position, promotion }, config)
+        const res = await axios.put(`https://nichess.herokuapp.com/api/games/${id}`, { position, promotion }, config)
         
         dispatch({ type: Set_Promotion, payload: res.data })
         dispatch(getGame(id))

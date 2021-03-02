@@ -6,7 +6,7 @@ import { Create_Table, Join_To_Table, Leave_From_Table, Delete_Table, Table_Erro
 export const getTables = () => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.get('/api/tables')
+        const res = await axios.get('https://nichess.herokuapp.com/api/tables')
 
         dispatch({ type: Get_Tables, payload: res.data })
     } catch (err) {
@@ -18,7 +18,7 @@ export const getTables = () => async(dispatch: Dispatch<any>) => {
 export const getTable = (id: string) => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.get(`/api/tables/${id}`)
+        const res = await axios.get(`https://nichess.herokuapp.com/api/tables/${id}`)
 
         dispatch({ type: Get_Table, payload: res.data })
     } catch (err) {
@@ -34,7 +34,7 @@ export const createTable = (formData: any, history: any) => async(dispatch: Disp
         }
     }
     try {
-        const res = await axios.post('/api/tables', formData, config)
+        const res = await axios.post('https://nichess.herokuapp.com/api/tables', formData, config)
 
         dispatch({ type: Create_Table, payload: res.data })
 
@@ -49,7 +49,7 @@ export const createTable = (formData: any, history: any) => async(dispatch: Disp
 export const joinToTable = (id: string, history: any) => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.post(`/api/tables/${id}`);
+        const res = await axios.post(`https://nichess.herokuapp.com/api/tables/${id}`);
 
         dispatch({ type: Join_To_Table, payload: res.data })
         dispatch(history.push(`/tables/${id}`))
@@ -67,7 +67,7 @@ export const setPlayer = (id: string, player: number) => async(dispatch: Dispatc
         }
     }
     try {
-        const res = await axios.put(`/api/tables/${id}`, { player }, config);
+        const res = await axios.put(`https://nichess.herokuapp.com/api/tables/${id}`, { player }, config);
 
         dispatch({ type: Set_Player, payload: res.data })
 
@@ -84,7 +84,7 @@ export const leaveFromTable = (id: string, history: any) => async(dispatch: Disp
         }
     }
     try {
-        const res = await axios.put(`/api/tables/${id}`, { leave: true }, config);
+        const res = await axios.put(`https://nichess.herokuapp.com/api/tables/${id}`, { leave: true }, config);
 
         dispatch({ type: Leave_From_Table, payload: res.data })
         dispatch(getTables())
@@ -99,7 +99,7 @@ export const leaveFromTable = (id: string, history: any) => async(dispatch: Disp
 export const deleteTable = (id: string, history: any) => async(dispatch: Dispatch<any>) => {
 
     try {
-        const res = await axios.delete(`/api/tables/${id}`);
+        const res = await axios.delete(`https://nichess.herokuapp.com/api/tables/${id}`);
 
         dispatch({ type: Delete_Table, payload: { id, table: res.data } })
         dispatch(history.push('/'))
