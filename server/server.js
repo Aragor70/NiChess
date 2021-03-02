@@ -13,6 +13,7 @@ connect()
 var corsOptions = {
     origin: ['http://localhost:3000', 'https://nichess.netlify.app/'],
     credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
 };
 
 app.use(cors(corsOptions));
