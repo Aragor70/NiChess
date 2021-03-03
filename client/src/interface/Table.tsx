@@ -15,7 +15,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
     useEffect(() => {
         getTable(match.params.id)
 
-        socket = io("http://nichess.herokuapp.com")
+        socket = io("https://nichess.herokuapp.com")
 
         connection = setInterval(() => console.log('I am running'), 10000)
 
