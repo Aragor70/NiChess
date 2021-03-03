@@ -27,11 +27,11 @@ const initBoard = (user, opponent) =>{
     }
     fields[1] = {
         player: oid,
-        type: 'Jumper'
+        type: 'Knight'
     }
     fields[6] = {
         player: oid,
-        type: 'Jumper'
+        type: 'Knight'
     }
     fields[2] = {
         player: oid,
@@ -68,11 +68,11 @@ const initBoard = (user, opponent) =>{
     }
     fields[57] = {
         player: uid,
-        type: 'Jumper'
+        type: 'Knight'
     }
     fields[62] = {
         player: uid,
-        type: 'Jumper'
+        type: 'Knight'
     }
     fields[58] = {
         player: uid,
