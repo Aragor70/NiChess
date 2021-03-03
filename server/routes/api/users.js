@@ -57,11 +57,17 @@ router.post('/', asyncHandler( async(req, res, next) => {
 //access       public
 router.post('/guests', asyncHandler( async(req, res, next) => {
 
-    let guest = await User.findOne({ ip: req.headers['x-forwarded-for'] })
+    const parseIp = (req) => (typeof req.headers['x-forwarded-for'] === 'string'
+        && req.headers['x-forwarded-for'].split(',').shift())
+        || req.connection?.remoteAddress
+        || req.socket?.remoteAddress
+        || req.connection?.socket?.remoteAddress
+
+    let guest = await User.findOne({ ip: parseIp })
     
     if (!guest) {
         guest = new User({
-            ip: req.headers['x-forwarded-for'],
+            ip: parseIp,
             role: 'Guest'
         })
 
