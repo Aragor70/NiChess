@@ -76,7 +76,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     })
     await game.save();
     
-    await table.games.unshift(game)
+    table.games = [ ...table.games, game]
 
     await table.save()
 
@@ -108,9 +108,15 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         game.started = true
     }
     if (req.body.surrender) {
-        const player = game.players.indexOf(user._id) + 1
-        player === 1 ? game.score[0] += 1 : game.score[1] += 1
         
+        if (game.players[0]._id.toString() === user._id.toString() ) {
+            game.score[1] += 1
+        } else if (game.players[1]._id.toString() === user._id.toString() ) {
+            game.score[0] += 1
+        } else {
+            return next(new ErrorResponse('Player not found', 404)); 
+        }
+
         game.finished = true
     }
     if (req.body.draw) {
@@ -149,13 +155,14 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
         let player;
 
-        if (game.turn == 0 && game.players[0]._id.toString() === user._id.toString() ) {
+        if (game.turn === 0 && game.players[0]._id.toString() === user._id.toString() ) {
             game.turn = 1
             player = 1
-        } else if (game.turn == 1 && game.players[1]._id.toString() === user._id.toString() ) {
+        } else if (game.turn === 1 && game.players[1]._id.toString() === user._id.toString() ) {
             game.turn = 0
             player = 2
         } else {
+            console.log(game.players[1]._id, user._id)
             return next(new ErrorResponse('Player not found', 404)); 
         }
 
@@ -170,10 +177,10 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         game.board[req.body.selected.position.x] = await { position: { y: selectedField.position.y, x: selectedField.position.x }, color: selectedField.color, player: null, type: null }
 
         if (req.body.next.type === 'King') {
-            game.score[player] += 1
+            game.score[player - 1] += 1
             game.finished = true
         }
-        await game.history.unshift({ prev: req.body.selected, next: req.body.next })
+        game.history.unshift({ prev: req.body.selected, next: req.body.next })
 
         await game.save()
 

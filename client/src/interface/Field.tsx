@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isCorrectMove, setMove, setPromotion } from '../store/actions/board/piece';
 import { checkMovement } from '../store/actions/soldiers';
 import Bishop from './soldiers/Bishop';
-import Jumper from './soldiers/Jumper';
+import Knight from './soldiers/Knight';
 import King from './soldiers/King';
 import Pawn from './soldiers/Pawn';
 import Queen from './soldiers/Queen';
@@ -125,11 +125,11 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
                 
                 {
-                    position.y === 0 || position.y === 7 && type === 'Pawn' && player === auth.user._id && <Fragment>
-                        <div className="promotion">
+                    (position.y === 0 || position.y === 7) && type === 'Pawn' && player === auth.user._id && <Fragment>
+                        <div className="promotion" style={position.y === 0 ? { top: '100%' } : { bottom: '100%'}}>
                             <button onClick={e=> setPromotion(position, "Queen", board.game._id, socket)}><Queen game={board.game} field={field} /></button>
                             <button onClick={e=> setPromotion(position, "Bishop", board.game._id, socket)}><Bishop game={board.game} field={field} /></button>
-                            <button onClick={e=> setPromotion(position, "Jumper", board.game._id, socket)}><Jumper game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Knight", board.game._id, socket)}><Knight game={board.game} field={field} /></button>
                             <button onClick={e=> setPromotion(position, "Rook", board.game._id, socket)}><Rook game={board.game} field={field} /></button>
                         </div>
                         <div className="promo-shadow"></div>
@@ -138,7 +138,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
                 { type === 'Pawn' && <Pawn game={board.game} field={field} /> }
                 { type === 'Rook' && <Rook game={board.game} field={field} /> }
-                { type === 'Jumper' && <Jumper game={board.game} field={field} /> }
+                { type === 'Knight' && <Knight game={board.game} field={field} /> }
                 { type === 'Bishop' && <Bishop game={board.game} field={field} /> }
                 { type === 'Queen' && <Queen game={board.game} field={field} /> }
                 { type === 'King' && <King game={board.game} field={field} /> }

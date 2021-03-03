@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import jumper1 from "../../style/icons/pieces/jumper1.png"
 import jumper2 from "../../style/icons/pieces/jumper2.png"
 
-const Jumper = ({ game, field }: any) => {
+const Knight = ({ game, field }: any) => {
 
 
 
@@ -19,4 +19,4 @@ const Jumper = ({ game, field }: any) => {
         </Fragment>
     );
 }
-export default Jumper;
+export default Knight;

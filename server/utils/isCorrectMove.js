@@ -26,13 +26,13 @@ const isCorrectMove = async(selected, next, fields, user, player, history, game)
 
                 if (diff === 9 && !fields[selected.position.x - 9].player) {
                     
-                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                    if (history[0].prev[0].type === "Pawn" && history[0].prev[0].player !== uid) {
                         
-                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === 16) {
+                        if (history[0].next[0].position.x - history[0].prev[0].position.x === 16) {
                             
-                            if (next.position.x === (history[history.length - 1].next[0].position.x - 8)) {
+                            if (next.position.x === (history[0].next[0].position.x - 8)) {
                                 try {
-                                    game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                    game.board[history[0].next[0].position.x] = { position: { y: history[0].next[0].position.y, x: history[0].next[0].position.x }, color: history[0].next[0].color, player: null, type: null }
                                     await game.save()
                                 } catch (err) {
                                     return false
@@ -48,12 +48,12 @@ const isCorrectMove = async(selected, next, fields, user, player, history, game)
 
                 if (diff === 7 && !fields[selected.position.x - 7].player) {
                     
-                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                    if (history[0].prev[0].type === "Pawn" && history[0].prev[0].player !== uid) {
                         
-                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === 16) {
-                            if (next.position.x === (history[history.length - 1].next[0].position.x - 8)) {
+                        if (history[0].next[0].position.x - history[0].prev[0].position.x === 16) {
+                            if (next.position.x === (history[0].next[0].position.x - 8)) {
                                 try {
-                                    game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                    game.board[history[0].next[0].position.x] = { position: { y: history[0].next[0].position.y, x: history[0].next[0].position.x }, color: history[0].next[0].color, player: null, type: null }
                                     await game.save()
                                 } catch (err) {
                                     return false
@@ -116,14 +116,14 @@ const isCorrectMove = async(selected, next, fields, user, player, history, game)
 
                 if (diff === -9 && !fields[selected.position.x + 9].player) {
                     
-                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                    if (history[0].prev[0].type === "Pawn" && history[0].prev[0].player !== uid) {
                         
-                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === -16) {
+                        if (history[0].next[0].position.x - history[0].prev[0].position.x === -16) {
                             
-                            if (next.position.x === (history[history.length - 1].next[0].position.x + 8)) {
+                            if (next.position.x === (history[0].next[0].position.x + 8)) {
                                 try {
                                     console.log('en pessant')
-                                    game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                    game.board[history[0].next[0].position.x] = { position: { y: history[0].next[0].position.y, x: history[0].next[0].position.x }, color: history[0].next[0].color, player: null, type: null }
                                     await game.save()
                                 } catch (err) {
                                     return false
@@ -139,14 +139,14 @@ const isCorrectMove = async(selected, next, fields, user, player, history, game)
 
                 if (diff === -7 && !fields[selected.position.x + 7].player) {
                     
-                    if (history[history.length - 1].prev[0].type === "Pawn" && history[history.length - 1].prev[0].player !== uid) {
+                    if (history[0].prev[0].type === "Pawn" && history[0].prev[0].player !== uid) {
                         
-                        if (history[history.length - 1].next[0].position.x - history[history.length - 1].prev[0].position.x === -16) {
+                        if (history[0].next[0].position.x - history[0].prev[0].position.x === -16) {
                             
-                            if (next.position.x === (history[history.length - 1].next[0].position.x + 8)) {
+                            if (next.position.x === (history[0].next[0].position.x + 8)) {
                                 try {
                                     console.log('en pessant')
-                                    game.board[history[history.length - 1].next[0].position.x] = { position: { y: history[history.length - 1].next[0].position.y, x: history[history.length - 1].next[0].position.x }, color: history[history.length - 1].next[0].color, player: null, type: null }
+                                    game.board[history[0].next[0].position.x] = { position: { y: history[0].next[0].position.y, x: history[0].next[0].position.x }, color: history[0].next[0].color, player: null, type: null }
                                     await game.save()
                                 } catch (err) {
                                     return false

@@ -157,7 +157,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
 
 
-    if ( type === 'Jumper' ) {
+    if ( type === 'Knight' ) {
 
         const diff = Math.abs(field.position.x - position.x)
 
