@@ -19,7 +19,16 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
     const handleClick = (field: any) => {
 
-        
+        if ( board.game.turn == 0 ) {
+            if (board.game.players[0]._id !== auth.user._id) {
+                return false
+            }
+        }
+        if ( board.game.turn == 1 ) {
+            if (board.game.players[1]._id !== auth.user._id) {
+                return false
+            }
+        }
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
@@ -119,7 +128,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
     }
     
 
-
     return (
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
@@ -133,7 +141,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                             <button onClick={e=> setPromotion(position, "Rook", board.game._id, socket)}><Rook game={board.game} field={field} /></button>
                         </div>
                         <div className="promo-shadow"></div>
-                    </Fragment>
+                        </Fragment>
                 }
 
                 { type === 'Pawn' && <Pawn game={board.game} field={field} /> }

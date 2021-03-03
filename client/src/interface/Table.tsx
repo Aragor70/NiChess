@@ -65,7 +65,6 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
     }
 
     
-
     useEffect(() => {
         getTable(match.params.id)
         

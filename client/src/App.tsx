@@ -29,7 +29,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
   return (
     <div className="App">
       <header className="header-content">
-        <p className="page-title"><span onClick={e=> history.push('/')}>Chess</span>
+        <p className="page-title"><span onClick={e=> history.push('/')}>NiChess</span>
         
         
         
