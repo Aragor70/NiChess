@@ -22,6 +22,10 @@ const GameSchema = new mongoose.Schema({
             type: Array
         }
     }],
+    turn: {
+        type: Number,
+        default: 0
+    },
     fallen: [{
         player: {
             type: String,

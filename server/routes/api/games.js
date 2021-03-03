@@ -76,7 +76,7 @@ router.post('/', auth, asyncHandler( async(req, res, next) => {
     })
     await game.save();
     
-    table.games = [ ...table.games, game]
+    await table.games.unshift(game)
 
     await table.save()
 
@@ -147,7 +147,18 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
             return next(new ErrorResponse('The game is finished', 422)); 
         }
 
-        const player = game.players.indexOf(user._id) + 1
+        let player;
+
+        if (game.turn == 0 && game.players[0]._id.toString() === user._id.toString() ) {
+            game.turn = 1
+            player = 1
+        } else if (game.turn == 1 && game.players[1]._id.toString() === user._id.toString() ) {
+            game.turn = 0
+            player = 2
+        } else {
+            return next(new ErrorResponse('Player not found', 404)); 
+        }
+
         
         const isCorrect = await isCorrectMove(selectedField, nextField, game.board, user, player, game.history, game)
         if (!isCorrect) {
@@ -162,7 +173,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
             game.score[player] += 1
             game.finished = true
         }
-        game.history = [...game.history, { prev: req.body.selected, next: req.body.next }]
+        await game.history.unshift({ prev: req.body.selected, next: req.body.next })
 
         await game.save()
 

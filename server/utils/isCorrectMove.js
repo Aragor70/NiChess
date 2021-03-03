@@ -248,7 +248,7 @@ const isCorrectMove = async(selected, next, fields, user, player, history, game)
 
         }
 
-        if ( selected.type === 'Jumper' ) {
+        if ( selected.type === 'Knight' ) {
 
             const diff = Math.abs(selected.position.x - next.position.x)
 
