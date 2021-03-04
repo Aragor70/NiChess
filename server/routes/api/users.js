@@ -52,12 +52,23 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
 }));
 
+
+const requestIp = require('request-ip');
+
+    // inside middleware handler
+const ipMiddleware = function(req, res, next) {
+    
+    const clientIp = requestIp.getClientIp(req); 
+    next();
+};
+
 //route POST   api/users
 //description  signup guest / login guest
 //access       public
 router.post('/guests', asyncHandler( async(req, res, next) => {
     
-    const parseIp = "127.0.0.1"
+    const parseIp = await ipMiddleware(req, res, next)
+
 
     if (!parseIp) {
         return next(new ErrorResponse('Ip not found', 404))
