@@ -55,19 +55,13 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
 const requestIp = require('request-ip');
 
-    // inside middleware handler
-const ipMiddleware = function(req, res, next) {
-    
-    const clientIp = requestIp.getClientIp(req); 
-    next();
-};
 
 //route POST   api/users
 //description  signup guest / login guest
 //access       public
 router.post('/guests', asyncHandler( async(req, res, next) => {
     
-    const parseIp = await ipMiddleware(req, res, next)
+    const parseIp = await requestIp.getClientIp(req); 
 
 
     if (!parseIp) {
