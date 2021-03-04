@@ -57,7 +57,7 @@ router.post('/', asyncHandler( async(req, res, next) => {
 //access       public
 router.post('/guests', asyncHandler( async(req, res, next) => {
     
-    const parseIp = req.headers['x-forwarded-for']
+    const parseIp = "127.0.0.1"
 
     if (!parseIp) {
         return next(new ErrorResponse('Ip not found', 404))
