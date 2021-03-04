@@ -55,7 +55,6 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
 const requestIp = require('request-ip');
 
-
 //route POST   api/users
 //description  signup guest / login guest
 //access       public
@@ -63,7 +62,7 @@ router.post('/guests', asyncHandler( async(req, res, next) => {
     
     const parseIp = await requestIp.getClientIp(req); 
 
-
+    console.log(parseIp)
     if (!parseIp) {
         return next(new ErrorResponse('Ip not found', 404))
     }

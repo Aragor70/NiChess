@@ -27,7 +27,11 @@ const UserSchema = new mongoose.Schema({
         default: 'User'
     },
     ip: {
-        type: String
+        type: String, 
+        trim: true, 
+        index: true, 
+        unique: true, 
+        sparse: true
     },
     date: {
         type: Date,
