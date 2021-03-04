@@ -59,6 +59,10 @@ router.post('/guests', asyncHandler( async(req, res, next) => {
     
     const parseIp = req.headers['x-forwarded-for']
 
+    if (!parseIp) {
+        return next(new ErrorResponse('Ip not found', 404))
+    }
+    
     let guest = await User.findOne({ ip: parseIp })
     
     if (!guest) {
