@@ -58,7 +58,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
         e.preventDefault();
 
         if (table.table.players.white && table.table.players.black) {
-            initBoard([table.table.players.white, table.table.players.black], table.table)
+            initBoard([table.table.players.white, table.table.players.black], table.table, socket)
 
         }
 

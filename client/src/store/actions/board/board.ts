@@ -5,7 +5,7 @@ import { Get_Game, Init_Board, Surrender, Draw } from './types';
 
 
 
-export const initBoard = (players: any, table: any) => async(dispatch: Dispatch<any>) =>{
+export const initBoard = (players: any, table: any, socket: any) => async(dispatch: Dispatch<any>) =>{
 
     const { _id } = table
     const config = {
@@ -18,6 +18,10 @@ export const initBoard = (players: any, table: any) => async(dispatch: Dispatch<
     
         dispatch({ type: Init_Board, payload: res.data.board })
         dispatch(getTable(_id))
+
+        socket.emit('option', ('hi'))
+        socket.emit('movement', ('hi'))
+
     } catch (err) {
         console.log(err)
     }
@@ -54,6 +58,7 @@ export const surrender = (gameid: string, socket: any) => async(dispatch: Dispat
         dispatch({ type: Surrender, payload: res.data })
 
         socket.emit('option', ('hi'))
+        socket.emit('movement', ('hi'))
 
     } catch (err) {
         console.log(err)
@@ -73,6 +78,7 @@ export const draw = (gameid: string, socket: any) => async(dispatch: Dispatch<an
         dispatch({ type: Draw, payload: res.data })
 
         socket.emit('option', ('hi'))
+        socket.emit('movement', ('hi'))
 
     } catch (err) {
         console.log(err)

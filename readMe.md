@@ -13,7 +13,7 @@ The website with user management, tables, and a game engine.
 
 - The table contains messenger, statistics, and game engine;
 - A user has an access to invite a potential player to the table within the URL;
-- The table can be deleted when the last user leaves the table, or the table owner delete it;
+- The table can be deleted when the last user leaves the table;
 
 
 ## Technical Specification

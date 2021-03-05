@@ -33,6 +33,20 @@ const UserSchema = new mongoose.Schema({
         unique: true, 
         sparse: true
     },
+    score: {
+        win: {
+            type: Number,
+            default: 0
+        },
+        draw: {
+            type: Number,
+            default: 0
+        },
+        defeat: {
+            type: Number,
+            default: 0
+        }
+    },
     date: {
         type: Date,
         default: Date.now
