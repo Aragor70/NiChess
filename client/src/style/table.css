@@ -23,7 +23,14 @@
 {
     width: 50%;
     padding: 7.5px;
+    margin-bottom: 15px;
+}
+
+.config-table button[type="submit"]
+{
     
+    background-color: rgba(130, 189, 96, 0.7);
+    float: right;
 }
 .config-table p
 {

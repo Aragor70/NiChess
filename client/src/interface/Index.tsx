@@ -26,18 +26,22 @@ const Index = ({ auth, history, createTable }: any) => {
 
     return (
         <Fragment>
-            <p>You are logged in.</p>
-
-            <button onClick={e=> setCreateView(!createView)}>create new table</button>
+            
+            <p className="index-form">
+            
+            
 
             {
-                createView && <Fragment>
+                createView ? <Fragment>
                     <form onSubmit={e=> handleSubmit(e)}>
                         <input type="text" name="name" onChange={e=> handleChange(e)} />
                         <button type="submit">Create</button>
                     </form>
+                </Fragment> : <Fragment>
+                    <button onClick={e=> setCreateView(!createView)} className="create-table">create new table</button>
                 </Fragment>
             }
+            </p>
 
             <Tables />
 

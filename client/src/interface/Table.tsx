@@ -110,7 +110,7 @@ const Table = ({ match, table, getTable, history, initBoard, deleteTable, leaveF
                                 <form className="players-form" onSubmit={e=> handleSubmit(e)}>
                                     <button type="button" onClick={e=>setPlayer(match.params.id, 1)}>{ table.table && table.table.players && table.table.players.white ? table.table.players.white.name : "# 1. white"}</button>
                                     <button type="button" onClick={e=>setPlayer(match.params.id, 2)}>{ table.table && table.table.players && table.table.players.black ? table.table.players.black.name : "# 2. black"}</button>
-                                    <button type="submit" >START</button>
+                                    <button type="submit" style={ table.table.players && (table.table.players.white && table.table.players.black) ? { backgroundColor: "rgba(130, 189, 96, 0.7)" } : { backgroundColor: "#fff" } } >START</button>
                                 </form>
                                 
                             </Route>

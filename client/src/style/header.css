@@ -40,15 +40,19 @@
 
 .auth-buttons
 {
-    min-width: 50%;
-    height: 32px;
+    min-width: 40%;
+    height: auto;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 .auth-buttons button
 {
-    width: 30%;
+    width: 100%;
     height: 100%;
+    font-size: 17.5px;
+    padding: 7.5px;
+    margin-bottom: 15px;
 }
 
 .toggle-config

@@ -15,6 +15,11 @@
     color: teal;
     text-align: left;
 }
+.auth-form :is(button, input)
+{
+    font-size: 17.5px;
+}
+
 .auth-form > h1
 {
     width: 100%;
@@ -39,7 +44,7 @@
     margin-bottom: 15px;
     text-align: left;
 }
-.auth-bottom
+.auth-submit
 {
     width: 100%;
     min-height: 7.5vh;
@@ -50,6 +55,7 @@
 {
     width: 75px;
     height: 35px;
+    background-color: rgba(130, 189, 96, 0.7);
 
 }
 .right-button
@@ -59,3 +65,21 @@
     right: 0;
 }
 
+.auth-bottom
+{
+    width: 100%;
+    min-height: 30vh;
+    position: relative;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.auth-bottom button
+{
+    width: 75%;
+    padding: 7.5px;
+    margin: 7.5px;
+}

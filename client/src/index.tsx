@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
 import './style/style.css'
+import './style/index.css'
 import './style/header.css'
 import './style/game.css'
 import './style/field.css'

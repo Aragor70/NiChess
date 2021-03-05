@@ -172,7 +172,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/', asyncHandler( async(req, res, next) => {
 
-    const tables = await Table.find().sort({ date: -1 })
+    const tables = await Table.find().sort({ date: -1 }).populate({ path: "users = user", model: "User" })
     
     res.json(tables)
 

@@ -48,7 +48,7 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
             <Route exact path="/">
               <div className="auth-buttons">
 
-              <button onClick={e=> guestAuth(history)}>Join as a Guest</button>
+              <button onClick={e=> guestAuth(history)}>I am a Guest</button>
 
               <button onClick={e=> history.push('/login')}>Log in</button>
 
@@ -79,9 +79,6 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
             </Switch>
           </Fragment> : <Fragment>
             <Switch>
-
-              
-
 
               <Route exact path="/login">
                 <Login />

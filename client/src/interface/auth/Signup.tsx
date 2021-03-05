@@ -49,13 +49,16 @@ const Signup = ({ signup, history, guestAuth }: any) => {
                     <span>Confirm password</span>
                     <input type="password" name="passwordConfirm" onChange={e=> handleChange(e)} />
                 </label>
-                <div className="auth-bottom">
+                <div className="auth-submit">
                     <button type="submit" className="submit-button right-button">sign up</button>
 
                 </div>
-
+                <div className="auth-bottom">
+                    <p>If you do not have an account yet</p>
                 <button type="button" onClick={e=> history.push('/login')}>Log in</button>
-                <button type="button" onClick={e=> guestAuth(history)}>Join as a guest</button>
+                <button type="button" onClick={e=> guestAuth(history)}>I am a guest</button>
+
+                </div>
             </form>
         </Fragment>
     );

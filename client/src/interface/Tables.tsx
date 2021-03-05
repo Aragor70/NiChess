@@ -23,12 +23,12 @@ const Tables = ({ table, getTables, history, joinToTable }: any) => {
         <Fragment>
             
 
-            <p>Tables</p>
-
-            {
-                table.tables.map((element: any) => <p key={element._id}><span onClick={e=> joinToTable(element._id, history)}>{element.name}</span></p>)
-            }
-
+            <p><b>Tables</b></p>
+            <div className="table-list">
+                {
+                    table.tables.map((element: any, index: number) => <p key={element._id}><span onClick={e=> joinToTable(element._id, history)}>{index + 1}. {element.name}</span> : <span>{element.users.map( (user: any) => <img src={user.avatar} />)}</span></p>)
+                }
+            </div>
             
         </Fragment>
     );
