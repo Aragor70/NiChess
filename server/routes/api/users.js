@@ -72,7 +72,8 @@ router.post('/guests', asyncHandler( async(req, res, next) => {
     if (!guest) {
         guest = new User({
             ip: parseIp,
-            role: 'Guest'
+            role: 'Guest',
+            avatar
         })
 
         await guest.save()

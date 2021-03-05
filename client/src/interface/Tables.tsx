@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { getTables, joinToTable } from '../store/actions/table/table';
 import Table from './Table';
 
-
+import guestAvatar from '../style/icons/Roblox_guest.png'
 
 
 const Tables = ({ table, getTables, history, joinToTable }: any) => {
@@ -26,7 +26,7 @@ const Tables = ({ table, getTables, history, joinToTable }: any) => {
             <p><b>Tables</b></p>
             <div className="table-list">
                 {
-                    table.tables.map((element: any, index: number) => <p key={element._id}><span onClick={e=> joinToTable(element._id, history)}>{index + 1}. {element.name}</span> : <span>{element.users.map( (user: any) => <img src={user.avatar} />)}</span></p>)
+                    table.tables.map((element: any, index: number) => <p key={element._id}><span onClick={e=> joinToTable(element._id, history)}>{index + 1}. {element.name}</span> : <span>{element.users.map( (user: any) => <img src={user.role === 'User' ? user.avatar : guestAvatar} />)}</span></p>)
                 }
             </div>
             
