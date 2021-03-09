@@ -2,6 +2,8 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
     const { position, type, player } = selectedData;
     
+    const borders = [0, 16, 24, 32, 40, 48, 56, 1, 2, 3, 4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 56, 57, 58, 59, 60, 61, 62]
+
     if (field.player == uid) {
         return { success: false }
     }
@@ -98,6 +100,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         }
     }
 
+    
 
     if ( type === 'Rook' ) {
 
@@ -126,21 +129,23 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                 
                 
             }
-            if (position.y === field.position.y) {
-                
+
+            
+            if (field.position.y == position.y) {
+
                 if (position.x > field.position.x) {
-                    if (fields[field.position.x + i].player) {
+                    if (fields[position.x - i].player && i >= 1) {
                         console.log('collision')
-                        return { success: false, enemy: field.position.x + i }
+                        return { success: false }
                     }
 
                 } else {
-                    if (fields[field.position.x - i].player) {
+                    if (fields[position.x + i].player && i >= 1) {
                         console.log('collision')
-                        return { success: false, enemy: field.position.x - i }
+                        return { success: false }
                     }
                 }
-                        
+
             }
         }
 
@@ -341,10 +346,11 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
                     if (fields[position.x - i].player && i >= 1) {
                         console.log('collision')
-                        console.log('enemy', field.position.x - i)
+                        console.log('enemy', position.x - i)
                         if (field.color !== selectedData.color) {
                             return { success: false }
                         }
+                        
                         
                         return { success: false, enemy: position.x - i }
                     }
@@ -353,6 +359,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                     }
 
                 }
+                
                 if (diff % 7 === 0 && i % 7 === 0) {
 
                     if (fields[position.x - i].player && i >= 1) {
@@ -372,6 +379,8 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                     if (fields[position.x - i].player && i >= 1) {
                         console.log('collision')
                         console.log('enemy', field.position.x - i)
+
+                        
                         return { success: false, enemy: position.x - i }
                     }
                     
@@ -391,11 +400,15 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                             return { success: false }
                         }
                         
+                        
                         console.log('enemy', position.x + i)
                         return { success: false, enemy: position.x + i }
                     }
+                    if (field.color !== selectedData.color) {
+                        return { success: false }
+                    }
                     
-
+                    
                 }
                 if (diff % 7 === 0 && i % 7 === 0) {
 
@@ -418,9 +431,12 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
                     if (fields[position.x + i].player && i >= 1) {
                         console.log('collision')
-                        console.log('enemy', field.position.x + i)
+                        console.log('enemy', position.x + i)
+                        
+
                         return { success: false, enemy: position.x + i }
                     }
+
 
                 }
             }
@@ -428,15 +444,15 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             if (field.position.y == position.y) {
 
                 if (position.x > field.position.x) {
-                    if (fields[field.position.x + i].player) {
+                    if (fields[position.x - i].player && i >= 1) {
                         console.log('collision')
-                        return { success: false, enemy: field.position.x + i }
+                        return { success: false }
                     }
 
                 } else {
-                    if (fields[field.position.x - i].player) {
+                    if (fields[position.x + i].player && i >= 1) {
                         console.log('collision')
-                        return { success: false, enemy: field.position.x - i }
+                        return { success: false }
                     }
                 }
 
@@ -446,6 +462,9 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         if (diff % 9 == 0 || diff % 7 == 0 || field.position.y == position.y || diff % 8 == 0) {
 
             return { success: true }
+        }
+        if (diff % 9 !== 0 && diff % 7 !== 0 && position.y !== field.position.y && diff % 8 !== 0) {
+            return { success: false }
         }
 
 
