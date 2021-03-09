@@ -16,7 +16,6 @@ import { isPotentialMove } from '../utils/isPotentialMove'
 
 const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
 
-
     const handleClick = (field: any) => {
 
         if ( board.game.turn == 0 ) {
@@ -101,7 +100,6 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
             
             const value = isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board, setOpponentField)
             
-            console.log(value.enemy)
             
             if (field.position.x === value.enemy) {
                 
@@ -122,15 +120,45 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
             
 
         } else {
+
+            if (player && player !== auth.user._id) {
+                
+                return {
+                    backgroundColor: color,
+                    cursor: 'not-allowed'
+                }
             
-            return { backgroundColor: color }
+            
+            } else {
+                return { backgroundColor: color }
+            }
+            
+            
         }
     }
     
+    const handleDrag = (e: any) => {
+        if ( board.game.turn == 0 ) {
+            if (board.game.players[0]._id !== auth.user._id) {
+                return false
+            }
+        }
+        if ( board.game.turn == 1 ) {
+            if (board.game.players[1]._id !== auth.user._id) {
+                return false
+            }
+        }
+        setSelectedData(field)
+    }
+
+    const handleDragEnd = (e: any) => {
+        setSelectedData(null)
+    }
+
 
     return (
         <Fragment>
-            <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) }>
+            <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) } onDragStartCapture={ e=> handleDrag(e)} onDragEndCapture={e=> handleDragEnd(e)} onDragOver={e=> e.preventDefault()} onDrop={e=> handleClick(field)}>
                 
                 {
                     (position.y === 0 || position.y === 7) && type === 'Pawn' && player === auth.user._id && <Fragment>
