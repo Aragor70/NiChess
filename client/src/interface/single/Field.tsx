@@ -1,22 +1,24 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { isCorrectMove, setMove, setPromotion } from '../store/actions/board/piece';
-import { checkMovement } from '../store/actions/soldiers';
-import Bishop from './soldiers/Bishop';
-import Knight from './soldiers/Knight';
-import King from './soldiers/King';
-import Pawn from './soldiers/Pawn';
-import Queen from './soldiers/Queen';
-import Rook from './soldiers/Rook';
+import { setMove, setPromotion } from '../../store/actions/board/piece';
+import { checkMovement } from '../../store/actions/soldiers';
+import Bishop from '../soldiers/Bishop';
+import Knight from '../soldiers/Knight';
+import King from '../soldiers/King';
+import Pawn from '../soldiers/Pawn';
+import Queen from '../soldiers/Queen';
+import Rook from '../soldiers/Rook';
 
-import { isPotentialMove } from '../utils/isPotentialMove'
+import { isPotentialMove } from '../../utils/isPotentialMove'
+import { addMove } from '../../store/actions/single/piece';
+import { isCorrectMove } from '../../utils/isCorrectMove';
 
 
 
 
-const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, board, setMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
+const Field = ({ index, selectedData, setSelectedData, field, board, addMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
 
-    const handleClick = (field: any) => {
+    const handleClick = async(field: any) => {
 
         if ( board.game.turn == 0 ) {
             if (board.game.players[0]._id !== auth.user._id) {
@@ -31,8 +33,13 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
+            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
 
-            setMove(selectedData, field, board.game._id, socket)
+            if (!isMatch) {
+                return false
+            }
+
+            addMove(selectedData, field)
             return setSelectedData(null)
         }
 
@@ -47,7 +54,13 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    return setMove(selectedData, field, board.game._id, socket)
+                    const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
+
+                    if (!isMatch) {
+                        return false
+                    }
+                    
+                    return addMove(selectedData, field)
                 }
 
 
@@ -57,7 +70,13 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 }
                 
                 // set move
-                setMove(selectedData, field, board.game._id, socket)
+
+                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
+                
+                if (!isMatch) {
+                    return false
+                }
+                addMove(selectedData, field)
                 
             } else {
                 
@@ -188,4 +207,4 @@ const mapStateToProps = (state: any) => ({
     board: state.board,
     auth: state.auth
 })
-export default connect(mapStateToProps, { setMove, setPromotion })(Field);
+export default connect(mapStateToProps, { addMove, setPromotion })(Field);

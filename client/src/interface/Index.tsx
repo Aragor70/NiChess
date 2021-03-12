@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createTable } from '../store/actions/table/table';
+import Board from './single/Board';
 import Tables from './Tables';
 
 
@@ -45,7 +46,8 @@ const Index = ({ auth, history, createTable }: any) => {
 
             <Tables />
 
-
+            <Board />
+            
         </Fragment>
     );
 }
