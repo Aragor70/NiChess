@@ -39,6 +39,9 @@ const Board = ({ board, initBoard, table, match, getGame, socket, toggleConfig, 
     const [dangerous, setDangerous] = useState<any[]>([])
 
     const letters = [ "a", "b", "c", "d", "e", "f", "g", "h" ]
+
+    
+
     
     return (
         <Fragment>

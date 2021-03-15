@@ -102,6 +102,6 @@ export const initGame = (user: string) => async(dispatch: Dispatch<any>) =>{
 
     }
 
-    dispatch({ type: Init_Single_Game, payload: { players: [ {_id: uid}, {_id: 'b'} ], board: fields } })
+    dispatch({ type: Init_Single_Game, payload: { players: [ {_id: uid}, {_id: 'b'} ], turn: 0, board: fields } })
 
 }

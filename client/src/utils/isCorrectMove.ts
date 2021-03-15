@@ -1,6 +1,6 @@
-export const isCorrectMove = async(selected: any, next: any, fields: any, user: any, player: any, history: any) => {
+export const isCorrectMove = async(selected: any, next: any, fields: any, user: any, player: any) => {
 
-    const uid = user._id
+    const uid = user
 
     try {
 

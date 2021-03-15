@@ -19,27 +19,43 @@ import { isCorrectMove } from '../../utils/isCorrectMove';
 const Field = ({ index, selectedData, setSelectedData, field, board, addMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
 
     const handleClick = async(field: any) => {
-
+        let opponent: number = 1
         if ( board.game.turn == 0 ) {
             if (board.game.players[0]._id !== auth.user._id) {
                 return false
+            } else {
+                opponent = 1
             }
         }
         if ( board.game.turn == 1 ) {
             if (board.game.players[1]._id !== auth.user._id) {
                 return false
+            } else {
+                opponent = 0
             }
         }
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
-            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
+            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
 
             if (!isMatch) {
                 return false
             }
+            
 
-            addMove(selectedData, field)
+            if ( board.game.turn == 0 ) {
+                if (board.game.players[0]._id !== auth.user._id) {
+                    return false
+                } 
+            }
+            if ( board.game.turn == 1 ) {
+                if (board.game.players[1]._id !== auth.user._id) {
+                    return false
+                }
+            }
+
+            addMove(opponent, selectedData, field)
             return setSelectedData(null)
         }
 
@@ -54,13 +70,13 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
+                    const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
 
                     if (!isMatch) {
                         return false
                     }
                     
-                    return addMove(selectedData, field)
+                    return addMove(opponent, selectedData, field)
                 }
 
 
@@ -71,12 +87,12 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
                 
                 // set move
 
-                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user, 1, board.game.history)
+                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
                 
                 if (!isMatch) {
                     return false
                 }
-                addMove(selectedData, field)
+                addMove(opponent, selectedData, field)
                 
             } else {
                 

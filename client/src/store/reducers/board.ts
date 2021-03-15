@@ -3,7 +3,10 @@ import { Draw, Get_Game, Init_Board, Set_Move, Set_Promotion, Surrender, Init_Si
 
 const initialState = {
     fields: [],
-    game: null,
+    game: {
+        board: [],
+        turn: 0
+    },
     loading: true
 }
 
@@ -28,7 +31,7 @@ const boardReducer = (state: any = initialState, action: any) => {
 
 
         case Add_Move:
-        return { ...state, game: {...state.game, board: state.game.board.map((field: any) => field.position.x === payload.next.position.x ? {...field, player: payload.selected.player, type: payload.selected.type} : field ).map((field: any) => field.position.x === payload.selected.position.x ? {...field, player: null, type: null} : field )}, loading: false }
+        return { ...state, game: {...state.game, turn: payload.turn, board: state.game.board.map((field: any) => field.position.x === payload.next.position.x ? {...field, player: payload.selected.player, type: payload.selected.type} : field ).map((field: any) => field.position.x === payload.selected.position.x ? {...field, player: null, type: null} : field )}, loading: false }
 
         case Draw:
         case Surrender:
