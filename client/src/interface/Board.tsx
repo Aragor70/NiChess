@@ -46,8 +46,6 @@ const Board = ({ board, initBoard, table, match, getGame, socket, toggleConfig, 
     return (
         <Fragment>
             
-            
-            
             <div className="fields">
                 {
                     board.game && board.game.finished && <div className="play-next"><span onClick={e=> initBoard(board.game.players, table.table, socket)}>play next</span></div>

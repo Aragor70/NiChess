@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { initGame } from '../../store/actions/single/board';
 import { addMove } from '../../store/actions/single/piece';
 import { isCorrectMove } from '../../utils/isCorrectMove';
+import { isPotentialMove } from '../../utils/isPotentialMove';
 import Field from './Field';
 
 
@@ -32,21 +33,29 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
         const computerMove = async() => {
             if (board.game.turn === 1) {
                 while (board.game.turn === 1) {
-     
+    
                     const computer: any = board.game.board.filter((field:any) => field.player === 'b')
     
                     const select: any = Math.floor(Math.random() * computer.length);
                     
                     const compSelected: any = computer[select];
-    
-                    const compNext: any = board.game.board[Math.floor(Math.random() * ( board.game.board - computer.length ))];
-                     
-                    if (isCorrectMove(compSelected, compNext, board.game.board, 'b', 2)) {
-                        return false
+
+                    const compNext: any = board.game.board[Math.floor(Math.random() * ( board.game.board.length - computer.length ))];
+                    console.log('before move')
+                    console.log(compSelected, compNext)
+
+                    const { success, enemy } = await isPotentialMove(compSelected, compNext, 'b', [{ _id: auth.user._id } ,{ _id: 'b' }], board.game.board)
+                    if (success){
+                        if (isCorrectMove(compSelected, compNext, board.game.board, 'b', 2)) {
+                            console.log('move')
+                            await addMove(0, compSelected, compNext)
+                            break
+                        }
                     } else {
-                        await addMove(0, compSelected, compNext)
+                        computerMove()
+                        break
                     }
-     
+    
                 }
             }
         }

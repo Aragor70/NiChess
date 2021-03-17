@@ -1,4 +1,4 @@
-export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[], setOpponentField: any ) => {
+export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[]) => {
 
     const { position, type, player } = selectedData;
     

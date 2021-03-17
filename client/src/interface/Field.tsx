@@ -98,7 +98,7 @@ const Field = ({ index, selectedData, setSelectedData, moved, setMoved, field, b
                 
             }
             
-            const value = isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board, setOpponentField)
+            const value = isPotentialMove(selectedData, field, auth.user._id, board.game.players, board.game.board)
             
             
             if (field.position.x === value.enemy) {
