@@ -68,7 +68,9 @@ router.post('/guests', asyncHandler( async(req, res, next) => {
     }
     
     let guest = await User.findOne({ ip: parseIp })
-    
+
+    const avatar = gravatar.url('email@email.com', { s: '200', r: 'pg', d: 'mm' });
+
     if (!guest) {
         guest = new User({
             ip: parseIp,
