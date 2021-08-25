@@ -54,7 +54,7 @@ const Signup = ({ signup, history, guestAuth }: any) => {
 
                 </div>
                 <div className="auth-bottom">
-                    <p>If you do not have an account yet</p>
+                    <p>If you have your account already</p>
                 <button type="button" onClick={e=> history.push('/login')}>Log in</button>
                 <button type="button" onClick={e=> guestAuth(history)}>I am a guest</button>
 

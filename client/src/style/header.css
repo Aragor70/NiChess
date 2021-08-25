@@ -31,11 +31,16 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+.page-title span
+{
+    cursor: pointer;
+}
 .page-title button
 {
     height: 24px;
     padding-left: 7.5px;
     padding-right: 7.5px;
+    cursor: pointer;
 }
 
 .auth-buttons
