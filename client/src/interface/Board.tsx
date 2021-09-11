@@ -62,9 +62,9 @@ const Board = ({ board, initBoard, table, match, getGame, socket, toggleConfig, 
                     <span>F</span><span>G</span><span>H</span>
                 </div>
                 <div className="history">
-                    {
+                    {/* {
                         board.game && board.game.history.map((move: any) => <p key={move._id} style={ board.game.history[0]._id === move._id ? { color: 'green', fontWeight: 'bold' } : { color: '#000' } }> { move.prev[0].player === board.game.players[0]._id ? <span>w{move.prev[0].type.charAt(0)}{ letters[(move.next[0].position.x - Math.floor(8 * move.next[0].position.y))]}{move.next[0].position.y + 1}</span> : <span>b{move.prev[0].type.charAt(0)}{ letters[(move.next[0].position.x - Math.floor(8 * move.next[0].position.y))]}{move.next[0].position.y + 1}</span> } </p> )
-                    }
+                    } */}
                 </div>
                 <div className="turn">
                     {
