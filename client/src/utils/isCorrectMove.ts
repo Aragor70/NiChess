@@ -31,7 +31,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
 
         if (isCheck) {
 
-            const newBoard = await fields.slice().map((element: any) => JSON.stringify(element.position) === JSON.stringify(selected.position) ? { ...element, type: null, player: null } : element)
+            const newBoard = await fields.slice().map((element: any) => JSON.stringify(element.position) === JSON.stringify(selected.position) ? { ...element, type: null, player: null } : JSON.stringify(element.position) === JSON.stringify(next.position) ? { ...element, type: selected.type, player: selected.player } : element)
 
             await countPossibleMovements({ players, board: newBoard })
 
@@ -62,7 +62,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
                         if (success) {
                             if (boardElem.type === 'King') {
                                 value = true;
-                                throw new Error()
+                                return false
                             }
                             blackMoves = [...blackMoves, boardElem]
                         }
@@ -76,7 +76,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
                             
                             if (boardElem.type === 'King') {
                                 value = true
-                                throw new Error()
+                                return false
                             }
     
                             whiteMoves = [...whiteMoves, boardElem]
@@ -448,8 +448,8 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
 
                     if (selected.position.x > next.position.x) {
                         
-                        if (fields[next.position.x + i ].player  ) {
-                            console.log('collision')
+                        if (fields[next.position.x + i ].player && i >= 1) {
+                            console.log('collision, ciao')
                             return false
                         }
                         
@@ -457,8 +457,8 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
 
                     else if (selected.position.x < next.position.x) {
 
-                        if (fields[next.position.x - i ].player ) {
-                            console.log('collision')
+                        if (fields[next.position.x - i ].player && i >= 1) {
+                            console.log('collision, ciao')
                             return false
                         }
                         

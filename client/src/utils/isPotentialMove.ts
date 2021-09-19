@@ -52,22 +52,49 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             if (attackOnly) {
                 if (diff === 9) {
                     
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
+
                     return { success: true, enemy: position.x - 9 }
                     
                 }
                 if (diff === 7) {
                     
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x - 7 }
                     
                 }
             }
             if (diff === 9 && fields[position.x - 9].player) {
                 if (fields[position.x - 9].player !== uid) {
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x - 9 }
                 }
             }
             if (diff === 7 && fields[position.x - 7].player) {
                 if (fields[position.x - 7].player !== uid) {
+
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
+
                     return { success: true, enemy: position.x - 7 }
                 }
             }
@@ -119,22 +146,47 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
             if (attackOnly) {
                 if (diff === -9) {
                     
+                    
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x + 9 }
                     
                 }
                 if (diff === -7) {
-                    
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x + 7 }
                     
                 }
             }
             if (diff === -9 && fields[position.x + 9].player) {
                 if (fields[position.x + 9].player !== uid) {
+
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x + 9 }
                 }
             }
             if (diff === -7 && fields[position.x + 7].player) {
                 if (fields[position.x + 7].player !== uid) {
+                    if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                        
+                        
+                        return { success: false }
+
+                    }
                     return { success: true, enemy: position.x + 7 }
                 }
             }
