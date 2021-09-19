@@ -201,9 +201,7 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
     return (
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) } onDragStartCapture={ e=> handleDrag(e)} onDragEndCapture={e=> handleDragEnd(e)} onDragOver={e=> e.preventDefault()} onDrop={e=> handleClick(field)}>
-                {
-                    position.x
-                }
+
                 {
                     (position.y === 0 || position.y === 7) && type === 'Pawn' && player === auth.user._id && <Fragment>
                         <div className="promotion" style={position.y === 0 ? { top: '100%' } : { bottom: '100%'}}>
