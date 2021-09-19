@@ -16,7 +16,7 @@ import { isCorrectMove } from '../../utils/isCorrectMove';
 
 
 
-const Field = ({ index, selectedData, setSelectedData, field, board, addMove, auth, socket, dangerous, setDangerous, setPromotion }: any) => {
+const Field = ({ index, selectedData, setSelectedData, field, board, addMove, auth, socket, dangerous, setDangerous, setPromotion, isBlackCheck, isWhiteCheck, possibleWhiteMoves, setPossibleWhiteMoves, possibleWBlackMoves, setPossibleBlackMoves, countPossibleMovements, game }: any) => {
 
     const handleClick = async(field: any) => {
         let opponent: number = 1
@@ -37,7 +37,7 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
-            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
+            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
 
             if (!isMatch) {
                 return false
@@ -70,13 +70,12 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
+                    const isMatch = await isCorrectMove(selectedData, field, game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
 
                     if (!isMatch) {
                         return false
                     }
                     
-                    return addMove(opponent, selectedData, field)
                 }
 
 
@@ -87,7 +86,14 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
                 
                 // set move
 
-                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1)
+                await countPossibleMovements(game)
+                const isCorrect: boolean = await !!isCorrectMove(selectedData, field, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                if (!isCorrect) {
+                    console.log('move')
+                    return false
+                }
+
+                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
                 
                 if (!isMatch) {
                     return false
@@ -195,14 +201,16 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
     return (
         <Fragment>
             <div className="field-content" onClick={e => handleClick(field) } style={ styleUpdate(selectedData) } onDragStartCapture={ e=> handleDrag(e)} onDragEndCapture={e=> handleDragEnd(e)} onDragOver={e=> e.preventDefault()} onDrop={e=> handleClick(field)}>
-                
+                {
+                    position.x
+                }
                 {
                     (position.y === 0 || position.y === 7) && type === 'Pawn' && player === auth.user._id && <Fragment>
                         <div className="promotion" style={position.y === 0 ? { top: '100%' } : { bottom: '100%'}}>
-                            <button onClick={e=> setPromotion(position, "Queen", board.game._id, socket)}><Queen game={board.game} field={field} /></button>
-                            <button onClick={e=> setPromotion(position, "Bishop", board.game._id, socket)}><Bishop game={board.game} field={field} /></button>
-                            <button onClick={e=> setPromotion(position, "Knight", board.game._id, socket)}><Knight game={board.game} field={field} /></button>
-                            <button onClick={e=> setPromotion(position, "Rook", board.game._id, socket)}><Rook game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Queen", board.game._id, socket, true, board.game)}><Queen game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Bishop", board.game._id, socket, true, board.game)}><Bishop game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Knight", board.game._id, socket, true, board.game)}><Knight game={board.game} field={field} /></button>
+                            <button onClick={e=> setPromotion(position, "Rook", board.game._id, socket, true, board.game)}><Rook game={board.game} field={field} /></button>
                         </div>
                         <div className="promo-shadow" onClick={e=> setSelectedData(null)}></div>
                         </Fragment>

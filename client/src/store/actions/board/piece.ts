@@ -332,7 +332,16 @@ export const setMove = (selected: any, next: any, id: string, socket: any) => as
     }
 }
 
-export const setPromotion = (position: any, promotion:string, id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+export const setPromotion = (position: any, promotion:string, id: string, socket: any, singlePlayer: boolean = false, game: any = null) => async(dispatch: Dispatch<any>) => {
+    
+    if (singlePlayer && game) {
+
+        game.board[position.x].type = promotion
+
+
+        return dispatch({ type: Set_Promotion, payload: game })
+    }
+    
     const config = {
         headers: {
             "Content-Type": "application/json"

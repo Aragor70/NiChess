@@ -1,8 +1,8 @@
-export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[]) => {
+export const isPotentialMove = ( selectedData: any, field: any, uid: string, players: any[], fields: any[], attackOnly: boolean = false) => {
 
     const { position, type, player } = selectedData;
     
-    const borders = [0, 16, 24, 32, 40, 48, 56, 1, 2, 3, 4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 56, 57, 58, 59, 60, 61, 62]
+    const borders = [0, 7, 8, 16, 24, 32, 40, 48, 56, 15, 23, 31, 39, 47, 55, 63, 56, 57]
 
     if (field.player == uid) {
         return { success: false }
@@ -14,31 +14,52 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
             const diff = position.x - field.position.x
 
-            if (position.y === 6 && diff === 16) {
+            if (!attackOnly) {
 
-                if (fields[position.x - 8].player) {
+                if (position.y === 6 && diff === 16) {
 
+                    if (fields[position.x - 8].player) {
+    
                         console.log('collision')
                         return { success: false, enemy: field.position.x - 8 }
                     }
-
-                if (field.position.x - position.x === -8 || field.position.x - position.x === -16) {
-
+                    if (fields[position.x - 16].player) {
+    
+                        console.log('collision')
+                        return { success: false, enemy: field.position.x - 8 }
+                    }
+    
+                    if (field.position.x - position.x === -8 || field.position.x - position.x === -16) {
+    
+                        
+                        console.log('x')
+                        return { success: true }
+                    }
+    
+                }
+    
+                if (field.position.x - position.x === -8) {
+    
+                    if (field.player) {
+                        return { success: false }
+                    }
                     
                     console.log('x')
                     return { success: true }
                 }
 
             }
-
-            if (field.position.x - position.x === -8) {
-
-                if (field.player) {
-                    return { success: false }
+            if (attackOnly) {
+                if (diff === 9) {
+                    
+                    return { success: true, enemy: position.x - 9 }
+                    
                 }
-                
-                console.log('x')
-                return { success: true }
+                if (diff === 7) {
+                    
+                    return { success: true, enemy: position.x - 7 }
+                    
+                }
             }
             if (diff === 9 && fields[position.x - 9].player) {
                 if (fields[position.x - 9].player !== uid) {
@@ -61,22 +82,51 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
 
             const diff = position.x - field.position.x
 
-            if (position.y === 1 && diff === -16) {
-
-                if (fields[position.x + 8].player) {
-
+            if (!attackOnly) {
+                if (position.y === 1 && diff === -16) {
+    
+                    if (fields[position.x + 8].player) {
+    
                         console.log('collision')
                         
                         return { success: false, enemy: field.position.x + 8 }
                     }
+                    if (fields[position.x + 16].player) {
+    
+                        console.log('collision')
+                        
+                        return { success: false, enemy: field.position.x + 8 }
+                    }
+    
+                    if (field.position.x - position.x === 8 || field.position.x - position.x === 16) {
+    
+                        
+                        console.log('x')
+                        return { success: true }
+                    }
+    
+                }
+                
+                if (field.position.x - position.x === 8) {
 
-                if (field.position.x - position.x === 8 || field.position.x - position.x === 16) {
-
-                    
+                    if (field.player) {
+                            return { success: false }
+                        }
                     console.log('x')
                     return { success: true }
                 }
-
+            }
+            if (attackOnly) {
+                if (diff === -9) {
+                    
+                    return { success: true, enemy: position.x + 9 }
+                    
+                }
+                if (diff === -7) {
+                    
+                    return { success: true, enemy: position.x + 7 }
+                    
+                }
             }
             if (diff === -9 && fields[position.x + 9].player) {
                 if (fields[position.x + 9].player !== uid) {
@@ -88,14 +138,7 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
                     return { success: true, enemy: position.x + 7 }
                 }
             }
-            if (field.position.x - position.x === 8) {
-
-                if (field.player) {
-                        return { success: false }
-                    }
-                console.log('x')
-                return { success: true }
-            }
+            
             return { success: false }
         }
     }
@@ -476,6 +519,16 @@ export const isPotentialMove = ( selectedData: any, field: any, uid: string, pla
         const diff = Math.abs(field.position.x - position.x)
 
         if (diff == 1 || diff == 8 || diff == 7 || diff == 9) {
+
+            if (borders.indexOf(position.x) >= 0 && borders.indexOf(field.position.x) >= 0) {
+                
+                if (diff === 8) {
+                    return { success: true }
+                }
+                return { success: false }
+
+            }
+
             return { success: true }
         }
 
