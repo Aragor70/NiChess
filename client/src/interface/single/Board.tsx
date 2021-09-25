@@ -105,6 +105,14 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                     const { success, enemy } = await isPotentialMove(compSelected, compNext, 'b', [{ _id: auth.user._id }, { _id: 'b' }], board.game.board)
                     if (success){
                         await countPossibleMovements(board.game)
+
+                        const isMatch = await isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+
+                        if (!isMatch) {
+                            computerMove()
+                            break
+                        }
+
                         const isCorrect: boolean = await !!isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
                         if (isCorrect) {
                             console.log('move')
