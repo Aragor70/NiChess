@@ -92,7 +92,7 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
             if (board.game.turn === 1) {
                 while (board.game.turn === 1) {
     
-                    const computer: any = board.game.board.filter((field:any) => field.player === 'b')
+                    const computer: any = board.game.board.filter((field:any) => field.player === 'b');
     
                     const select: any = Math.floor(Math.random() * computer.length);
                     
@@ -102,7 +102,7 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                     console.log('before move')
                     console.log(compSelected, compNext)
 
-                    const { success, enemy } = await isPotentialMove(compSelected, compNext, 'b', [{ _id: auth.user._id } ,{ _id: 'b' }], board.game.board)
+                    const { success, enemy } = await isPotentialMove(compSelected, compNext, 'b', [{ _id: auth.user._id }, { _id: 'b' }], board.game.board)
                     if (success){
                         await countPossibleMovements(board.game)
                         const isCorrect: boolean = await !!isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
@@ -113,7 +113,7 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                             break
                         }
                     } else {
-
+                        
                         computerMove()
                         break
                     }

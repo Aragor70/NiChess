@@ -11,7 +11,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
             if (player === 1) {
                 
                 const isCollision = await possibleWBlackMoves.filter((element: any) => JSON.stringify(element.position) === JSON.stringify(next.position))[0]
-                console.log(possibleWBlackMoves)
+                
                 if (isCollision) {
                     console.log('Ciao it is white collision at', next.position)
                     return false
@@ -30,7 +30,8 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
         }
 
         if (isCheck) {
-
+            
+            console.log('checked', possibleWhiteMoves)
             const newBoard = await fields.slice().map((element: any) => JSON.stringify(element.position) === JSON.stringify(selected.position) ? { ...element, type: null, player: null } : JSON.stringify(element.position) === JSON.stringify(next.position) ? { ...element, type: selected.type, player: selected.player } : element)
 
             await countPossibleMovements({ players, board: newBoard })
@@ -45,7 +46,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
             const mePlayer = await newBoard.filter((element: any) => element.player === user)
 
             const opponentPlayer = await newBoard.filter((element: any) => element.player === oppGame._id)
-            console.log('newBoard', newBoard)
+            
             let blackMoves: any[] = []
             let whiteMoves: any[] = []
 
@@ -56,10 +57,11 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
 
 
                     await Promise.all(opponentPlayer.map( async ( opp: any ) => {
-
+                        
                         const { success, enemy } = await isPotentialMove(opp, boardElem, oppGame._id, [{ _id: user } , oppGame], newBoard, true)
     
                         if (success) {
+                            
                             if (boardElem.type === 'King') {
                                 value = true;
                                 return false
@@ -73,7 +75,7 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
                         const { success, enemy } = await isPotentialMove(me, boardElem, user, [{ _id: user }, oppGame], newBoard, true)
     
                         if (success) {
-                            
+                            console.log('newBoard', boardElem)
                             if (boardElem.type === 'King') {
                                 value = true
                                 return false
