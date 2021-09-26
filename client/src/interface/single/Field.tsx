@@ -37,7 +37,7 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
 
         if (selectedData !== null && field.player !== auth.user._id) {
             
-            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+            const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
 
             if (!isMatch) {
                 return false
@@ -70,7 +70,7 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
 
                 if (selectedData.player !== auth.user._id) {
                     setSelectedData(null)
-                    const isMatch = await isCorrectMove(selectedData, field, game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                    const isMatch = await isCorrectMove(selectedData, field, game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
 
                     if (!isMatch) {
                         return false
@@ -87,13 +87,13 @@ const Field = ({ index, selectedData, setSelectedData, field, board, addMove, au
                 // set move
 
                 await countPossibleMovements(game)
-                const isCorrect: boolean = await !!isCorrectMove(selectedData, field, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                const isCorrect: boolean = await !!isCorrectMove(selectedData, field, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
                 if (!isCorrect) {
                     console.log('move')
                     return false
                 }
 
-                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                const isMatch = await isCorrectMove(selectedData, field, board.game.board, auth.user._id, 1, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
                 
                 if (!isMatch) {
                     return false

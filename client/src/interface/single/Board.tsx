@@ -74,7 +74,6 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                     }
 
                 }));
-                console.log(possibleWBlackMoves, 'ciao moves')
 
                 await setPossibleBlackMoves(blackMoves)
                 await setPossibleWhiteMoves(whiteMoves)
@@ -103,17 +102,18 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                     console.log(compSelected, compNext)
 
                     const { success, enemy } = await isPotentialMove(compSelected, compNext, 'b', [{ _id: auth.user._id }, { _id: 'b' }], board.game.board)
+                    
                     if (success){
                         await countPossibleMovements(board.game)
-
-                        const isMatch = await isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                        
+                        const isMatch = await isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
 
                         if (!isMatch) {
-                            computerMove()
+                            await computerMove()
                             break
                         }
-
-                        const isCorrect: boolean = await !!isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players)
+                        
+                        const isCorrect: boolean = await !!isCorrectMove(compSelected, compNext, board.game.board, 'b', 2, isBlackCheck || isWhiteCheck || false, possibleWBlackMoves, possibleWhiteMoves, countPossibleMovements, board.game.players, board.game.turn)
                         if (isCorrect) {
                             console.log('move')
                             
@@ -122,7 +122,7 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
                         }
                     } else {
                         
-                        computerMove()
+                        await computerMove()
                         break
                     }
     
@@ -131,13 +131,19 @@ const Board = ({ board, auth, initGame, addMove }: any) => {
         }
         computerMove()
 
-    }, [board.game.turn])
+
+    }, [board.game.turn, addMove, isWhiteCheck])
 
     useEffect(() => {
 
-        countPossibleMovements(board.game)
+        const onMove = async () => {
+            await countPossibleMovements(board.game)
+        }
 
-    }, [board.game.turn])
+        onMove()
+
+
+    }, [board.game.turn, addMove, isWhiteCheck])
 
     return (
         <Fragment>

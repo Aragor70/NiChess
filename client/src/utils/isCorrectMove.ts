@@ -1,6 +1,6 @@
 import { isPotentialMove } from "./isPotentialMove"
 
-export const isCorrectMove = async(selected: any, next: any, fields: any, user: any, player: any, isCheck = false, possibleWBlackMoves:any[], possibleWhiteMoves:any[], countPossibleMovements: any, players: any[]) => {
+export const isCorrectMove = async(selected: any, next: any, fields: any, user: any, player: any, isCheck = false, possibleWBlackMoves:any[], possibleWhiteMoves:any[], countPossibleMovements: any, players: any[], turn: any) => {
 
     const uid = user
     const borders = [0, 7, 8, 16, 24, 32, 40, 48, 56, 15, 23, 31, 39, 47, 55, 63, 56, 57]
@@ -28,20 +28,16 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
             }
 
         }
-
         if (isCheck) {
             
-            console.log('checked', possibleWhiteMoves)
             const newBoard = await fields.slice().map((element: any) => JSON.stringify(element.position) === JSON.stringify(selected.position) ? { ...element, type: null, player: null } : JSON.stringify(element.position) === JSON.stringify(next.position) ? { ...element, type: selected.type, player: selected.player } : element)
 
-            await countPossibleMovements({ players, board: newBoard })
-
-
+            //await countPossibleMovements({ players, board: newBoard })
 
             //
 
 
-            const oppGame = players.filter((element: any) => element._id !== user)[0]
+            const oppGame = await players.filter((element: any) => element._id !== user)[0]
 
             const mePlayer = await newBoard.filter((element: any) => element.player === user)
 
@@ -52,12 +48,13 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
 
             let value = false
 
-            await newBoard.forEach(async (boardElem: any) => {
+            await (newBoard.forEach(async (boardElem: any) => {
                 try {
 
 
                     await Promise.all(opponentPlayer.map( async ( opp: any ) => {
                         
+
                         const { success, enemy } = await isPotentialMove(opp, boardElem, oppGame._id, [{ _id: user } , oppGame], newBoard, true)
     
                         if (success) {
@@ -68,10 +65,12 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
                             }
                             blackMoves = [...blackMoves, boardElem]
                         }
+                        
     
                     }));
                     await Promise.all(mePlayer.map( async ( me: any ) => {
     
+                        
                         const { success, enemy } = await isPotentialMove(me, boardElem, user, [{ _id: user }, oppGame], newBoard, true)
     
                         if (success) {
@@ -83,19 +82,21 @@ export const isCorrectMove = async(selected: any, next: any, fields: any, user: 
     
                             whiteMoves = [...whiteMoves, boardElem]
                         }
+                        
+                        
     
                     }));
 
-
                 } catch (err) {
+                    
                     return false;
                 }
 
 
-            });
+            }));
 
             
-            console.log('Checked', value)
+            console.log('Checked here', value)
             if (value) return false
 
 
