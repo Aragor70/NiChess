@@ -48,13 +48,12 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
             <Route exact path="/">
               <div className="auth-buttons">
 
-              <button onClick={e=> guestAuth(history)}>I am a Guest</button>
+                <button onClick={e=> guestAuth(history)}>I am a Guest</button>
 
-              <button onClick={e=> history.push('/login')}>Log in</button>
+                <button onClick={e=> history.push('/login')}>Log in</button>
 
-              <button onClick={e=> history.push('/signup')}>Sign up</button>
+                <button onClick={e=> history.push('/signup')}>Sign up</button>
               </div>
-
             </Route>
           </Fragment>
         }
@@ -86,7 +85,15 @@ const App = ({ history, auth, loadUser, guestAuth, logout, table }: any) => {
               <Route exact path="/signup">
                 <Signup />
               </Route>
+              <Route exact path="/">
+                <section className="output_frontSection">
 
+                  <h3 className="output_title">
+                    Welcome to Nichess.
+                  </h3>
+                </section>
+
+              </Route>
               </Switch>
           </Fragment>
         }

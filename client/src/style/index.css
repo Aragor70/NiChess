@@ -61,4 +61,45 @@
     width: 35px;
     border-radius: 50%;
 }
+.output_frontSection
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 64px;
+}
+h3.output_title
+{
+    position: relative;
+    width: max-content;
+    font-size: clamp(1em, 3vw + 1rem, 4 rem);
+    padding: 3.5px 0;
+    margin-top: 30px;
+    color: #121212;
+}
 
+.output_title::before,
+.output_title::after
+{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.output_title::before
+{
+    background-color: #fff;
+    animation: type-writer 1.5s steps(19) forwards;
+    animation-delay: 0.5s;
+    border-left: 2px solid green;
+}
+
+@keyframes type-writer {
+    to {
+        left: 100%;
+        border: none;
+    }
+}
