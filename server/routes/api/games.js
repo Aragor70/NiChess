@@ -1,16 +1,9 @@
 const express = require('express');
 const GameController = require('../../controllers/GameController');
-const asyncHandler = require('../../middlewares/async');
 const auth = require('../../middlewares/auth');
-const Game = require('../../models/Game');
-const Table = require('../../models/Table');
-const User = require('../../models/User');
-const ErrorResponse = require('../../utils/ErrorResponse');
-const initBoard = require('../../utils/initBoard');
-const isCorrectMove = require('../../utils/isCorrectMove');
 const router = express.Router();
 
-const gameController = GameController;
+const gameController = new GameController;
 
 
 //route GET    api/games/

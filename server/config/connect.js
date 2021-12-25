@@ -17,7 +17,7 @@ module.exports = async() => {
         console.log(connect.connection.host)
 
     } catch (err) {
-
+        
         console.error(err)
         process.exit(1)
 

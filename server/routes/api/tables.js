@@ -1,13 +1,9 @@
 const express = require('express');
 const TableController = require('../../controllers/TableController');
-const asyncHandler = require('../../middlewares/async');
 const auth = require('../../middlewares/auth');
-const Table = require('../../models/Table');
-const User = require('../../models/User');
-const ErrorResponse = require('../../utils/ErrorResponse');
 const router = express.Router();
 
-const tableController = TableController;
+const tableController = new TableController;
 
 //route POST   api/tables
 //description  create table

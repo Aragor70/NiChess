@@ -3,6 +3,7 @@ const Game = require("../models/Game");
 const Table = require("../models/Table");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/ErrorResponse");
+const initBoard = require("../utils/initBoard");
 const isCorrectMove = require("../utils/isCorrectMove");
 
 

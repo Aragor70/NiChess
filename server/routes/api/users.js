@@ -1,15 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const asyncHandler = require('../../middlewares/async');
-const User = require('../../models/User');
-const gravatar = require('gravatar');
-const sign_in = require('../../utils/sign_in');
-const ErrorResponse = require('../../utils/ErrorResponse');
 
-const Usercontroller = require('../../controllers/UserController');
+const UserController = require('../../controllers/UserController');
 
-const userController = Usercontroller();
+const userController = new UserController;
 
 //route POST   api/users
 //description  register user

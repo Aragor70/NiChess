@@ -1,6 +1,6 @@
 const asyncHandler = require("../middlewares/async");
 const User = require("../models/User");
-const sign_in = require('../../utils/sign_in');
+const sign_in = require('../utils/sign_in');
 
 const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
@@ -8,7 +8,7 @@ const gravatar = require('gravatar');
 const requestIp = require('request-ip');
 const ErrorResponse = require("../utils/ErrorResponse");
 
-class Usercontroller {
+class UserController {
 
 
     register = asyncHandler( async(req, res, next) => {
@@ -77,4 +77,4 @@ class Usercontroller {
     })
 }
 
-module.exports = Usercontroller;
+module.exports = UserController;
